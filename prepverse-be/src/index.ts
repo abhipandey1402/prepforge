@@ -6,6 +6,7 @@ import { createServer } from 'http';
 import { globalErrorHandler } from './utils/GlobalErrorHandler.js';
 
 import userRouter from './routes/user.routes.js';
+import leetcodeRouter from './routes/leetcode.routes.js'
 import connectDB from './db/index.js';
 import { Server } from 'socket.io';
 import { initializeSocketIO } from './sockets/index.js';
@@ -44,6 +45,7 @@ const configureMiddleware = () => {
 // Setup routes for API endpoints
 const setupRoutes = () => {
     app.use("/api/v1/users", userRouter);
+    app.use("/api/v1/leetcode", leetcodeRouter);
 };
 
 const configureSocket = () => {

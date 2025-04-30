@@ -10,10 +10,11 @@ const UserSchema = new Schema(
         role: { type: String, default: 'user' },
         avatarUrl: String,
         refreshToken: String,
+        leetcodeSessionToken: String,
 
         // LeetCode Integration
         leetcodeUsername: { type: String, unique: true, sparse: true },
-        // leetcodeSubmissions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Submission' }],
+        leetcodeSubmissions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'LeetCodeSubmission' }],
 
         // Chat & Call
         // messagesSent: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ChatMessage' }],

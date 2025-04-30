@@ -1,0 +1,47 @@
+import mongoose, { Schema } from "mongoose";
+
+const LeetCodeSubmissionSchema = new Schema(
+    {
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+            index: true
+        },
+
+        // Core submission info
+        submissionId: { type: Number, required: true, unique: true }, // LeetCode's ID
+        questionId: { type: Number, required: true },
+        frontendId: { type: Number }, // e.g. 14, 15, 16...
+
+        title: { type: String, required: true },
+        titleSlug: { type: String, required: true },
+        url: { type: String, required: true },
+
+        lang: { type: String, required: true },        // 'java'
+        langName: { type: String },                    // 'Java'
+
+        status: { type: Number },                      // 10 = Accepted
+        statusDisplay: { type: String },               // 'Accepted'
+        isPending: { type: String },                   // 'Not Pending'
+
+        runtime: { type: String },                     // '24 ms'
+        memory: { type: String },                      // '60.7 MB'
+
+        code: { type: String },                        // full submitted code
+        compareResult: { type: String },               // "111111..." (bitstring)
+
+        timeAgo: { type: String },                     // "2 years, 10 months"
+        timestamp: { type: Number },                   // UNIX timestamp
+
+        hasNotes: { type: Boolean },
+        flagType: { type: Number }
+    },
+    { timestamps: true }
+);
+
+// Compound index for quick lookup by user and problem
+LeetCodeSubmissionSchema.index({ userId: 1, titleSlug: 1 });
+
+export const LeetCodeSubmission = mongoose.model('LeetCodeSubmission', LeetCodeSubmissionSchema);
+
