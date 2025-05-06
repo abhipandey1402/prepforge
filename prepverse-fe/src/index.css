@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -61,10 +62,12 @@ a:hover {
 
 body {
   margin: 0;
+  padding: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -79,16 +82,46 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: white;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+html {
+  font-size: 16px;
+  margin: 0;
+  padding: 0; 
+}
+
+
+@media (max-width: 1080px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 950px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 900px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  html {
+    font-size: 10px;
+  }
 }
 
 @media (prefers-color-scheme: light) {
