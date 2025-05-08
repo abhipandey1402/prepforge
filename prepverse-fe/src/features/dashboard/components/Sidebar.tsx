@@ -1,5 +1,5 @@
 import React from "react";
-import { HomeIcon, CalendarIcon, SettingsIcon, MessageSquareIcon, ClipboardListIcon, Timer, Gamepad2Icon, TrophyIcon, BellIcon, Magnet, Monitor } from "lucide-react";
+import { HomeIcon, SettingsIcon, MessageSquareIcon, Gamepad2Icon, BellIcon, Magnet, Monitor } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setCurrentItem } from "@/features/globalFeatures/slices/configSlice";
