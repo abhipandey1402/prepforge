@@ -1,7 +1,14 @@
 import { Coins, Monitor } from 'lucide-react'
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Header: React.FC = () => {
+    const Navigate = useNavigate();
+
+    const handleNavigateToAuth = () => {
+        Navigate("/auth");
+    }
+
     return (
         <nav className="bg-blue-950 shadow-sm sticky top-0 z-10">
             <div className="container mx-auto px-4 py-4">
@@ -20,8 +27,8 @@ const Header: React.FC = () => {
                         <div className="px-3 py-1 bg-orange-900 text-orange-200 rounded-lg text-sm">
                             <Coins className="h-4 w-4 inline mr-1" /> 20 PrepCoins
                         </div>
-                        <button className="px-4 py-2 text-orange-600 font-medium hover:bg-blue-50 rounded-lg transition-colors">Login</button>
-                        <button className="px-4 py-2 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-orange-700 transition-colors">Sign Up</button>
+                        <button className="px-4 py-2 text-orange-600 font-medium hover:bg-blue-50 rounded-lg transition-colors" onClick={handleNavigateToAuth}>Login</button>
+                        <button className="px-4 py-2 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-orange-700 transition-colors" onClick={handleNavigateToAuth}>Sign Up</button>
                     </div>
                 </div>
             </div>
