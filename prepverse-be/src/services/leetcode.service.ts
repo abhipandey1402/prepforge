@@ -2,9 +2,10 @@ import { chromium, Page } from 'playwright';
 import { User } from '../models/user.model.js';
 import { ApiError } from '../utils/ApiError.js';
 import axios from 'axios'
-import { LeetCodeSubmission } from '../models/leetcode.model.js';
+import { allProblems, LeetCodeSubmission } from '../models/leetcode.model.js';
 import { Types } from 'mongoose';
 import { RawSubmission } from '../Interface/leetcode.interface.js';
+import { getLeetcodePayload } from '../utils/leetcodePayload.js';
 
 export class LeetCodeService {
     private static readonly MAX_WAIT_TIME_MS = 5 * 60 * 1000; // 5 minutes
@@ -164,7 +165,7 @@ export class LeetCodeService {
         }
     };
 
-    public fetchLeetcodeSubmissions = async (userId: string, sessionToken: string): Promise<void> => {
+    public syncSubmissions = async (userId: string, sessionToken: string): Promise<void> => {
         const username = await LeetCodeService.fetchUsernameFromSession(sessionToken);
         if (!username) throw new ApiError(404, 'Unable to get LeetCode username from session token');
 
@@ -202,4 +203,78 @@ export class LeetCodeService {
     public getLeetcodeSubmissions = async (userId: string) => {
         return LeetCodeSubmission.find({ userId }).sort({ timestamp: -1 });
     };
+
+    public syncAllProblems = async () => {
+        let skip = 0;
+        let hasMore = true;
+
+        while (hasMore) {
+            const payload = getLeetcodePayload(skip);
+            const res = await axios.post(
+                'https://leetcode.com/graphql/',
+                payload,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Referer': 'https://leetcode.com/problemset/all/',
+                        'Origin': 'https://leetcode.com',
+                    }
+                }
+            );
+
+            const { questions, hasMore: more } = res.data.data.problemsetQuestionListV2;
+
+            for (const question of questions) {
+                await allProblems.updateOne(
+                    { id: question.id },
+                    { $set: question },
+                    { upsert: true }
+                );
+            }
+
+            console.log(`Fetched ${questions.length} problems (skip: ${skip})`);
+
+            skip += 100;
+            hasMore = more;
+        }
+    }
+
+    public getLeetcodeProblems = async (filters: any, sort: any, limit: any, skip: any) => {
+        let sortPipeline: any[] = [];
+
+        if ('questionFrontendId' in sort) {
+            const order = sort['questionFrontendId'];
+            sortPipeline.push({
+                $addFields: {
+                    questionFrontendIdInt: {
+                        $convert: {
+                            input: "$questionFrontendId",
+                            to: "int",
+                            onError: null,
+                            onNull: null
+                        }
+                    }
+                }
+            });
+            sortPipeline.push({ $sort: { questionFrontendIdInt: order } });
+        } else {
+            sortPipeline.push({ $sort: sort });
+        }
+
+        const pipeline = [
+            { $match: filters },
+            ...sortPipeline,
+            { $skip: skip },
+            { $limit: limit }
+        ];
+
+        const [total, leetcodeProblems] = await Promise.all(
+            [
+                allProblems.countDocuments(filters),
+                allProblems.aggregate(pipeline)
+            ]
+        );
+
+        return { total, leetcodeProblems: leetcodeProblems };
+    }
 }
