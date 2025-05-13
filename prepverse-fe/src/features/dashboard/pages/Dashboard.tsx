@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useEffect } from "react";
 import { setCurrentItem } from "@/features/globalFeatures/slices/configSlice";
+import LeetcodeSubmissions from "@/features/leetcode/pages/LeetcodeSubmissions";
 
 const Dashboard = () => {
     const currentItem = useSelector((state: RootState) => state.config?.currentItem);
@@ -24,7 +25,7 @@ const Dashboard = () => {
     const renderCurrentContent = () => {
         switch (currentItem) {
             case "dashboard":
-                return <span>Dashboard</span>;
+                return <LeetcodeSubmissions/>;
             case "community":
                 return <span>Community</span>
             case "chats":
