@@ -2,3 +2,26 @@
   width: 100vw;
   margin: 0;
 }
+
+
+
+
+/* Custom thin scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;             /* Make scrollbar thin */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1e293b;    /* Tailwind slate-800 */
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #64748b; /* Tailwind slate-500 */
+  border-radius: 4px;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;          /* For Firefox */
+  scrollbar-color: #64748b #1e293b;
+}

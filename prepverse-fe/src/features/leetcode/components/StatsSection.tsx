@@ -9,27 +9,31 @@ export const StatsSection = ({ stats, isDarkMode }: any) => (
             icon={<Check size={24} />}
             detail={`${stats?.easySolved || 0} Easy, ${stats?.mediumSolved || 0} Medium, ${stats?.hardSolved || 0} Hard`}
             isDarkMode={isDarkMode}
+            showDifficultyBreakdown={true}
         />
         <StatsCard
             title="Acceptance Rate"
             value={`${stats?.acceptanceRate || 0}%`}
             icon={<PieChart size={24} />}
-            detail="Last 30 days"
+            detail=""
             isDarkMode={isDarkMode}
+            showDifficultyBreakdown={false}
         />
         <StatsCard
-            title="Current Streak"
+            title="Longest Streak"
             value={stats?.streak || 0}
             icon={<Calendar size={24} />}
             detail="days"
             isDarkMode={isDarkMode}
+            showDifficultyBreakdown={false}
         />
         <StatsCard
             title="Global Ranking"
             value={`#${stats?.ranking || 0}`}
             icon={<Award size={24} />}
-            detail="Top 5%"
+            detail=""
             isDarkMode={isDarkMode}
+            showDifficultyBreakdown={false}
         />
     </div>
 );
