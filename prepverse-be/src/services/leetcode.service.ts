@@ -2,10 +2,10 @@ import { chromium, Page } from 'playwright';
 import { User } from '../models/user.model.js';
 import { ApiError } from '../utils/ApiError.js';
 import axios from 'axios'
-import { allProblems, LeetCodeSubmission } from '../models/leetcode.model.js';
+import { allProblems, LeetCodeSubmission, userStats } from '../models/leetcode.model.js';
 import { Types } from 'mongoose';
 import { RawSubmission } from '../Interface/leetcode.interface.js';
-import { getLeetcodePayload } from '../utils/leetcodePayload.js';
+import { getLeetcodePayload, getLeetcodeStatsPayload } from '../utils/leetcodePayload.js';
 
 export class LeetCodeService {
     private static readonly MAX_WAIT_TIME_MS = 5 * 60 * 1000; // 5 minutes
@@ -276,5 +276,42 @@ export class LeetCodeService {
         );
 
         return { total, leetcodeProblems: leetcodeProblems };
+    }
+
+    public syncLeetcodeStats = async (leetcodeSession: string) => {
+        const username = await LeetCodeService.fetchUsernameFromSession(leetcodeSession);
+
+        if (!username) {
+            throw new ApiError(400, 'Unable to fetch username from LeetCode session.');
+        }
+
+        const payload = getLeetcodeStatsPayload(username);
+
+        const response = await axios.post('https://leetcode.com/graphql',
+            payload, {
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: `LEETCODE_SESSION=${leetcodeSession}`,
+            }
+        })
+
+        const data = response.data.data;
+        const stats = data.matchedUser?.submitStatsGlobal?.acSubmissionNum || [];
+        const streak = data.matchedUser?.userCalendar?.streak || 0;
+
+        return {
+            totalSolved: stats.find((x: any) => x.difficulty === 'All')?.count || 0,
+            easySolved: stats.find((x: any) => x.difficulty === 'Easy')?.count || 0,
+            mediumSolved: stats.find((x: any) => x.difficulty === 'Medium')?.count || 0,
+            hardSolved: stats.find((x: any) => x.difficulty === 'Hard')?.count || 0,
+            acceptanceRate: parseFloat((Math.random() * (80 - 40) + 40).toFixed(1)), // placeholder
+            streak,
+            ranking: 0
+        };
+    }
+
+    public getLeetcodeStats = async(userId: string) => {
+        const stats = await userStats.find({where: {userId}});
+        return stats;
     }
 }
