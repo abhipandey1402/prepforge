@@ -311,7 +311,7 @@ export class LeetCodeService {
     }
 
     public getLeetcodeStats = async(userId: string) => {
-        const stats = await userStats.find({where: {userId}});
+        const stats = await userStats.findOne({userId});
         return stats;
     }
 }
