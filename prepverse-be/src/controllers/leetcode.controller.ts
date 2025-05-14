@@ -3,6 +3,7 @@ import { asyncHandler } from '../utils/AsyncHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import { ApiError } from '../utils/ApiError.js';
 import { parseQuery } from '../utils/queryParser.js';
+import { userStats } from '../models/leetcode.model.js';
 
 const leetcodeService = new LeetCodeService();
 
@@ -55,5 +56,40 @@ export const getLeetcodeProblems = asyncHandler(async (req: any, res: any): Prom
 
     res.status(200).json(
         new ApiResponse(200, { page, totalPages: Math.ceil(total / limit), totalProblems: total, leetcodeProblems: leetcodeProblems })
+    )
+})
+
+export const syncLeetcodeStats = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const userId = req.user.id;
+    const { sessionToken } = req.body;
+
+    if (!userId || !sessionToken) {
+        throw new ApiError(400, 'userId and leetcodeSession required');
+    }
+
+    const stats = await leetcodeService.syncLeetcodeStats(sessionToken);
+
+    const updatedStats = await userStats.findOneAndUpdate(
+        { userId },
+        { ...stats, userId, updatedAt: new Date() },
+        { new: true, upsert: true }
+    );
+
+    res.status(200).json(
+        new ApiResponse(200, { leetcodeUserStats: updatedStats }, "user leetcode stats synced successfully")
+    )
+})
+
+export const getLeetcodeStats = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const userId = req.user.id;
+
+    if(!userId){
+        throw new ApiError(400, "UserId required");
+    }
+
+    const stats = await leetcodeService.getLeetcodeStats(userId);
+
+    res.status(200).json(
+        new ApiResponse(200, stats, "User Leetcode stats fetched successfully")
     )
 })

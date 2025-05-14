@@ -45,10 +45,6 @@ LeetCodeSubmissionSchema.index({ userId: 1, titleSlug: 1 });
 
 export const LeetCodeSubmission = mongoose.model('LeetCodeSubmission', LeetCodeSubmissionSchema);
 
-
-
-
-
 const allProblemSchema = new Schema({
     id: String,
     title: String,
@@ -62,3 +58,22 @@ const allProblemSchema = new Schema({
 });
 
 export const allProblems = mongoose.model('AllProblem', allProblemSchema);
+
+const UserStatsSchema = new Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        index: true
+    },
+    totalSolved: Number,
+    easySolved: Number,
+    mediumSolved: Number,
+    hardSolved: Number,
+    acceptanceRate: Number,
+    streak: Number,
+    ranking: Number,
+    updatedAt: { type: Date, default: Date.now }
+});
+
+export const userStats = mongoose.model('UserStats', UserStatsSchema);
