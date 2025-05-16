@@ -18,13 +18,20 @@ export const fetchLeetCodeSession = asyncHandler(async (req: any, res: any): Pro
 
 export const getLeetcodeSubmissions = asyncHandler(async (req: any, res: any): Promise<void> => {
     const userId = req.user.id;
+    const { filters, skip, limit, page } = parseQuery(req.query);
 
-    const data = await leetcodeService.getLeetcodeSubmissions(userId);
+    const { total, submissions } = await leetcodeService.getLeetcodeSubmissions(userId, filters, limit, skip);
 
     res.status(200).json(
-        new ApiResponse(200, data, "Leetcode submission fetched")
-    )
+        new ApiResponse(200, {
+            page,
+            totalPages: Math.ceil(total / limit),
+            totalSubmissions: total,
+            submissions
+        }, "Leetcode submissions fetched")
+    );
 });
+
 
 export const syncSubmissions = asyncHandler(async (req: any, res: any): Promise<void> => {
     const userId = req.user.id;
@@ -83,7 +90,7 @@ export const syncLeetcodeStats = asyncHandler(async (req: any, res: any): Promis
 export const getLeetcodeStats = asyncHandler(async (req: any, res: any): Promise<void> => {
     const userId = req.user.id;
 
-    if(!userId){
+    if (!userId) {
         throw new ApiError(400, "UserId required");
     }
 
