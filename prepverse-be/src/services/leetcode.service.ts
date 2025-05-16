@@ -3,7 +3,7 @@ import { User } from '../models/user.model.js';
 import { ApiError } from '../utils/ApiError.js';
 import axios from 'axios'
 import { allProblems, LeetCodeSubmission, userStats } from '../models/leetcode.model.js';
-import { Types } from 'mongoose';
+import mongoose, { PipelineStage, Types } from 'mongoose';
 import { RawSubmission } from '../Interface/leetcode.interface.js';
 import { getLeetcodePayload, getLeetcodeStatsPayload } from '../utils/leetcodePayload.js';
 
@@ -200,8 +200,37 @@ export class LeetCodeService {
         await LeetCodeService.saveSubmissions(userId, submissions);
     };
 
-    public getLeetcodeSubmissions = async (userId: string) => {
-        return LeetCodeSubmission.find({ userId }).sort({ timestamp: -1 });
+    public getLeetcodeSubmissions = async (
+        userId: string,
+        filters: any,
+        limit: number,
+        skip: number
+    ) => {
+        const finalFilters: Record<string, any> = { userId: new mongoose.Types.ObjectId(userId) };
+
+        // Apply filters if present
+        if (filters && typeof filters === 'object') {
+            for (const key in filters) {
+                if (filters[key] !== undefined && filters[key] !== '') {
+                    finalFilters[key] = filters[key];
+                }
+            }
+        }
+
+        // Define pipeline stages explicitly
+        const pipeline: PipelineStage[] = [
+            { $match: finalFilters },
+            { $sort: { timestamp: -1 } }, // Sort recent first
+            { $skip: skip },
+            { $limit: limit }
+        ];
+
+        const [total, submissions] = await Promise.all([
+            LeetCodeSubmission.countDocuments(finalFilters),
+            LeetCodeSubmission.aggregate(pipeline)
+        ]);
+
+        return { total, submissions };
     };
 
     public syncAllProblems = async () => {
@@ -310,8 +339,8 @@ export class LeetCodeService {
         };
     }
 
-    public getLeetcodeStats = async(userId: string) => {
-        const stats = await userStats.findOne({userId});
+    public getLeetcodeStats = async (userId: string) => {
+        const stats = await userStats.findOne({ userId });
         return stats;
     }
 }
