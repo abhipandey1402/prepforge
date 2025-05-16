@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { fetchLeetCodeSession, syncSubmissions, getLeetcodeProblems, getLeetcodeSubmissions, syncAllProblems, syncLeetcodeStats } from '../controllers/leetcode.controller.js';
+import { fetchLeetCodeSession, syncSubmissions, getLeetcodeProblems, getLeetcodeSubmissions, syncAllProblems, syncLeetcodeStats, getLeetcodeStats } from '../controllers/leetcode.controller.js';
 import { verifyJWT } from '../middlewares/auth.middleware.js';
 
 
@@ -13,7 +13,7 @@ router.route('/userStats/sync').post(verifyJWT, syncLeetcodeStats);
 
 router.route('/submissions').get(verifyJWT, getLeetcodeSubmissions);
 router.route('/problems').get(getLeetcodeProblems);
-router.route('/userStats').get(verifyJWT, syncLeetcodeStats);
+router.route('/userStats').get(verifyJWT, getLeetcodeStats);
 
 
 export default router;

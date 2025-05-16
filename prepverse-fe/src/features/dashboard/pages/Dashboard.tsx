@@ -46,8 +46,10 @@ const Dashboard = () => {
     return (
         <div className="w-full bg-slate-600 flex box-border" style={{minHeight: 'calc(100vh)'}} >
             <Sidebar />
-            <div style={{width: 'calc(100vw - 15rem)' }} className="ml-64 mr-2 mt-4 mb-4 rounded-xl bg-slate-950 text-white">
+            <div style={{width: 'calc(100vw - 15rem)', height: 'calc(100vh - 1rem)' }} className="ml-56 mr-1 mt-2 mb-2 rounded-2xl bg-slate-950 text-white fixed">
+                <div className="h-full overflow-y-auto custom-scrollbar">
                 {renderCurrentContent()}
+                </div>
             </div>
         </div>
     )

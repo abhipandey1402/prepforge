@@ -1,49 +1,41 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AuthorizationScreen from "../components/AuthorizationScreen";
 import { LayoutContainer } from "../components/LayoutContainer";
 import { SearchInput } from "../components/SearchInput";
 import { StatsSection } from "../components/StatsSection";
 import { SubmissionsTable } from "../components/SubmissionsTable";
 import { useLeetCodeSubmissions } from "../hooks/useLeetcodeSubmissions";
+import { useLeetCodeUserStats } from "../hooks/useLeetcodeUserStats";
 
 
 interface UserStats {
-    totalSolved: number;
-    easySolved: number;
-    mediumSolved: number;
-    hardSolved: number;
-    acceptanceRate: number;
-    streak: number;
-    ranking: number;
+    totalSolved: any;
+    easySolved: any;
+    mediumSolved: any;
+    hardSolved: any;
+    acceptanceRate: any;
+    streak: any;
+    ranking: any;
 }
-
-// Mock data for development
-const mockUserStats: UserStats = {
-    totalSolved: 387,
-    easySolved: 149,
-    mediumSolved: 183,
-    hardSolved: 55,
-    acceptanceRate: 64.3,
-    streak: 14,
-    ranking: 12564
-};
-
 
 export default function LeetcodeSubmissions({ }: any) {
     const { submissions } = useLeetCodeSubmissions();
+    const { stats } = useLeetCodeUserStats();
 
     const [isAuthorized, setIsAuthorized] = useState(false);
-    const [userStats, setUserStats] = useState<UserStats | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [expandedSubmission, setExpandedSubmission] = useState<string | null>(null);
     const [isDarkMode] = useState(true);
 
-    // Simulate fetching data after authorization
-    useEffect(() => {
-        if (isAuthorized) {
-            setUserStats(mockUserStats);
-        }
-    }, [isAuthorized]);
+    const leetcodeUserStats: UserStats = {
+        totalSolved: stats?.totalSolved,
+        easySolved: stats?.easySolved,
+        mediumSolved: stats?.mediumSolved,
+        hardSolved: stats?.hardSolved,
+        acceptanceRate: stats?.acceptanceRate,
+        streak: stats?.streak,
+        ranking: stats?.ranking
+    };
 
     // Filter submissions based on search query
     const filteredSubmissions = submissions.filter(submission =>
@@ -67,7 +59,7 @@ export default function LeetcodeSubmissions({ }: any) {
                 <AuthorizationScreen onAuthorize={handleAuthorize} isDarkMode={isDarkMode} />
             ) : (
                 <div className="container mx-auto px-4 py-4">
-                    <StatsSection stats={userStats} isDarkMode={isDarkMode} />
+                    <StatsSection stats={leetcodeUserStats} isDarkMode={isDarkMode} />
 
                     <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-slate-900' : 'bg-white'} shadow-lg`}>
                         <div className="flex justify-between items-center mb-4">

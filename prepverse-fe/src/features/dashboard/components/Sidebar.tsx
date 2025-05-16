@@ -15,7 +15,7 @@ const Sidebar: React.FC = () => {
     };
 
     return (
-        <div style={{ height: 'calc(100vh - 2rem)' }} className="bg-slate-950 shadow-md w-[15rem] rounded-2xl fixed left-2 top-4 p-4 flex flex-col box-border">
+        <div style={{ height: 'calc(100vh - 1rem)' }} className="bg-slate-950 shadow-md w-[13rem] rounded-2xl fixed left-2 top-2 p-2 flex flex-col box-border">
             <div className="flex items-center space-x-2 cursor-pointer" onClick={() => dispatch(setCurrentItem("dashboard"))} >
                 <Monitor className="w-10 h-10 text-orange-500 animate-bounce" />
                 <span className="text-xl text-white font-bold cursor-pointer mb-2">PrepVerse</span>
