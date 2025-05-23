@@ -28,7 +28,7 @@ export interface LeetCodeSubmission {
     updatedAt: string;
 }
 
-export function useLeetCodeSubmissions() {
+export function useLeetCodeSubmissions(page: number = 1, size: number = 10, setTotal: any) {
     const [submissions, setSubmissions] = useState<LeetCodeSubmission[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -37,9 +37,10 @@ export function useLeetCodeSubmissions() {
         const fetchSubmissions = async () => {
             try {
                 setLoading(true);
-                const response = await axiosClient.get('/leetcode/submissions');
+                const response = await axiosClient.get(`/leetcode/submissions?page=${page}&limit=${size}`);
                 if (response) {
-                    setSubmissions(response.data.data);
+                    setSubmissions(response?.data?.data?.submissions);
+                    setTotal(response?.data?.data?.totalSubmissions);
                 }
             } catch (err: any) {
                 setError(err.message || "Failed to fetch submissions");
@@ -49,7 +50,7 @@ export function useLeetCodeSubmissions() {
         };
 
         fetchSubmissions();
-    }, []);
+    }, [page, size]);
 
     return { submissions, loading, error };
 }

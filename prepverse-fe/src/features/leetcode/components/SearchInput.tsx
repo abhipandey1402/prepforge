@@ -1,11 +1,11 @@
 import { Search } from 'lucide-react';
 
-export const SearchInput = ({ value, onChange, isDarkMode }: any) => (
+export const SearchInput = ({ value, onChange, isDarkMode, placeholder }: any) => (
     <div className="relative">
         <Search className={`absolute left-3 top-2.5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} size={16} />
         <input
             type="text"
-            placeholder="Search submissions..."
+            placeholder={placeholder}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             className={`pl-10 pr-4 py-2 rounded-lg w-64 ${isDarkMode

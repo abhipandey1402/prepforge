@@ -19,8 +19,13 @@ interface UserStats {
 }
 
 export default function LeetcodeSubmissions({ }: any) {
-    const { submissions } = useLeetCodeSubmissions();
+    const [page, setPage] = useState(1);
+    const [size, setSize] = useState(10);
+    const [total, setTotal] = useState<number>(0);
+
+    const { submissions } = useLeetCodeSubmissions(page, size, setTotal);
     const { stats } = useLeetCodeUserStats();
+
 
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -38,10 +43,13 @@ export default function LeetcodeSubmissions({ }: any) {
     };
 
     // Filter submissions based on search query
-    const filteredSubmissions = submissions.filter(submission =>
+    const filteredSubmissions = submissions && submissions?.filter(submission =>
         submission.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         submission.lang.toLowerCase().includes(searchQuery.toLowerCase())
     )
+    
+        console.log(filteredSubmissions)
+
 
     // Handle authorization
     const handleAuthorize = () => {
@@ -64,13 +72,18 @@ export default function LeetcodeSubmissions({ }: any) {
                     <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-slate-900' : 'bg-white'} shadow-lg`}>
                         <div className="flex justify-between items-center mb-4">
                             <h2 className={`text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Recent Submissions</h2>
-                            <SearchInput value={searchQuery} onChange={setSearchQuery} isDarkMode={isDarkMode} />
+                            <SearchInput value={searchQuery} onChange={setSearchQuery} isDarkMode={isDarkMode} placeholder="Search submissions..." />
                         </div>
                         <SubmissionsTable
                             submissions={filteredSubmissions}
                             expandedSubmission={expandedSubmission}
                             toggleSubmissionDetails={toggleSubmissionDetails}
                             isDarkMode={isDarkMode}
+                            currentPage={page}
+                            setCurrentPage={setPage}
+                            itemsPerPage={size}
+                            setItemsPerPage={setSize}
+                            totalSubmissions={total}
                         />
                     </div>
                 </div>

@@ -3,8 +3,21 @@ import { Badge } from "./Badge";
 
 const formatTimestamp = (timestamp: number): string => {
     const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
-    return date.toLocaleString(); // Converts to local date and time string
+
+    // Format date as DD/MM/YYYY
+    const dateString = date.toLocaleDateString('en-GB'); // 'en-GB' uses day/month/year format
+
+    // Format time with hours, minutes, seconds and AM/PM
+    const timeString = date.toLocaleTimeString('en-US', {
+        hour12: true,
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+
+    return `${dateString}, ${timeString}`;
 };
+
 
 export const getSubmissionStatusDisplay = (status: number) => {
     switch (status) {

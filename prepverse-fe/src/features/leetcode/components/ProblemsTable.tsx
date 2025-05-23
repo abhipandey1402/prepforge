@@ -1,18 +1,17 @@
 import React from "react";
-import { SubmissionRow } from "./SubmissionRow";
-import { SubmissionDetailRow } from "./SubmissionDetailRow";
+import { ProblemRow } from "./ProblemRow";
 
-export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmissionDetails, isDarkMode, currentPage, setCurrentPage, itemsPerPage, setItemsPerPage, totalSubmissions }: any) => {
+export const ProblemsTable = ({ problems, expandedProblem, toggleProblemDetails, isDarkMode, currentPage, setCurrentPage, itemsPerPage, setItemsPerPage, totalProblems }: any) => {
 
     // Page navigation handlers
     const goToPage = (page: number) => {
-        if (page >= 1 && page <= totalSubmissions) {
+        if (page >= 1 && page <= totalProblems) {
             setCurrentPage(page);
         }
     };
 
     const nextPage = () => {
-        if (currentPage < totalSubmissions) {
+        if (currentPage < totalProblems) {
             setCurrentPage(currentPage + 1);
         }
     };
@@ -36,30 +35,27 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
                     <tr className={`${isDarkMode ? 'text-gray-400 border-gray-700' : 'text-gray-600 border-gray-300'} border-b`}>
                         <th className="px-4 py-3 text-left">Problem</th>
                         <th className="px-4 py-3 text-left">Status</th>
-                        <th className="px-4 py-3 text-left">Language</th>
-                        <th className="px-4 py-3 text-left">Runtime</th>
-                        <th className="px-4 py-3 text-left">Memory</th>
-                        <th className="px-4 py-3 text-left">Submitted At</th>
+                        <th className="px-4 py-3 text-left">Difficulty</th>
+                        <th className="px-4 py-3 text-left">Topics</th>
                         <th className="px-4 py-3 text-left">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {submissions.length > 0 ? (
-                        submissions.map((s: any) => (
-                            <React.Fragment key={s._id}>
-                                <SubmissionRow
-                                    submission={s}
-                                    isExpanded={expandedSubmission === s._id}
-                                    onToggle={toggleSubmissionDetails}
+                    {problems.length > 0 ? (
+                        problems.map((p: any) => (
+                            <React.Fragment key={p._id}>
+                                <ProblemRow
+                                    problem={p}
+                                    isExpanded={expandedProblem === p._id}
+                                    onToggle={toggleProblemDetails}
                                     isDarkMode={isDarkMode}
                                 />
-                                {expandedSubmission === s._id && <SubmissionDetailRow submission={s} isDarkMode={isDarkMode} />}
                             </React.Fragment>
                         ))
                     ) : (
                         <tr>
                             <td colSpan={7} className={`px-4 py-4 text-center ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                                No submissions found matching your search. {submissions?.length}
+                                No Problems found matching your search. {problems?.length}
                             </td>
                         </tr>
                     )}
@@ -67,7 +63,7 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
             </table>
 
             {/* Pagination Controls */}
-            {submissions.length > 0 && (
+            {problems.length > 0 && (
                 <div className={`flex items-center justify-between mt-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <div className="flex items-center">
                         <span className="mr-2">Show</span>
@@ -86,8 +82,8 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
 
                     <div className="flex items-center space-x-1">
                         <span className="mr-4">
-                            {submissions.length > 0 ?
-                                `${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage)} of ${totalSubmissions}` :
+                            {problems.length > 0 ?
+                                `${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage)} of ${totalProblems}` :
                                 '0 results'}
                         </span>
 
@@ -115,14 +111,14 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
 
                         {/* Page number buttons */}
                         <div className="flex space-x-1">
-                            {Array.from({ length: Math.min(5, totalSubmissions/itemsPerPage) }, (_, i) => {
+                            {Array.from({ length: Math.min(5, totalProblems/itemsPerPage) }, (_, i) => {
                                 let pageNum;
-                                if (totalSubmissions <= 5) {
+                                if (totalProblems <= 5) {
                                     pageNum = i + 1;
                                 } else if (currentPage <= 3) {
                                     pageNum = i + 1;
-                                } else if (currentPage >= totalSubmissions - 2) {
-                                    pageNum = totalSubmissions - 4 + i;
+                                } else if (currentPage >= totalProblems - 2) {
+                                    pageNum = totalProblems - 4 + i;
                                 } else {
                                     pageNum = currentPage - 2 + i;
                                 }
@@ -144,8 +140,8 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
 
                         <button
                             onClick={nextPage}
-                            disabled={currentPage === totalSubmissions}
-                            className={`p-2 rounded ${currentPage === totalSubmissions
+                            disabled={currentPage === totalProblems}
+                            className={`p-2 rounded ${currentPage === totalProblems
                                 ? `${isDarkMode ? 'bg-gray-700 text-gray-500' : 'bg-gray-100 text-gray-400'} cursor-not-allowed`
                                 : `${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'}`
                                 }`}
@@ -154,9 +150,9 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
                         </button>
 
                         <button
-                            onClick={() => goToPage(Math.floor(totalSubmissions/itemsPerPage))}
-                            disabled={currentPage === Math.floor(totalSubmissions/itemsPerPage)}
-                            className={`p-2 rounded ${currentPage === Math.floor(totalSubmissions/itemsPerPage)
+                            onClick={() => goToPage(Math.floor(totalProblems/itemsPerPage))}
+                            disabled={currentPage === Math.floor(totalProblems/itemsPerPage)}
+                            className={`p-2 rounded ${currentPage === Math.floor(totalProblems/itemsPerPage)
                                 ? `${isDarkMode ? 'bg-gray-700 text-gray-500' : 'bg-gray-100 text-gray-400'} cursor-not-allowed`
                                 : `${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'}`
                                 }`}
@@ -170,4 +166,4 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
     );
 };
 
-export default SubmissionsTable;
+export default ProblemsTable;
