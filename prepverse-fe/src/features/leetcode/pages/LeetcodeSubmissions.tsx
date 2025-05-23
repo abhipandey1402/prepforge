@@ -72,7 +72,7 @@ export default function LeetcodeSubmissions({ }: any) {
                     <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-slate-900' : 'bg-white'} shadow-lg`}>
                         <div className="flex justify-between items-center mb-4">
                             <h2 className={`text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Recent Submissions</h2>
-                            <SearchInput value={searchQuery} onChange={setSearchQuery} isDarkMode={isDarkMode} />
+                            <SearchInput value={searchQuery} onChange={setSearchQuery} isDarkMode={isDarkMode} placeholder="Search submissions..." />
                         </div>
                         <SubmissionsTable
                             submissions={filteredSubmissions}

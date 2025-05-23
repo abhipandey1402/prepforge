@@ -4,6 +4,7 @@ import { RootState } from "@/store";
 import { useEffect } from "react";
 import { setCurrentItem } from "@/features/globalFeatures/slices/configSlice";
 import LeetcodeSubmissions from "@/features/leetcode/pages/LeetcodeSubmissions";
+import LeetcodeProblems from "@/features/leetcode/pages/LeetcodeProblems";
 
 const Dashboard = () => {
     const currentItem = useSelector((state: RootState) => state.config?.currentItem);
@@ -12,7 +13,7 @@ const Dashboard = () => {
     useEffect(() => {
         const handleBeforeUnload = (event: any) => {
             if (event.currentTarget.performance.navigation.type === 1) {
-                dispatch(setCurrentItem("dashboard"));
+                dispatch(setCurrentItem("submissions"));
             }
         };
 
@@ -24,10 +25,10 @@ const Dashboard = () => {
 
     const renderCurrentContent = () => {
         switch (currentItem) {
-            case "dashboard":
+            case "submissions":
                 return <LeetcodeSubmissions/>;
-            case "community":
-                return <span>Community</span>
+            case "practice":
+                return <LeetcodeProblems/>;
             case "chats":
                 return <span>Chats</span>
             case "challengebetting":
