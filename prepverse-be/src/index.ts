@@ -10,6 +10,8 @@ import leetcodeRouter from './routes/leetcode.routes.js'
 import connectDB from './db/index.js';
 import { Server } from 'socket.io';
 import { initializeSocketIO } from './sockets/index.js';
+import chatRouter from './routes/chat.routes.js';
+import messageRouter from './routes/message.routes.js';
 
 
 // Load environment variables
@@ -46,6 +48,8 @@ const configureMiddleware = () => {
 const setupRoutes = () => {
     app.use("/api/v1/users", userRouter);
     app.use("/api/v1/leetcode", leetcodeRouter);
+    app.use("/api/v1/chats", chatRouter);
+    app.use("/api/v1/messages", messageRouter);
 };
 
 const configureSocket = () => {
