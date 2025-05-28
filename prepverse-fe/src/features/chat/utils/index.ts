@@ -62,8 +62,7 @@ export const getChatObjectMetadata = (
         const participant = chat.participants.find(
             (p: any) => p._id !== loggedInUser?._id
         );
-        console.log(chat?.participants)
-        console.log(loggedInUser?._id)
+        
         return {
             avatar: participant?.avatarUrl,
             title: participant?.username,

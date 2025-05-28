@@ -96,7 +96,7 @@ const MessageItem: React.FC<{
                                             role="button"
                                             className="border border-red-500 p-4 text-danger rounded-lg w-auto inline-flex items-center hover:bg-secondary"
                                         >
-                                            <TrashIcon className="h-4 w-4 mr-2" />
+                                            <TrashIcon className="h-4 w-4 mr-0" />
                                             Delete Message
                                         </p>
                                     </div>
@@ -156,7 +156,7 @@ const MessageItem: React.FC<{
                                     <EllipsisVerticalIcon className="group-hover:w-4 group-hover:opacity-100 w-0 opacity-0 transition-all ease-in-out duration-100 text-zinc-300" />
                                     <div
                                         className={classNames(
-                                            "delete-menu z-20 text-left -translate-x-24 -translate-y-4 absolute botom-0  text-[10px] w-auto bg-dark rounded-2xl  shadow-md border-[1px] border-secondary",
+                                            "delete-menu z-20 text-left -translate-x-20 -translate-y-4 absolute botom-0  text-[10px] w-auto bg-dark rounded-2xl  shadow-md border-[1px] border-secondary",
                                             openOptions ? "block" : "hidden"
                                         )}
                                     >

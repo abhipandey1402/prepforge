@@ -42,7 +42,7 @@ export const performLogin = createAsyncThunk<UserData, LoginPayload>(
     'auth/performLogin',
     async ({ email, password }, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${baseURL}/users/login`, { email, password });
+            const response = await axios.post(`${baseURL}/users/login`, { email, password }, { withCredentials: true });
 
             if (response.data?.statusCode > 300) {
                 return rejectWithValue(response.data);
@@ -74,6 +74,20 @@ export const performRegistration = createAsyncThunk<UserData, RegistrationPayloa
         }
     }
 );
+
+export const performLogout = createAsyncThunk<void>(
+    'auth/performLogout',
+    async (_, { rejectWithValue }) => {
+        try {
+            await axios.post(`${baseURL}/users/logout`, null, {
+                withCredentials: true,
+            });
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
 
 const initialState: AuthState = {
     userData: null,
@@ -115,6 +129,14 @@ const authSlice = createSlice({
             })
             .addCase(performRegistration.rejected, (state, action) => {
                 state.status = 'failed';
+                state.error = action.payload as string;
+            })
+            .addCase(performLogout.fulfilled, (state) => {
+                state.userData = null;
+                state.status = 'idle';
+                state.error = null;
+            })
+            .addCase(performLogout.rejected, (state, action) => {
                 state.error = action.payload as string;
             });
     },

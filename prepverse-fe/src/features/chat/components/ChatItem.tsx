@@ -129,14 +129,15 @@ const ChatItem: React.FC<{
                         </div>
                     ) : (
                         <img
-                            src={getChatObjectMetadata(chat, user!).avatar}
+                            src={getChatObjectMetadata(chat, user!)?.avatar}
+                            alt="avatar"
                             className="w-10 h-10 rounded-full"
                         />
                     )}
                 </div>
                 <div className="w-full">
                     <p className="truncate-1">
-                        {getChatObjectMetadata(chat, user!).title}
+                        {getChatObjectMetadata(chat, user!)?.title}
                     </p>
                     <div className="w-full inline-flex items-center text-left">
                         {chat.lastMessage && chat.lastMessage.attachments.length > 0 ? (

@@ -38,7 +38,6 @@ const ChatPage = () => {
     const user = useSelector((state: RootState) => state.auth?.userData?.user);
     const { socket } = useSocket();
 
-
     const currentChat = useRef<any | null>(null);
     const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [isConnected, setIsConnected] = useState(false);
@@ -186,13 +185,12 @@ const ChatPage = () => {
         setMessage(e.target.value);
 
         // If socket doesn't exist or isn't connected, exit the function
-        if (!socket || !isConnected) return;
+        if (!socket) return;
 
         // Check if the user isn't already set as typing
         if (!selfTyping) {
             // Set the user as typing
             setSelfTyping(true);
-
             // Emit a typing event to the server for the current chat
             socket.emit(TYPING_EVENT, currentChat.current?._id);
         }
@@ -221,6 +219,7 @@ const ChatPage = () => {
     };
 
     const onDisconnect = () => {
+        console.log("DisConnected it");
         setIsConnected(false);
     };
 
@@ -310,7 +309,13 @@ const ChatPage = () => {
     // };
 
     useEffect(() => {
-        getChats();
+        getChats()
+    }, [])
+
+    useEffect(() => {
+        if(!socket){
+            return;
+        }
 
         const _currentChat = LocalStorage.get("currentChat");
 
@@ -319,10 +324,11 @@ const ChatPage = () => {
             socket?.emit(JOIN_CHAT_EVENT, _currentChat.current?._id);
             getMessages();
         }
-    }, []);
+    }, [socket]);
 
 
     useEffect(() => {
+
         if (!socket) {
             console.error("Socket not initialized")
             return;
@@ -457,7 +463,7 @@ const ChatPage = () => {
                                                             key={participant._id}
                                                             src={participant?.avatarUrl}
                                                             className={classNames(
-                                                                "w-9 h-9 border-[1px] border-white rounded-full absolute outline outline-4 outline-dark",
+                                                                "w-9 h-9 border-[1px] border-white rounded-full absolute outline-4 outline-dark",
                                                                 i === 0
                                                                     ? "left-0 z-30"
                                                                     : i === 1

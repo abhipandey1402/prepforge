@@ -55,8 +55,6 @@ const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
         };
     }, []);
 
-    console.log("Socket", socket);
-
     return (
         // Provide the socket instance through context to its children
         <SocketContext.Provider value={{ socket }}>
