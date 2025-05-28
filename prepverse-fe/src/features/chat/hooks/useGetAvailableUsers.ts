@@ -1,5 +1,5 @@
 import axiosClient from "@/interceptors/axiosClient";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 export const useGetAvailableUsers = () => {

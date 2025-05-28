@@ -34,11 +34,11 @@ const GroupChatDetailsModal: React.FC<{
     const [users, setUsers] = useState<any[]>([]);
 
     const { addParticipantToGroup, loading: addingParticipant } = useAddParticipantToGroup();
-    const { removeParticipantFromGroup, loading: removingParticipant } = useRemoveParticipantFromGroup();
-    const { deleteGroup, loading: deletingGroup } = useDeleteGroup();
+    const { removeParticipantFromGroup } = useRemoveParticipantFromGroup();
+    const { deleteGroup } = useDeleteGroup();
     const { updateGroupName, loading: renamingGroup } = useUpdateGroupName();
-    const { getAvailableUsers, loading: gettingUsers } = useGetAvailableUsers();
-    const { getGroupInfo, loading: gettingGroupInfo } = useGetGroupInfo();
+    const { getAvailableUsers } = useGetAvailableUsers();
+    const { getGroupInfo } = useGetGroupInfo();
 
     const handleGroupNameUpdate = async () => {
         if (!newGroupName) {
@@ -90,7 +90,7 @@ const GroupChatDetailsModal: React.FC<{
     // Function to remove a participant.
     const removeParticipant = async (participantId: string) => {
         try {
-            const res = await removeParticipantFromGroup(chatId, participantId);
+            await removeParticipantFromGroup(chatId, participantId);
             const updatedGroupDetails = {
                 ...groupDetails,
                 participants: groupDetails?.participants?.filter((p: any) => p._id !== participantId) || [],

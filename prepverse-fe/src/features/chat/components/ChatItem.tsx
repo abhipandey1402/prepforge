@@ -23,7 +23,7 @@ const ChatItem: React.FC<{
     const user = useSelector((state: RootState) => state.auth?.userData?.user);
     const [openOptions, setOpenOptions] = useState(false);
     const [openGroupInfo, setOpenGroupInfo] = useState(false);
-    const { deleteOneOnOneChat, loading: chatDeleteLoading } = useDeleteOneOnOneChat();
+    const { deleteOneOnOneChat } = useDeleteOneOnOneChat();
 
     const deleteChat = async () => {
         try {

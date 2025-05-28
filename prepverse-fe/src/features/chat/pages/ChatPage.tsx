@@ -31,7 +31,7 @@ const TYPING_EVENT = "typing";
 const STOP_TYPING_EVENT = "stopTyping";
 const MESSAGE_RECEIVED_EVENT = "messageReceived";
 const LEAVE_CHAT_EVENT = "leaveChat";
-const UPDATE_GROUP_NAME_EVENT = "updateGroupName";
+// const UPDATE_GROUP_NAME_EVENT = "updateGroupName";
 const MESSAGE_DELETE_EVENT = "messageDeleted";
 
 const ChatPage = () => {
@@ -44,8 +44,8 @@ const ChatPage = () => {
     const [isConnected, setIsConnected] = useState(false);
 
     const [openAddChat, setOpenAddChat] = useState(false);
-    const [loadingChats, setLoadingChats] = useState(false);
-    const [loadingMessages, setLoadingMessages] = useState(false);
+    const [loadingChats] = useState(false);
+    const [loadingMessages] = useState(false);
 
     const [chats, setChats] = useState<any[]>([]);
     const [messages, setMessages] = useState<any[]>([]);
@@ -61,10 +61,10 @@ const ChatPage = () => {
 
     const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
 
-    const { getUserChats, loading: gettingChats } = useGetUserChats();
-    const { sendMessage, loading: sendingMessage } = useSendMessage();
-    const { getChatMessages, loading: gettingMessages } = useGetChatMessages();
-    const { deleteMessage, loading: deletingMessage } = useDeleteMessage();
+    const { getUserChats } = useGetUserChats();
+    const { sendMessage } = useSendMessage();
+    const { getChatMessages } = useGetChatMessages();
+    const { deleteMessage } = useDeleteMessage();
 
     const updateChatLastMessage = (
         chatToUpdateId: string,
@@ -284,30 +284,30 @@ const ChatPage = () => {
         setChats((prev) => prev.filter((c) => c._id !== chat._id));
     };
 
-    // Function to handle changes in group name
-    const onGroupNameChange = (chat: any) => {
-        // Check if the chat being changed is the currently active chat
-        if (chat._id === currentChat.current?._id) {
-            // Update the current chat with the new details
-            currentChat.current = chat;
+    // // Function to handle changes in group name
+    // const onGroupNameChange = (chat: any) => {
+    //     // Check if the chat being changed is the currently active chat
+    //     if (chat._id === currentChat.current?._id) {
+    //         // Update the current chat with the new details
+    //         currentChat.current = chat;
 
-            // Save the updated chat details to local storage
-            LocalStorage.set("currentChat", chat);
-        }
+    //         // Save the updated chat details to local storage
+    //         LocalStorage.set("currentChat", chat);
+    //     }
 
-        // Update the list of chats with the new chat details
-        setChats((prev) => [
-            // Map through the previous chats
-            ...prev.map((c) => {
-                // If the current chat in the map matches the chat being changed, return the updated chat
-                if (c._id === chat._id) {
-                    return chat;
-                }
-                // Otherwise, return the chat as-is without any changes
-                return c;
-            }),
-        ]);
-    };
+    //     // Update the list of chats with the new chat details
+    //     setChats((prev) => [
+    //         // Map through the previous chats
+    //         ...prev.map((c) => {
+    //             // If the current chat in the map matches the chat being changed, return the updated chat
+    //             if (c._id === chat._id) {
+    //                 return chat;
+    //             }
+    //             // Otherwise, return the chat as-is without any changes
+    //             return c;
+    //         }),
+    //     ]);
+    // };
 
     useEffect(() => {
         getChats();

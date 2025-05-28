@@ -18,11 +18,11 @@ const AddChatModal: React.FC<{
     const [isGroupChat, setIsGroupChat] = useState(false);
     const [groupParticipants, setGroupParticipants] = useState<string[]>([]);
     const [selectedUserId, setSelectedUserId] = useState<null | string>(null);
-    const [creatingChat, setCreatingChat] = useState(false);
+    const [creatingChat] = useState(false);
 
-    const { getAvailableUsers, loading: getUserLoading } = useGetAvailableUsers();
-    const { createGroupChat, loading: createGroupLoading } = useCreateGroupChat();
-    const { createUserChat, loading: createUserChatLoading } = useCreateUserChat();
+    const { getAvailableUsers } = useGetAvailableUsers();
+    const { createGroupChat } = useCreateGroupChat();
+    const { createUserChat } = useCreateUserChat();
 
     const getUsers = async () => {
         try {

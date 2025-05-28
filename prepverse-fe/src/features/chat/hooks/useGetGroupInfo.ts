@@ -2,10 +2,6 @@ import axiosClient from "@/interceptors/axiosClient";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-interface GroupInfo {
-    name: string;
-}
-
 export const useGetGroupInfo = () => {
     const [loading, setLoading] = useState(false);
 
