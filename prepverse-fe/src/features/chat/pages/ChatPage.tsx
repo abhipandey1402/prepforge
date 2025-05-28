@@ -40,7 +40,7 @@ const ChatPage = () => {
 
     const currentChat = useRef<any | null>(null);
     const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const [isConnected, setIsConnected] = useState(false);
+    const [, setIsConnected] = useState(false);
 
     const [openAddChat, setOpenAddChat] = useState(false);
     const [loadingChats] = useState(false);
