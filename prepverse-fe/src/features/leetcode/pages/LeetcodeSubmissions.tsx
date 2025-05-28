@@ -48,8 +48,6 @@ export default function LeetcodeSubmissions({ }: any) {
         submission.lang.toLowerCase().includes(searchQuery.toLowerCase())
     )
     
-        console.log(filteredSubmissions)
-
 
     // Handle authorization
     const handleAuthorize = () => {

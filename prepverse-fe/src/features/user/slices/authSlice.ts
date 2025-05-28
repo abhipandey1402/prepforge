@@ -16,11 +16,20 @@ interface RegistrationPayload {
 }
 
 interface UserData {
-    id: string;
-    fullName: string;
-    email: string;
-    username: string;
     accessToken: string;
+    refreshToken: string;
+    user: {
+        _id: string;
+        fullName: string;
+        email: string;
+        username: string;
+        role: string;
+        leetcodeSessionToken: string;
+        completedSessions: number;
+        leetcodeSubmissions: [];
+        createdAt: string;
+        updatedAt: string;
+    }
 }
 
 interface AuthState {
