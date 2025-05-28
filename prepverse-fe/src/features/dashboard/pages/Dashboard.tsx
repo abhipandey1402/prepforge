@@ -31,6 +31,7 @@ const Dashboard = () => {
             case "practice":
                 return <LeetcodeProblems/>;
             case "chats":
+                // return <ChatPage/>
                 return <ChatPage/>
             case "challengebetting":
                 return <span>Challenge Betting</span>
