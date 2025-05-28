@@ -55,7 +55,7 @@ const chatCommonAggregation = (): PipelineStage[] => {
                                 {
                                     $project: {
                                         username: 1,
-                                        avatar: 1,
+                                        avatarUrl: 1,
                                         email: 1,
                                     },
                                 },
@@ -121,7 +121,7 @@ const searchAvailableUsers = async (userId: string) => {
         },
         {
             $project: {
-                avatar: 1,
+                avatarUrl: 1,
                 username: 1,
                 email: 1,
             },
