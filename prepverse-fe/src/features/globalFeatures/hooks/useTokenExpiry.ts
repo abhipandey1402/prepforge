@@ -8,6 +8,8 @@ interface DecodedToken {
 
 interface UseTokenExpiryReturn {
     isSessionExpired: boolean;
+    isExpired: boolean;
+    decodedToken: any;
 }
 
 const useTokenExpiry = (token: string | undefined): UseTokenExpiryReturn => {
@@ -30,7 +32,7 @@ const useTokenExpiry = (token: string | undefined): UseTokenExpiryReturn => {
         return () => clearInterval(interval);
     }, [isExpired, decodedToken]);
 
-    return { isSessionExpired };
+    return { isSessionExpired, isExpired, decodedToken };
 };
 
 export default useTokenExpiry;
