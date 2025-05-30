@@ -13,22 +13,13 @@ export const registerUser = asyncHandler(async (req: any, res: any): Promise<voi
 export const loginUser = asyncHandler(async (req: any, res: any): Promise<void> => {
     const { email, username, password } = req.body;
     const { user, accessToken, refreshToken } = await authService.loginUser({ email, username, password });
-    const options = { 
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax" as const,
-        path: "/",
-    };
-<<<<<<< Updated upstream
-    const options = { httpOnly: true, secure: true };
-=======
+
     const options = {
         httpOnly: true,
         secure: true,
         sameSite: "lax" as const,
         path: "/",
     };
->>>>>>> Stashed changes
 
     res.status(200)
         .cookie("accessToken", accessToken, options)
