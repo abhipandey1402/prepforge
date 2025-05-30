@@ -15,14 +15,17 @@ interface LoginUserInput {
     password: string;
 }
 
+interface UpdateUserPayload {
+    username?: string;
+    fullName?: string;
+}
+
 export const registerUser = async (data: RegisterUserInput) => {
     const { fullName, email, username, password } = data;
 
-    console.log('1');
     // Check if the user with the same email or username already exists
     const existedUser = await User.findOne({ $or: [{ email }, { username }] });
 
-    console.log('2');
     if (existedUser) {
         throw new ApiError(409, "User with email or username already exists");
     }
@@ -39,7 +42,6 @@ export const registerUser = async (data: RegisterUserInput) => {
     });
     await user.save();
 
-    
     // Generate JWT tokens
     const accessToken = generateAccessToken(user._id.toString());
     const refreshToken = generateRefreshToken(user._id.toString());
@@ -140,4 +142,30 @@ export const getCurrentUser = async (userId: string) => {
     }
 
     return user;
+};
+
+export const updateUserData = async (
+    userId: string,
+    data: UpdateUserPayload
+): Promise<void> => {
+    const user = await User.findById(userId);
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    // Check for unique username if trying to update
+    if (data.username && data.username !== user.username) {
+        const existingUser = await User.findOne({ username: data.username });
+        if (existingUser) {
+            throw new ApiError(409, "Username already taken");
+        }
+        user.username = data.username;
+    }
+
+    if (data.fullName) {
+        user.fullName = data.fullName;
+    }
+
+    await user.save();
 };

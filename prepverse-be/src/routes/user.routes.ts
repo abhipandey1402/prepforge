@@ -5,7 +5,8 @@ import {
     loginUser,
     logoutUser,
     refreshAccessToken,
-    registerUser
+    registerUser,
+    updateCurrentUserData
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -20,5 +21,6 @@ router.route("/logout").post(verifyJWT, logoutUser);           // Endpoint to lo
 router.route("/refreshToken").post(refreshAccessToken);        // Endpoint to refresh access token
 router.route("/changePassword").post(verifyJWT, changeCurrentPassword); // Endpoint to change password
 router.route("/currentUser").get(verifyJWT, getCurrentUser);   // Endpoint to fetch current logged-in user
+router.route("/updateData").patch(verifyJWT, updateCurrentUserData);   // Endpoint to update current Logged-in user
 
 export default router;
