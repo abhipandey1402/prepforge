@@ -6,6 +6,7 @@ import { setCurrentItem } from "@/features/globalFeatures/slices/configSlice";
 import LeetcodeSubmissions from "@/features/leetcode/pages/LeetcodeSubmissions";
 import LeetcodeProblems from "@/features/leetcode/pages/LeetcodeProblems";
 import ChatPage from "@/features/chat/pages/ChatPage";
+import SettingsPage from "@/features/settings/index"
 
 const Dashboard = () => {
     const currentItem = useSelector((state: RootState) => state.config?.currentItem);
@@ -31,7 +32,6 @@ const Dashboard = () => {
             case "practice":
                 return <LeetcodeProblems/>;
             case "chats":
-                // return <ChatPage/>
                 return <ChatPage/>
             case "challengebetting":
                 return <span>Challenge Betting</span>
@@ -40,7 +40,7 @@ const Dashboard = () => {
             case "notifications":
                 return <span>Notifications</span>
             case "settings":
-                return <span>Settings</span>
+                return <SettingsPage/>
             default:
                 return null;
         }
