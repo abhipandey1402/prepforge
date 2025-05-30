@@ -1,4 +1,4 @@
-import { Code, ExternalLink, BarChart3, TrendingUp, Target, Shield, CheckCircle, AlertCircle } from "lucide-react";
+import { Code, ExternalLink, BarChart3, TrendingUp, Target, Shield, AlertCircle } from "lucide-react";
 import { LoadingSpinner } from "./LoadingSpinner";
 
 interface AuthorizationScreenProps {
