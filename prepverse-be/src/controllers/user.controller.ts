@@ -13,7 +13,16 @@ export const registerUser = asyncHandler(async (req: any, res: any): Promise<voi
 export const loginUser = asyncHandler(async (req: any, res: any): Promise<void> => {
     const { email, username, password } = req.body;
     const { user, accessToken, refreshToken } = await authService.loginUser({ email, username, password });
+<<<<<<< Updated upstream
     const options = { httpOnly: true, secure: true };
+=======
+    const options = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax" as const,
+        path: "/",
+    };
+>>>>>>> Stashed changes
 
     res.status(200)
         .cookie("accessToken", accessToken, options)
@@ -55,4 +64,17 @@ export const changeCurrentPassword = asyncHandler(async (req: any, res: any): Pr
 export const getCurrentUser = asyncHandler(async (req: any, res: any): Promise<void> => {
     const user = await authService.getCurrentUser(req.user.id);
     res.status(200).json(new ApiResponse(200, { user }, "User fetched successfully"));
+});
+
+export const updateCurrentUserData = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const { username, fullName } = req.body;
+
+    if (!username && !fullName) {
+        res.status(400).json(new ApiResponse(400, {}, "Nothing to update"));
+        return;
+    }
+
+    await authService.updateUserData(req.user.id, { username, fullName });
+
+    res.status(200).json(new ApiResponse(200, {}, "User data updated successfully"));
 });
