@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { performLogin, performRegistration } from '../slices/authSlice';
 import { useNavigate } from 'react-router';
+import { setCurrentItem } from '@/features/globalFeatures/slices/configSlice';
 
 const useAuthForm = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -30,6 +31,7 @@ const useAuthForm = () => {
                 const result = await dispatch(performLogin({ email, password })).unwrap();
                 if (result) {
                     toast.success("Login successfull!");
+                    dispatch(setCurrentItem("submissions"));
                     Navigate("/dashboard");
                     setEmail('');
                     setPassword('');

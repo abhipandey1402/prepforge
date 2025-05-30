@@ -25,7 +25,7 @@ const chatMessageCommonAggregation = () => {
                     {
                         $project: {
                             username: 1,
-                            avatar: 1,
+                            avatarUrl: 1,
                             email: 1,
                         },
                     },

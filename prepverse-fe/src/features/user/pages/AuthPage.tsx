@@ -10,7 +10,6 @@ const AuthPage = () => {
 
     useEffect(() => {
         if (accessToken) {
-            console.log(accessToken);
             navigate('/dashboard');
         }
     }, [accessToken]);
