@@ -18,7 +18,6 @@ const SettingsPage: React.FC = () => {
         showPasswords,
         formData,
         notifications,
-        isLeetcodeExpired,
         leetcodeRefreshedAt,
 
         // Actions
@@ -27,7 +26,6 @@ const SettingsPage: React.FC = () => {
         handleCancel,
         handlePasswordChange,
         handleResetPassword,
-        handleLeetcodeAuth,
         handleLogout,
         handlePhotoUpload,
         togglePasswordVisibility,
@@ -78,9 +76,7 @@ const SettingsPage: React.FC = () => {
                 />
 
                 <LeetCodeSection
-                    isLeetcodeExpired={isLeetcodeExpired}
                     leetcodeRefreshedAt={leetcodeRefreshedAt}
-                    onLeetcodeAuth={handleLeetcodeAuth}
                 />
 
                 <ActionsSection onLogout={handleLogout} />

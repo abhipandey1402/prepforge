@@ -131,10 +131,6 @@ export const useSettingsLogic = () => {
         addNotification('Password reset email sent to your registered email!', 'info');
     };
 
-    const handleLeetcodeAuth = (): void => {
-        addNotification('Redirecting to LeetCode for authorization...', 'info');
-    };
-
     const handleLogout = async (): Promise<void> => {
         try {
             persistor.purge();
@@ -190,7 +186,6 @@ export const useSettingsLogic = () => {
         handleCancel,
         handlePasswordChange,
         handleResetPassword,
-        handleLeetcodeAuth,
         handleLogout,
         handlePhotoUpload,
         togglePasswordVisibility,
