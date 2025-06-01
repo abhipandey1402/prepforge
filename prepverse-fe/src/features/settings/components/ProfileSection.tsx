@@ -12,7 +12,6 @@ interface ProfileSectionProps {
     onSave: (field: keyof Pick<FormData, 'username' | 'fullName' | 'email'>) => void;
     onCancel: (field: keyof Pick<FormData, 'username' | 'fullName' | 'email'>) => void;
     onFormChange: (field: keyof FormData, value: string) => void;
-    onPhotoUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ProfileSection: React.FC<ProfileSectionProps> = ({
@@ -23,7 +22,6 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
     onSave,
     onCancel,
     onFormChange,
-    onPhotoUpload
 }) => (
     <div className="bg-gray-900 rounded-lg p-6 mb-6">
         <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
@@ -34,7 +32,6 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
         <div className="flex items-center gap-6 mb-6">
             <ProfilePhoto
                 avatarUrl={userData?.avatarUrl}
-                onPhotoUpload={onPhotoUpload}
             />
             <div>
                 <h3 className="text-xl font-semibold">{userData.fullName}</h3>

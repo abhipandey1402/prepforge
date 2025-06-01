@@ -142,20 +142,6 @@ export const useSettingsLogic = () => {
         }
     };
 
-    const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e: ProgressEvent<FileReader>) => {
-                const result = e.target?.result;
-                if (typeof result === 'string') {
-                    addNotification('Profile photo updated successfully!', 'success');
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
     const togglePasswordVisibility = (field: keyof ShowPasswordsState): void => {
         setShowPasswords(prev => ({ ...prev, [field]: !prev[field] }));
     };
@@ -187,7 +173,6 @@ export const useSettingsLogic = () => {
         handlePasswordChange,
         handleResetPassword,
         handleLogout,
-        handlePhotoUpload,
         togglePasswordVisibility,
         updateFormField,
         addNotification

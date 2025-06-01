@@ -1,5 +1,5 @@
 import axiosClient from "@/interceptors/axiosClient";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 export interface LeetCodeSubmission {
     _id: string;
@@ -28,29 +28,78 @@ export interface LeetCodeSubmission {
     updatedAt: string;
 }
 
-export function useLeetCodeSubmissions(page: number = 1, size: number = 10, setTotal: any) {
+interface UseLeetCodeSubmissionsOptions {
+    page?: number;
+    size?: number;
+    setTotal?: (total: number) => void;
+}
+
+interface UseLeetCodeSubmissionsResult {
+    submissions: LeetCodeSubmission[];
+    loading: boolean;
+    error: string | null;
+    refetch: () => void;
+}
+
+export function useLeetCodeSubmissions(options: UseLeetCodeSubmissionsOptions = {}): UseLeetCodeSubmissionsResult {
+    const {
+        page = 1,
+        size = 10,
+        setTotal
+    } = options;
+
     const [submissions, setSubmissions] = useState<LeetCodeSubmission[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchSubmissions = async () => {
-            try {
-                setLoading(true);
-                const response = await axiosClient.get(`/leetcode/submissions?page=${page}&limit=${size}`);
-                if (response) {
-                    setSubmissions(response?.data?.data?.submissions);
-                    setTotal(response?.data?.data?.totalSubmissions);
+    const abortControllerRef = useRef<AbortController | null>(null);
+
+    const fetchSubmissions = useCallback(async () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+
+        try {
+            setLoading(true);
+            setError(null);
+
+            const response = await axiosClient.get(
+                `/leetcode/submissions?page=${page}&limit=${size}`,
+                { signal: controller.signal }
+            );
+
+            if (response?.data?.data) {
+                setSubmissions(response.data.data.submissions || []);
+                if (setTotal && typeof response.data.data.totalSubmissions === "number") {
+                    setTotal(response.data.data.totalSubmissions);
                 }
-            } catch (err: any) {
-                setError(err.message || "Failed to fetch submissions");
-            } finally {
-                setLoading(false);
+            } else {
+                throw new Error("Invalid response structure");
             }
-        };
+        } catch (err: any) {
+            if (err.name !== "AbortError") {
+                console.error("Fetch submissions error:", err);
+                setError(err.message || "Failed to fetch submissions");
+            }
+        } finally {
+            setLoading(false);
+        }
+    }, [page, size, setTotal]);
 
+    useEffect(() => {
         fetchSubmissions();
-    }, [page, size]);
+        return () => {
+            abortControllerRef.current?.abort();
+        };
+    }, [fetchSubmissions]);
 
-    return { submissions, loading, error };
+    return {
+        submissions,
+        loading,
+        error,
+        refetch: fetchSubmissions,
+    };
 }

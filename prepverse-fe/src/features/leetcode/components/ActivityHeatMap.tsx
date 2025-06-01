@@ -6,7 +6,7 @@ interface ActivityHeatmapProps {
 
 export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({ submissions, isDarkMode }) => {
     // Generate activity data for the last 365 days
-    console.log(submissions);
+    console.log(submissions?.length);
     
     const generateActivityData = () => {
         const today = new Date();

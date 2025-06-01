@@ -44,16 +44,16 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
                     </tr>
                 </thead>
                 <tbody>
-                    {submissions.length > 0 ? (
-                        submissions.map((s: any) => (
-                            <React.Fragment key={s._id}>
+                    {submissions?.length > 0 ? (
+                        submissions?.map((s: any) => (
+                            <React.Fragment key={s?._id}>
                                 <SubmissionRow
                                     submission={s}
-                                    isExpanded={expandedSubmission === s._id}
+                                    isExpanded={expandedSubmission === s?._id}
                                     onToggle={toggleSubmissionDetails}
                                     isDarkMode={isDarkMode}
                                 />
-                                {expandedSubmission === s._id && <SubmissionDetailRow submission={s} isDarkMode={isDarkMode} />}
+                                {expandedSubmission === s?._id && <SubmissionDetailRow submission={s} isDarkMode={isDarkMode} />}
                             </React.Fragment>
                         ))
                     ) : (
@@ -67,7 +67,7 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
             </table>
 
             {/* Pagination Controls */}
-            {submissions.length > 0 && (
+            {submissions?.length > 0 && (
                 <div className={`flex items-center justify-between mt-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <div className="flex items-center">
                         <span className="mr-2">Show</span>
@@ -86,7 +86,7 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
 
                     <div className="flex items-center space-x-1">
                         <span className="mr-4">
-                            {submissions.length > 0 ?
+                            {submissions?.length > 0 ?
                                 `${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage)} of ${totalSubmissions}` :
                                 '0 results'}
                         </span>

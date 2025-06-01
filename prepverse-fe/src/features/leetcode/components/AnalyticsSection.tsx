@@ -8,7 +8,7 @@ interface AnalyticsSectionProps {
 }
 
 export const AnalyticsSection: React.FC<AnalyticsSectionProps> = ({ submissions, stats, isDarkMode }) => {
-    console.log(submissions);
+    console.log(submissions?.length);
     const analyticsCards = [
         {
             icon: <BarChart3 className="text-blue-500" size={24} />,

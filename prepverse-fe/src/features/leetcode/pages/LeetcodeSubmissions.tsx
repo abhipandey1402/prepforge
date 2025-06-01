@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthorizationScreen from "../components/AuthorizationScreen";
 import { LayoutContainer } from "../components/LayoutContainer";
 import { SearchInput } from "../components/SearchInput";
@@ -10,6 +10,8 @@ import { useLeetCodeSubmissions } from "../hooks/useLeetcodeSubmissions";
 import { useLeetCodeUserStats } from "../hooks/useLeetcodeUserStats";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { useLeetCodeAuth } from "../../globalFeatures/hooks/useLeetCodeAuth";
+import { useLeetCodeSync } from "@/features/leetcode/hooks/useLeetCodeSync";
+import SyncingUI from "../components/SyncingUI";
 
 interface UserStats {
     totalSolved: any;
@@ -34,8 +36,32 @@ export default function LeetcodeSubmissions({ }: any) {
     const [size, setSize] = useState(10);
     const [total, setTotal] = useState<number>(0);
 
-    const { submissions } = useLeetCodeSubmissions(page, size, setTotal);
-    const { stats } = useLeetCodeUserStats();
+    const { progress, status } = useLeetCodeSync();
+
+    const {
+        submissions,
+        refetch: refetchSubmissions,
+    } = useLeetCodeSubmissions({
+        page,
+        size,
+        setTotal
+    });
+
+    const { stats, refetch: refetchUserStats } = useLeetCodeUserStats();
+
+    useEffect(() => {
+        if (status === 'success') {
+            // Small delay to ensure backend is ready
+            const timeoutId = setTimeout(() => {
+                console.log('Sync completed, fetching fresh data...');
+                refetchSubmissions();
+                refetchUserStats();
+            }, 1500);
+
+            return () => clearTimeout(timeoutId);
+        }
+    }, [status, refetchSubmissions]);
+
 
     const [searchQuery, setSearchQuery] = useState('');
     const [expandedSubmission, setExpandedSubmission] = useState<string | null>(null);
@@ -80,6 +106,8 @@ export default function LeetcodeSubmissions({ }: any) {
                         isLoading={isAuthorizing}
                         error={authError}
                     />
+                ) : (isAuthenticated && status === 'fetching') ? (
+                    <SyncingUI progress={progress} status={status} isDarkMode={isDarkMode} />
                 ) : (
                     <div className="container mx-auto px-4 py-4">
                         {/* Header with User Info and Logout */}
@@ -97,7 +125,7 @@ export default function LeetcodeSubmissions({ }: any) {
                                     onClick={logout}
                                     className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
                                 >
-                                    Logout
+                                    Revoke Connection
                                 </button>
                             </div>
                         </div>

@@ -10,7 +10,6 @@ interface SecuritySectionProps {
     onFormChange: (field: keyof FormData, value: string) => void;
     onTogglePasswordVisibility: (field: keyof ShowPasswordsState) => void;
     onPasswordChange: () => void;
-    onResetPassword: () => void;
 }
 
 const SecuritySection: React.FC<SecuritySectionProps> = ({
@@ -20,7 +19,6 @@ const SecuritySection: React.FC<SecuritySectionProps> = ({
     onFormChange,
     onTogglePasswordVisibility,
     onPasswordChange,
-    onResetPassword
 }) => (
     <div className="bg-gray-900 rounded-lg p-6 mb-6">
         <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
@@ -61,12 +59,12 @@ const SecuritySection: React.FC<SecuritySectionProps> = ({
                 >
                     {passwordChangeLoading ? "Changing Password..." : "Change Password"}
                 </button>
-                <button
+                {/* <button
                     onClick={onResetPassword}
                     className="bg-gray-800 hover:bg-gray-900 text-white px-6 py-2 rounded transition-colors"
                 >
                     Reset Password
-                </button>
+                </button> */}
             </div>
         </div>
     </div>

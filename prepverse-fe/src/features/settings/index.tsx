@@ -9,6 +9,7 @@ import LeetCodeSection from './components/LeetCodeSection';
 import ActionsSection from './components/ActionsSection';
 
 const SettingsPage: React.FC = () => {
+
     const {
         // State
         userData,
@@ -25,9 +26,7 @@ const SettingsPage: React.FC = () => {
         handleSave,
         handleCancel,
         handlePasswordChange,
-        handleResetPassword,
         handleLogout,
-        handlePhotoUpload,
         togglePasswordVisibility,
         updateFormField
     } = useSettingsLogic();
@@ -60,7 +59,6 @@ const SettingsPage: React.FC = () => {
                     onSave={handleSave}
                     onCancel={handleCancel}
                     onFormChange={updateFormField}
-                    onPhotoUpload={handlePhotoUpload}
                 />
 
                 <AccountDetailsSection userData={userData} />
@@ -72,7 +70,6 @@ const SettingsPage: React.FC = () => {
                     onFormChange={updateFormField}
                     onTogglePasswordVisibility={togglePasswordVisibility}
                     onPasswordChange={handlePasswordChange}
-                    onResetPassword={handleResetPassword}
                 />
 
                 <LeetCodeSection

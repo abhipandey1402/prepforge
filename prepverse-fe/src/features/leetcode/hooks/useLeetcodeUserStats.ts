@@ -1,5 +1,5 @@
 import axiosClient from "@/interceptors/axiosClient";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 export interface LeetCodeUserStats {
     userId: string;
@@ -13,30 +13,55 @@ export interface LeetCodeUserStats {
     updatedAt: string;
 }
 
-export function useLeetCodeUserStats() {
+interface UseLeetCodeUserStatsResult {
+    stats: LeetCodeUserStats | null;
+    loading: boolean;
+    error: string | null;
+    refetch: () => void;
+}
+
+export function useLeetCodeUserStats(): UseLeetCodeUserStatsResult {
     const [stats, setStats] = useState<LeetCodeUserStats | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                setLoading(true);
-                const response = await axiosClient.get(`/leetcode/userStats`);
-                if (response?.data?.data) {
-                    setStats(response.data.data);
-                } else {
-                    throw new Error("Invalid response structure");
-                }
-            } catch (err: any) {
-                setError(err.message || "Failed to fetch user stats");
-            } finally {
-                setLoading(false);
-            }
-        };
+    const abortControllerRef = useRef<AbortController | null>(null);
 
-        fetchStats();
+    const fetchStats = useCallback(async () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort(); // cancel previous fetch if still running
+        }
+
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+
+        try {
+            setLoading(true);
+            setError(null);
+
+            const response = await axiosClient.get("/leetcode/userStats", {
+                signal: controller.signal
+            });
+
+            if (response?.data?.data) {
+                setStats(response.data.data);
+            } else {
+                throw new Error("Invalid response structure");
+            }
+        } catch (err: any) {
+            console.error("Fetch stats error:", err);
+            setError(err.message || "Failed to fetch user stats");
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
-    return { stats, loading, error };
+    useEffect(() => {
+        fetchStats();
+        return () => {
+            abortControllerRef.current?.abort(); // abort on unmount
+        };
+    }, [fetchStats]);
+
+    return { stats, loading, error, refetch: fetchStats };
 }
