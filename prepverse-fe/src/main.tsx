@@ -6,6 +6,9 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from './store.ts'
 import { SocketProvider } from './features/chat/utils/SocketContext.tsx'
+import { inject } from '@vercel/analytics'
+
+inject()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
