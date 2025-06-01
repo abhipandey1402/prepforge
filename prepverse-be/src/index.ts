@@ -14,6 +14,7 @@ import chatRouter from './routes/chat.routes.js';
 import messageRouter from './routes/message.routes.js';
 import { startConsumer } from './kafka/consumer.js';
 import { socketBridgeKafka } from './kafka/socket-bridge.js';
+import healthRouter from './routes/health.routes.js';
 
 
 // Load environment variables
@@ -53,6 +54,7 @@ const setupRoutes = () => {
     app.use("/api/v1/leetcode", leetcodeRouter);
     app.use("/api/v1/chats", chatRouter);
     app.use("/api/v1/messages", messageRouter);
+    app.use("/api/health", healthRouter); // ✅ Add health check route
 };
 
 const configureSocket = () => {
