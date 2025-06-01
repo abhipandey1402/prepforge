@@ -1,6 +1,6 @@
 import winston from "winston";
 
-// Define your severity levels.
+// Define your severity levels
 const levels: Record<string, number> = {
     error: 0,
     warn: 1,
@@ -9,19 +9,13 @@ const levels: Record<string, number> = {
     debug: 4,
 };
 
-// This method sets the current severity based on
-// the current NODE_ENV: show all the log levels
-// if the server is run in development mode; otherwise,
-// if it is run in production, show only warn and error messages.
+// Determine the log level based on the environment
 const level = (): string => {
     const env = process.env.NODE_ENV || "development";
-    const isDevelopment = env === "development";
-    return isDevelopment ? "debug" : "warn";
+    return env === "development" ? "debug" : "warn";
 };
 
-// Define different colors for each level.
-// Colors make the log message more visible,
-// adding the ability to focus or ignore messages.
+// Define color scheme for logs
 const colors: Record<string, string> = {
     error: "red",
     warn: "yellow",
@@ -30,34 +24,33 @@ const colors: Record<string, string> = {
     debug: "white",
 };
 
-// Tell winston that you want to link the colors
-// defined above to the severity levels.
 winston.addColors(colors);
 
-// Chose the aspect of your log customizing the log format.
+// Common log format
 const format = winston.format.combine(
-    // Add the message timestamp with the preferred format
     winston.format.timestamp({ format: "DD MMM, YYYY - HH:mm:ss:ms" }),
-    // Tell Winston that the logs must be colored
     winston.format.colorize({ all: true }),
-    // Define the format of the message showing the timestamp, the level, and the message
     winston.format.printf(
         (info) => `[${info.timestamp}] ${info.level}: ${info.message}`
     )
 );
 
-// Define which transports the logger must use to print out messages.
-// In this example, we are using three different transports
-const transports: winston.transport[] = [
-    // Allow the use of the console to print the messages
+// Build transports based on environment
+const env = process.env.NODE_ENV || "development";
+let transports: winston.transport[] = [
     new winston.transports.Console(),
-    new winston.transports.File({ filename: "logs/error.log", level: "error" }),
-    new winston.transports.File({ filename: "logs/info.log", level: "info" }),
-    new winston.transports.File({ filename: "logs/http.log", level: "http" }),
 ];
 
-// Create the logger instance that has to be exported
-// and used to log messages.
+if (env === "development") {
+    transports = [
+        ...transports,
+        new winston.transports.File({ filename: "logs/error.log", level: "error" }),
+        new winston.transports.File({ filename: "logs/info.log", level: "info" }),
+        new winston.transports.File({ filename: "logs/http.log", level: "http" }),
+    ];
+}
+
+// Create logger
 const logger = winston.createLogger({
     level: level(),
     levels,
