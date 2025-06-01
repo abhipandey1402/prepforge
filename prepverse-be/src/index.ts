@@ -12,6 +12,8 @@ import { Server } from 'socket.io';
 import { initializeSocketIO } from './sockets/index.js';
 import chatRouter from './routes/chat.routes.js';
 import messageRouter from './routes/message.routes.js';
+import { startConsumer } from './kafka/consumer.js';
+import { socketBridgeKafka } from './kafka/socket-bridge.js';
 
 
 // Load environment variables
@@ -32,6 +34,7 @@ const configureMiddleware = () => {
                 'http://localhost:3000',
                 'http://localhost:3001',
                 'http://localhost:5173',
+                'https://prepverse-five.vercel.app',
             ],
             methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
             credentials: true,
@@ -56,7 +59,7 @@ const configureSocket = () => {
     const io = new Server(httpServer, {
         pingTimeout: 60000,
         cors: {
-            origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173',],
+            origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173', 'https://prepverse-five.vercel.app'],
             methods: ['GET', 'POST'],
             credentials: true,
         },
@@ -65,12 +68,18 @@ const configureSocket = () => {
     app.set("io", io); // using set method to mount the `io` instance on the app to avoid usage of `global`
 
     initializeSocketIO(io);
+
+    // Connect Kafka <-> Socket bridge
+    socketBridgeKafka(io);  // kafka sync-status -> socket.io emit
 }
 
 const startServer = async () => {
     try {
         connectDB();
         console.log("Connected to the database.");
+
+        // Kafka consumers
+        await startConsumer(); // leetcode.sync.request → async job
 
         const port = process.env.PORT || 8000;
         httpServer.listen(port, () => {

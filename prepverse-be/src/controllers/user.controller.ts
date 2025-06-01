@@ -1,6 +1,7 @@
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import * as authService from "../services/user.service.js";
+import { uploadOptimizedImageToCloudinary } from "../utils/Cloudinary.config.js";
 
 export const registerUser = asyncHandler(async (req: any, res: any): Promise<void> => {
     const { fullName, email, username, password } = req.body;
@@ -74,4 +75,22 @@ export const updateCurrentUserData = asyncHandler(async (req: any, res: any): Pr
     await authService.updateUserData(req.user.id, { username, fullName });
 
     res.status(200).json(new ApiResponse(200, {}, "User data updated successfully"));
+});
+
+
+export const updateUserAvatar = asyncHandler(async (req: any, res: any): Promise<void> => {
+    if (!req.file) {
+        res.status(400)
+            .json(new ApiResponse(400, {}, "No avatar file provided"));
+        return;
+    }
+
+    const result = await uploadOptimizedImageToCloudinary(req.file.buffer);
+
+    await authService.updateUserAvatarUrl(req.user.id, result.secure_url);
+
+    res.status(200)
+        .json(
+            new ApiResponse(200, { avatarUrl: result.secure_url }, "Avatar updated")
+        );
 });

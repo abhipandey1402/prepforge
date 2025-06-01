@@ -169,3 +169,18 @@ export const updateUserData = async (
 
     await user.save();
 };
+
+
+export const updateUserAvatarUrl = async (
+    userId: string,
+    avatarUrl: string
+): Promise<void> => {
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    user.avatarUrl = avatarUrl;
+    await user.save();
+};
+

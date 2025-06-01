@@ -107,39 +107,45 @@ export class LeetCodeService {
         const newSubmissions = submissions.filter(sub => !existingIds.includes(sub.id));
         if (newSubmissions.length === 0) return;
 
-        const formatted = newSubmissions.map((sub): any => ({
-            userId,
-            submissionId: sub.id,
-            questionId: sub.question_id,
-            frontendId: sub.frontend_id,
-            title: sub.title,
-            titleSlug: sub.title_slug,
-            url: sub.url,
-            lang: sub.lang,
-            langName: sub.lang_name,
-            status: sub.status,
-            statusDisplay: sub.status_display,
-            isPending: sub.is_pending,
-            runtime: sub.runtime,
-            memory: sub.memory,
-            code: sub.code,
-            compareResult: sub.compare_result,
-            timeAgo: sub.time,
-            timestamp: sub.timestamp,
-            hasNotes: sub.has_notes,
-            flagType: sub.flag_type
-        }));
+        const BATCH_SIZE = 50;
+        for (let i = 0; i < newSubmissions.length; i += BATCH_SIZE) {
+            const batch = newSubmissions.slice(i, i + BATCH_SIZE);
+            const formatted = batch.map((sub): any => ({
+                userId,
+                submissionId: sub.id,
+                questionId: sub.question_id,
+                frontendId: sub.frontend_id,
+                title: sub.title,
+                titleSlug: sub.title_slug,
+                url: sub.url,
+                lang: sub.lang,
+                langName: sub.lang_name,
+                status: sub.status,
+                statusDisplay: sub.status_display,
+                isPending: sub.is_pending,
+                runtime: sub.runtime,
+                memory: sub.memory,
+                code: sub.code,
+                compareResult: sub.compare_result,
+                timeAgo: sub.time,
+                timestamp: sub.timestamp,
+                hasNotes: sub.has_notes,
+                flagType: sub.flag_type,
+            }));
 
-        // Save new submissions and capture inserted documents
-        const inserted = await LeetCodeSubmission.insertMany(formatted);
+            try {
+                const inserted = await LeetCodeSubmission.insertMany(formatted, { ordered: false });
+                const insertedIds = inserted.map(sub => sub._id);
 
-        // Extract MongoDB ObjectIds
-        const insertedIds = inserted.map(sub => sub._id);
-
-        await User.updateOne(
-            { _id: userId },
-            { $addToSet: { leetcodeSubmissions: { $each: insertedIds } } }
-        );
+                await User.updateOne(
+                    { _id: userId },
+                    { $addToSet: { leetcodeSubmissions: { $each: insertedIds } } }
+                );
+            } catch (err) {
+                console.error("Batch insert failed:", err);
+                // Continue to next batch even if this one fails
+            }
+        }
     };
 
     private static fetchUsernameFromSession = async (sessionToken: string): Promise<string | null> => {
@@ -165,11 +171,12 @@ export class LeetCodeService {
         }
     };
 
-    public syncSubmissions = async (userId: string, sessionToken: string): Promise<void> => {
+    public syncSubmissions = async (userId: string, sessionToken: string, onProgress?: (count: number) => void | any): Promise<void> => {
         const username = await LeetCodeService.fetchUsernameFromSession(sessionToken);
         if (!username) throw new ApiError(404, 'Unable to get LeetCode username from session token');
 
-        let submissions: any[] = [];
+        console.log("Username", username);
+
         let hasNext = true;
         let offset = 0;
         const limit = 20;
@@ -183,21 +190,27 @@ export class LeetCodeService {
                 }
             });
 
-            if (res.status !== 200 || !res.data?.submissions_dump) {
+            if (res.status !== 200 || !res.data.submissions_dump) {
                 throw new ApiError(400, `Failed to fetch submissions: ${res.status}`);
             }
 
-            console.log(offset);
-            submissions.push(...res.data.submissions_dump);
+            const chunkSubmissions = res.data.submissions_dump;
             hasNext = res.data.has_next;
             offset += limit;
+
+            await LeetCodeService.saveSubmissions(userId, chunkSubmissions);
+
+            console.log(res?.data?.submissions_dump?.length);
+            
+            try {
+                onProgress?.(res.data.submissions_dump?.length || 0);
+            } catch (progressErr) {
+                console.error("Progress callback error:", progressErr);
+            }
 
             // Wait to prevent rate limiting
             await new Promise(resolve => setTimeout(resolve, 2000));
         }
-
-        // Save submissions using existing saveSubmissions
-        await LeetCodeService.saveSubmissions(userId, submissions);
     };
 
     public getLeetcodeSubmissions = async (
@@ -307,7 +320,8 @@ export class LeetCodeService {
         return { total, leetcodeProblems: leetcodeProblems };
     }
 
-    public syncLeetcodeStats = async (leetcodeSession: string) => {
+    public syncLeetcodeStats = async (userId: string, leetcodeSession: string) => {
+        console.log("inside userStats");
         const username = await LeetCodeService.fetchUsernameFromSession(leetcodeSession);
 
         if (!username) {
@@ -328,15 +342,27 @@ export class LeetCodeService {
         const stats = data.matchedUser?.submitStatsGlobal?.acSubmissionNum || [];
         const streak = data.matchedUser?.userCalendar?.streak || 0;
 
-        return {
+        const parsedStats = {
             totalSolved: stats.find((x: any) => x.difficulty === 'All')?.count || 0,
             easySolved: stats.find((x: any) => x.difficulty === 'Easy')?.count || 0,
             mediumSolved: stats.find((x: any) => x.difficulty === 'Medium')?.count || 0,
             hardSolved: stats.find((x: any) => x.difficulty === 'Hard')?.count || 0,
             acceptanceRate: parseFloat((Math.random() * (80 - 40) + 40).toFixed(1)), // placeholder
             streak,
-            ranking: 0
+            ranking: 0,
+            userId,
+            updatedAt: new Date()
         };
+
+        const updatedStats = await userStats.findOneAndUpdate(
+            { userId },
+            parsedStats,
+            { new: true, upsert: true }
+        );
+
+        console.log("updated stats");
+
+        return updatedStats;
     }
 
     public getLeetcodeStats = async (userId: string) => {

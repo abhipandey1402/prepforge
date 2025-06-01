@@ -4,6 +4,7 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 import { ApiError } from '../utils/ApiError.js';
 import { parseQuery } from '../utils/queryParser.js';
 import { userStats } from '../models/leetcode.model.js';
+import { sendKafkaMessage } from '../kafka/producer.js';
 
 const leetcodeService = new LeetCodeService();
 
@@ -14,6 +15,8 @@ export const fetchLeetCodeSession = asyncHandler(async (req: any, res: any): Pro
     res.status(200).json(
         new ApiResponse(200, { leetcodeSessionToken: token }, "Leetcode Session Token fetched successfully")
     )
+
+    await sendKafkaMessage("leetcode.sync.request", userId, { userId, sessionToken: token });
 });
 
 export const getLeetcodeSubmissions = asyncHandler(async (req: any, res: any): Promise<void> => {
@@ -74,13 +77,7 @@ export const syncLeetcodeStats = asyncHandler(async (req: any, res: any): Promis
         throw new ApiError(400, 'userId and leetcodeSession required');
     }
 
-    const stats = await leetcodeService.syncLeetcodeStats(sessionToken);
-
-    const updatedStats = await userStats.findOneAndUpdate(
-        { userId },
-        { ...stats, userId, updatedAt: new Date() },
-        { new: true, upsert: true }
-    );
+    const updatedStats = await leetcodeService.syncLeetcodeStats(userId, sessionToken);
 
     res.status(200).json(
         new ApiResponse(200, { leetcodeUserStats: updatedStats }, "user leetcode stats synced successfully")
