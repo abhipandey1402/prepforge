@@ -12,9 +12,9 @@ import { Server } from 'socket.io';
 import { initializeSocketIO } from './sockets/index.js';
 import chatRouter from './routes/chat.routes.js';
 import messageRouter from './routes/message.routes.js';
-import { startConsumer } from './kafka/consumer.js';
-import { socketBridgeKafka } from './kafka/socket-bridge.js';
 import healthRouter from './routes/health.routes.js';
+import { startConsumer } from './sqs/consumer.js';
+import { socketBridgeSQS } from './sockets/sqs.bridge.js';
 
 
 // Load environment variables
@@ -71,8 +71,8 @@ const configureSocket = () => {
 
     initializeSocketIO(io);
 
-    // Connect Kafka <-> Socket bridge
-    socketBridgeKafka(io);  // kafka sync-status -> socket.io emit
+    // Connect SQS <-> Socket bridge
+    socketBridgeSQS(io);  // SQS sync-status -> socket.io emit
 }
 
 const startServer = async () => {
@@ -80,7 +80,7 @@ const startServer = async () => {
         connectDB();
         console.log("Connected to the database.");
 
-        // Kafka consumers
+        // SQS consumers
         await startConsumer(); // leetcode.sync.request → async job
 
         const port = process.env.PORT || 8000;

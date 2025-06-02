@@ -1,6 +1,7 @@
 import { LeetCodeService } from "../services/leetcode.service.js";
-import { sendKafkaMessage } from "../kafka/producer.js";
-import { retryWithBackoff } from "./retry.utils.js";
+import { sendMessageToQueue } from "../sqs/producer.js";
+import { retryWithBackoff } from "../utils/retry.utils.js";
+import { QUEUE_URLS } from "../config/sqs.config.js";
 
 const leetcodeService = new LeetCodeService();
 
@@ -8,48 +9,64 @@ export const handleSyncJob = async ({ userId, sessionToken }: any) => {
     console.log(`[SyncJob] Processing user ${userId}...`);
 
     try {
-        await sendKafkaMessage("leetcode.sync.status", userId, {
+        await sendMessageToQueue(QUEUE_URLS.SYNC_STATUS, {
             userId,
             status: "fetching",
             timestamp: new Date().toISOString(),
-        });
+        },
+            `leetcode-user-${userId}`
+        );
 
-        await sendKafkaMessage("leetcode.sync.progress", userId, {
+        await sendMessageToQueue(QUEUE_URLS.SYNC_PROGRESS, {
             userId,
             progress: 0,
-            message: "Starting submission sync"
-        });
+            message: "Starting submission sync",
+        },
+            `leetcode-user-${userId}`
+        );
 
         let submissionCount = 0;
-        await retryWithBackoff(() => leetcodeService.syncSubmissions(userId, sessionToken, (progress) => {
-            submissionCount += progress;
+        await retryWithBackoff(() =>
+            leetcodeService.syncSubmissions(userId, sessionToken, async (progress) => {
+                submissionCount += progress;
 
-            sendKafkaMessage("leetcode.sync.status", userId, {
-                userId,
-                status: "fetching",
-                timestamp: new Date().toISOString(),
-            });
+                await sendMessageToQueue(QUEUE_URLS.SYNC_STATUS, {
+                    userId,
+                    status: "fetching",
+                    timestamp: new Date().toISOString(),
+                },
+                    `leetcode-user-${userId}`
+                );
 
-            sendKafkaMessage("leetcode.sync.progress", userId, {
-                userId,
-                progress: submissionCount,
-                message: `Fetched ${submissionCount} submissions so far`
-            });
-        }));
+                await sendMessageToQueue(QUEUE_URLS.SYNC_PROGRESS, {
+                    userId,
+                    progress: submissionCount,
+                    message: `Fetched ${submissionCount} submissions so far`,
+                },
+                    `leetcode-user-${userId}`
+                );
+            })
+        );
 
-        await retryWithBackoff(() => leetcodeService.syncLeetcodeStats(userId, sessionToken));
+        await retryWithBackoff(() =>
+            leetcodeService.syncLeetcodeStats(userId, sessionToken)
+        );
 
-        await sendKafkaMessage("leetcode.sync.status", userId, {
+        await sendMessageToQueue(QUEUE_URLS.SYNC_STATUS, {
             userId,
             status: "success",
             timestamp: new Date().toISOString(),
-        });
+        },
+            `leetcode-user-${userId}`
+        );
     } catch (error: any) {
-        await sendKafkaMessage("leetcode.sync.status", userId, {
+        await sendMessageToQueue(QUEUE_URLS.SYNC_STATUS, {
             userId,
             status: "failure",
             error: error.message,
             timestamp: new Date().toISOString(),
-        });
+        },
+            `leetcode-user-${userId}`
+        );
     }
 };

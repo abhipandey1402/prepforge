@@ -3,8 +3,7 @@ import { asyncHandler } from '../utils/AsyncHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import { ApiError } from '../utils/ApiError.js';
 import { parseQuery } from '../utils/queryParser.js';
-import { userStats } from '../models/leetcode.model.js';
-import { sendKafkaMessage } from '../kafka/producer.js';
+import { sendMessageToQueue } from '../sqs/producer.js';
 
 const leetcodeService = new LeetCodeService();
 
@@ -16,7 +15,11 @@ export const fetchLeetCodeSession = asyncHandler(async (req: any, res: any): Pro
         new ApiResponse(200, { leetcodeSessionToken: token }, "Leetcode Session Token fetched successfully")
     )
 
-    await sendKafkaMessage("leetcode.sync.request", userId, { userId, sessionToken: token });
+    await sendMessageToQueue(
+        process.env.SQS_SYNC_REQUEST_URL!,
+        { userId, sessionToken: token },
+        `leetcode-user-${userId}`
+    );
 });
 
 export const getLeetcodeSubmissions = asyncHandler(async (req: any, res: any): Promise<void> => {
