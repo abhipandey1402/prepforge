@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, persistor, RootState } from "../../../store";
 import { toast } from "react-toastify";
 import useTokenExpiry from "../hooks/useTokenExpiry";
-import { performLogout } from "@/features/user/slices/authSlice";
 import SessionExpiredModal from "./SessionExpiredModal";
+import { logout } from "@/features/user/slices/authSlice";
 
 const ProtectedRoutes: React.FC = () => {
     const { error } = useSelector((state: RootState) => state.auth);
@@ -19,10 +19,10 @@ const ProtectedRoutes: React.FC = () => {
         setIsModalVisible(isSessionExpired);
     }, [isSessionExpired]);
 
-    const handleLogout = async () => {
+    const handleLogout = () => {
         setIsModalVisible(false);
         persistor.purge();
-        await dispatch(performLogout())
+        dispatch(logout())
         navigate("/auth", { replace: true, state: { isFixed: true } });
     };
 

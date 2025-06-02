@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, persistor } from '@/store';
-import { performLogout } from '../../user/slices/authSlice';
 import { useGetCurrentUser } from './useGetCurrentUser';
 import { useChangePassword } from './useChangePassword';
 import { useUpdateUserData } from './useUpdateUserData';
@@ -18,6 +17,7 @@ import {
     validatePassword,
     validatePasswordMatch
 } from '../utils/settings.utils';
+import { logout } from '@/features/user/slices/authSlice';
 
 export const useSettingsLogic = () => {
     const navigate = useNavigate();
@@ -131,10 +131,10 @@ export const useSettingsLogic = () => {
         addNotification('Password reset email sent to your registered email!', 'info');
     };
 
-    const handleLogout = async (): Promise<void> => {
+    const handleLogout = () => {
         try {
             persistor.purge();
-            await dispatch(performLogout());
+            dispatch(logout());
             navigate("/auth", { replace: true, state: { isFixed: true } });
             addNotification('Successfully logged out!', 'success');
         } catch (error) {
