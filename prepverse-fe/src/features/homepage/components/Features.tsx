@@ -1,7 +1,7 @@
 // sections/FeaturesSection.tsx
 import React from 'react';
 import FeatureCard from '../commonComponents/FeatureCard';
-import { Search, Brain, Users } from 'lucide-react';
+import { Search, Brain } from 'lucide-react';
 
 const features = [
     {
@@ -18,13 +18,13 @@ const features = [
         iconColorClass: 'text-pink-500',
         isUpcoming: true,
     },
-    {
-        title: 'Challenge Betting',
-        description: 'Stay motivated with daily challenge bets. Set goals with friends, bet credits, and earn rewards for consistent practice and improvement.',
-        icon: Users,
-        iconColorClass: 'text-green-500',
-        isUpcoming: true,
-    },
+    // {
+    //     title: 'Challenge Betting',
+    //     description: 'Stay motivated with daily challenge bets. Set goals with friends, bet credits, and earn rewards for consistent practice and improvement.',
+    //     icon: Users,
+    //     iconColorClass: 'text-green-500',
+    //     isUpcoming: true,
+    // },
 ];
 
 const Features: React.FC = () => {
@@ -35,7 +35,7 @@ const Features: React.FC = () => {
                 <p className="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
                     Everything you need to master LeetCode and ace your technical interviews.
                 </p>
-                <div className="grid md:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-2 gap-8">
                     {features.map((feature, index) => (
                         <FeatureCard
                             key={index}

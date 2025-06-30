@@ -5,20 +5,20 @@ const HeroSection: React.FC = () => {
     return (
         <div className="relative bg-blue-950 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-neutral-900 to-blue-950 transform -skew-y-6 origin-top-left"></div>
-            <div className="container mx-auto px-4 py-20 md:py-28 relative">
+            <div className="container mx-auto px-4 py-10 md:py-10 relative">
                 <div className="flex flex-col md:flex-row items-center">
                     <div className="md:w-1/2 mb-10 md:mb-0">
                         <div className="inline-block px-3 py-1 bg-blue-100 text-orange-600 rounded-full text-sm font-medium mb-4">
                             LeetCode Mastery Platform
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+                        <h2 className="md:text-5xl font-bold text-white mb-4 leading-tight">
                             Master LeetCode with <span className="text-orange-600 relative">
-                                AI Analysis
+                                AI-Powered Insights
                                 <span className="absolute bottom-0 left-0 w-full h-1 bg-orange-400 rounded-full"></span>
-                            </span> & Challenge Bets
-                        </h1>
+                            </span>  & Effortless Submission Tracking
+                        </h2>
                         <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                            Track progress, get personalized AI reports, and stay motivated with friendly bet challenges. Elevate your coding interview preparation.
+                            Track your LeetCode journey, analyze submissions with AI, and accelerate your interview prep.
                         </p>
                         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                             <button className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-white hover:text-neutral-950 transition-colors flex items-center justify-center">

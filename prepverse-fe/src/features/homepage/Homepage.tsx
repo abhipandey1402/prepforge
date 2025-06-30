@@ -5,8 +5,6 @@ import StatisticsBar from './components/StatisticsBar'
 import Features from './components/Features'
 import ProblemExplorer from './components/ProblemExplorer'
 import AIReports from './components/AiReports'
-import DailyChallengeBetting from './components/DailyChallengeBetting'
-import Wallet from './components/Wallet'
 import Testimonials from './components/Testimonials'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
@@ -44,8 +42,8 @@ const Homepage: React.FC = () => {
             <Features/>
             <ProblemExplorer/>
             <AIReports topicReports={topicReports} aiInsights={aiInsights}/>
-            <DailyChallengeBetting/>
-            <Wallet/>
+            {/* <DailyChallengeBetting/> */}
+            {/* <Wallet/> */}
             <Testimonials/>
             <CTA/>
             <Footer/>

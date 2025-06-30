@@ -7,7 +7,7 @@ const Testimonials: React.FC = () => (
                 Success Stories
             </h2>
             <p className="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
-                See how our platform has helped users ace their technical interviews
+                See how our platform helps users simplify their LeetCode journey with AI-powered insights and seamless code tracking.
             </p>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -15,21 +15,21 @@ const Testimonials: React.FC = () => (
                     initial="JD"
                     name="John Doe"
                     position="Software Engineer @ Google"
-                    testimonial="The challenge betting feature kept me consistent with my LeetCode practice. I went from solving 1 problem a week to 3 problems a day. The AI reports helped me identify my weak areas in DP and Graphs."
+                    testimonial="Being able to revisit my past submissions and run through them quickly has completely changed how I revise. The AI summaries are incredibly helpful in spotting mistakes and learning patterns."
                     rating={5}
                 />
                 <SuccessStoryCard
                     initial="SR"
                     name="Sarah Ramos"
                     position="SDE @ Amazon"
-                    testimonial="Betting credits with my study buddy created the perfect mix of fun and accountability. The AI analysis was spot on - it helped me realize I needed to work on my sliding window technique."
+                    testimonial="The platform makes it super easy to track my progress. I love how I can jump into any old problem, see my code, and get instant feedback from the AI. It saves me so much time!"
                     rating={5}
                 />
                 <SuccessStoryCard
                     initial="MP"
                     name="Mike Patel"
                     position="Frontend Developer @ Meta"
-                    testimonial="I was struggling with consistency in my interview prep. The betting system transformed my approach - knowing my friend would win my credits if I failed kept me motivated daily!"
+                    testimonial="The AI suggestions helped me improve my code quality and logic. The quick access to all my submissions by topic made it so easy to revise before my Meta interviews."
                     rating={4.5}
                 />
             </div>

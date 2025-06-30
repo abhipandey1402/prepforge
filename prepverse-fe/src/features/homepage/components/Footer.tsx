@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
                             <span className="font-bold text-xl text-white">PrepVerse</span>
                         </div>
                         <p className="text-sm mb-4">
-                            The ultimate platform to master LeetCode and ace your technical interviews with AI insights and challenge bets.
+                            The ultimate platform to master LeetCode and ace your technical interviews with AI insights.
                         </p>
                         <div className="flex space-x-4">
                             <a href="#" className="hover:text-orange-600">
@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
                     </div>
 
                     {/* Features */}
-                    <div>
+                    {/* <div>
                         <h3 className="font-medium text-white mb-4">Features</h3>
                         <ul className="space-y-2 text-sm">
                             <li><a href="#" className="hover:text-orange-600 transition-colors">Problem Tracking</a></li>
@@ -37,10 +37,10 @@ const Footer: React.FC = () => {
                             <li><a href="#" className="hover:text-orange-600 transition-colors">Challenge Betting</a></li>
                             <li><a href="#" className="hover:text-orange-600 transition-colors">Progress Reports</a></li>
                         </ul>
-                    </div>
+                    </div> */}
 
                     {/* Resources */}
-                    <div>
+                    {/* <div>
                         <h3 className="font-medium text-white mb-4">Resources</h3>
                         <ul className="space-y-2 text-sm">
                             <li><a href="#" className="hover:text-orange-600 transition-colors">Documentation</a></li>
@@ -48,10 +48,10 @@ const Footer: React.FC = () => {
                             <li><a href="#" className="hover:text-orange-600 transition-colors">Tutorials</a></li>
                             <li><a href="#" className="hover:text-orange-600 transition-colors">Blog</a></li>
                         </ul>
-                    </div>
+                    </div> */}
 
                     {/* Company Info */}
-                    <div>
+                    {/* <div>
                         <h3 className="font-medium text-white mb-4">Company</h3>
                         <ul className="space-y-2 text-sm">
                             <li><a href="#" className="hover:text-orange-600 transition-colors">About</a></li>
@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
                             <li><a href="#" className="hover:text-orange-600 transition-colors">Contact</a></li>
                             <li><a href="#" className="hover:text-orange-600 transition-colors">Privacy Policy</a></li>
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Bottom Legal Row */}
