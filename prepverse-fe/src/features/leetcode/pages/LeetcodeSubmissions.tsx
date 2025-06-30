@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import AuthorizationScreen from "../components/AuthorizationScreen";
 import { LayoutContainer } from "../components/LayoutContainer";
 import { SearchInput } from "../components/SearchInput";
 import { SubmissionsTable } from "../components/SubmissionsTable";
@@ -9,9 +8,12 @@ import { ActivityHeatmap } from "../components/ActivityHeatMap";
 import { useLeetCodeSubmissions } from "../hooks/useLeetcodeSubmissions";
 import { useLeetCodeUserStats } from "../hooks/useLeetcodeUserStats";
 import { ErrorBoundary } from "../components/ErrorBoundary";
-import { useLeetCodeAuth } from "../../globalFeatures/hooks/useLeetCodeAuth";
 import { useLeetCodeSync } from "@/features/leetcode/hooks/useLeetCodeSync";
 import SyncingUI from "../components/SyncingUI";
+import ExtensionAuthScreen from "../components/ExtensionAuthScreen";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useLeetCodeAuthSocket } from "../hooks/useLeetCodeAuthSocket";
 
 interface UserStats {
     totalSolved: any;
@@ -24,13 +26,8 @@ interface UserStats {
 }
 
 export default function LeetcodeSubmissions({ }: any) {
-    const {
-        isAuthenticated,
-        isAuthorizing,
-        error: authError,
-        authorize,
-        logout,
-    } = useLeetCodeAuth();
+    const accessToken = useSelector((state: RootState) => state.auth?.userData?.accessToken);
+    const { isAuthenticated, sessionToken, logout } = useLeetCodeAuthSocket();
 
     const [page, setPage] = useState(1);
     const [size, setSize] = useState(10);
@@ -100,11 +97,11 @@ export default function LeetcodeSubmissions({ }: any) {
         <ErrorBoundary>
             <LayoutContainer isDarkMode={isDarkMode}>
                 {!isAuthenticated ? (
-                    <AuthorizationScreen
-                        onAuthorize={authorize}
+                    <ExtensionAuthScreen
+                        jwt={accessToken}
+                        token={sessionToken && sessionToken}
+                        isAuthenticated={isAuthenticated}
                         isDarkMode={isDarkMode}
-                        isLoading={isAuthorizing}
-                        error={authError}
                     />
                 ) : (isAuthenticated && status === 'fetching') ? (
                     <SyncingUI progress={progress} status={status} isDarkMode={isDarkMode} />

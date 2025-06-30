@@ -1,5 +1,5 @@
 import React from "react";
-import { HomeIcon, SettingsIcon, MessageSquareIcon, Gamepad2Icon, BellIcon, Monitor, BrainCircuit } from "lucide-react";
+import { HomeIcon, SettingsIcon, MessageSquareIcon, Monitor, BrainCircuit } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setCurrentItem } from "@/features/globalFeatures/slices/configSlice";
@@ -24,8 +24,7 @@ const Sidebar: React.FC = () => {
                 <NavItem icon={<HomeIcon size={20} />} label="My Submissions" handleClick={handleItemClick} currentItem={currentItem} itemValue="submissions" />
                 <NavItem icon={<BrainCircuit size={20} />} label="Practice" handleClick={handleItemClick} currentItem={currentItem} itemValue="practice" />
                 <NavItem icon={<MessageSquareIcon size={20} />} label="Chats" handleClick={handleItemClick} currentItem={currentItem} itemValue="chats" />
-                <NavItem icon={<Gamepad2Icon size={20} />} label="Challenge Betting" handleClick={handleItemClick} currentItem={currentItem} itemValue="challengebetting" />
-                <NavItem icon={<BellIcon size={20} />} label="Notifications" handleClick={handleItemClick} currentItem={currentItem} itemValue="notifications" />
+                {/* <NavItem icon={<BellIcon size={20} />} label="Notifications" handleClick={handleItemClick} currentItem={currentItem} itemValue="notifications" /> */}
                 <NavItem icon={<SettingsIcon size={20} />} label="Settings" handleClick={handleItemClick} currentItem={currentItem} itemValue="settings" />
             </nav>
         </div>
