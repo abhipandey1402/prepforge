@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "LeetCode Token Sender",
+  "version": "1.0",
+  "description": "Fetch LeetCode session cookie and send it to Prepverse backend.",
+  "permissions": ["cookies", "storage", "activeTab", "scripting"],
+  "host_permissions": ["https://leetcode.com/"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon32.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon32.png"
+  },
+  "externally_connectable": {
+    "matches": [
+      "https://prepverse.com/*",
+      "http://localhost:*/*",
+      "http://localhost:5173/*",
+      "http://127.0.0.1:*/*"
+      ]
+  }
+}
