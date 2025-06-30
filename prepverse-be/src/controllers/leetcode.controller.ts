@@ -22,6 +22,22 @@ export const fetchLeetCodeSession = asyncHandler(async (req: any, res: any): Pro
     );
 });
 
+export const saveLeetcodeSession = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const userId = req.user.id;
+    const { token: leetcodeSessionToken } = req.body;
+    const token = await leetcodeService.saveLeetcodeSession(userId, leetcodeSessionToken);
+
+    res.status(200).json(
+        new ApiResponse(200, { leetcodeSessionToken: token }, "Leetcode Session Token saved successfully")
+    )
+
+    await sendMessageToQueue(
+        process.env.SQS_SYNC_REQUEST_URL!,
+        { userId, sessionToken: token },
+        `leetcode-user-${userId}`
+    );
+});
+
 export const getLeetcodeSubmissions = asyncHandler(async (req: any, res: any): Promise<void> => {
     const userId = req.user.id;
     const { filters, skip, limit, page } = parseQuery(req.query);

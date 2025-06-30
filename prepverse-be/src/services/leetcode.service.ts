@@ -94,6 +94,21 @@ export class LeetCodeService {
         }
     }
 
+    public async saveLeetcodeSession(userId: string, leetcodeSessionToken: string): Promise<string | null> {
+            // ✅ Save token to the user model
+            const user = await User.findById(userId);
+            if (!user) {
+                throw new ApiError(404, 'User not found');
+            }
+
+            user.leetcodeSessionToken = leetcodeSessionToken;
+            await user.save();
+
+            console.log(`[✅] LEETCODE_SESSION token saved to user: ${leetcodeSessionToken}`);
+            return leetcodeSessionToken;
+    }
+
+
     private static saveSubmissions = async (userId: string | Types.ObjectId, submissions: RawSubmission[]): Promise<void> => {
         console.log("in");
         const submissionIds = submissions.map(sub => sub.id);
@@ -201,7 +216,7 @@ export class LeetCodeService {
             await LeetCodeService.saveSubmissions(userId, chunkSubmissions);
 
             console.log(res?.data?.submissions_dump?.length);
-            
+
             try {
                 onProgress?.(res.data.submissions_dump?.length || 0);
             } catch (progressErr) {

@@ -31,14 +31,25 @@ const httpServer = createServer(app);
 const configureMiddleware = () => {
     app.use(
         cors({
-            origin: [
-                'http://localhost:3000',
-                'http://localhost:3001',
-                'http://localhost:5173',
-                'https://prepverse-five.vercel.app',
-            ],
+            origin: (origin, callback) => {
+                const allowedOrigins = [
+                    'http://localhost:3000',
+                    'http://localhost:3001',
+                    'http://localhost:5173',
+                    'https://prepverse-five.vercel.app',
+                    'chrome-extension://cgicljmoffojpnmdfdcejfackckfbffn',
+                ];
+
+                // Allow requests with no origin (e.g. from Chrome extensions)
+                if (!origin || allowedOrigins.includes(origin)) {
+                    callback(null, true);
+                } else {
+                    callback(new Error(`Not allowed by CORS: ${origin}`));
+                }
+            },
             methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
             credentials: true,
+            allowedHeaders: ['Content-Type', 'Authorization'],
         }),
     );
 
@@ -46,7 +57,8 @@ const configureMiddleware = () => {
     app.use(express.urlencoded({ extended: true, limit: '32kb' }));
     app.use(express.static('public'));
     app.use(cookieParser());
-}
+};
+
 
 // Setup routes for API endpoints
 const setupRoutes = () => {

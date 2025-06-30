@@ -34,6 +34,7 @@ export const socketBridgeSQS = async (io: SocketIOServer) => {
         }
     };
 
+    setInterval(() => processQueue(QUEUE_URLS.AUTH_SUCCESS, "auth-success"), 5000);
     setInterval(() => processQueue(QUEUE_URLS.SYNC_PROGRESS, "sync-progress"), 5000);
     setInterval(() => processQueue(QUEUE_URLS.SYNC_STATUS, "sync-status"), 5000);
 };

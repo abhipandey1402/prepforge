@@ -9,6 +9,15 @@ export const handleSyncJob = async ({ userId, sessionToken }: any) => {
     console.log(`[SyncJob] Processing user ${userId}...`);
 
     try {
+        await sendMessageToQueue(QUEUE_URLS.AUTH_SUCCESS, {
+            userId,
+            authSuccess: true,
+            sessionToken: sessionToken,
+            timeStamp: new Date().toISOString(),
+        },
+            `leetcode-user-${userId}`
+        );
+
         await sendMessageToQueue(QUEUE_URLS.SYNC_STATUS, {
             userId,
             status: "fetching",
