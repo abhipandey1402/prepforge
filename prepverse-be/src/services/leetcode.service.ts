@@ -2,10 +2,10 @@ import { chromium, Page } from 'playwright';
 import { User } from '../models/user.model.js';
 import { ApiError } from '../utils/ApiError.js';
 import axios from 'axios'
-import { allProblems, LeetCodeSubmission, userStats } from '../models/leetcode.model.js';
+import { allProblems, heatmap, LeetCodeSubmission, userStats } from '../models/leetcode.model.js';
 import mongoose, { PipelineStage, Types } from 'mongoose';
 import { RawSubmission } from '../Interface/leetcode.interface.js';
-import { getLeetcodePayload, getLeetcodeStatsPayload } from '../utils/leetcodePayload.js';
+import { getLeetcodePayload, getLeetcodeStatsPayload, getUserHeatmapPayload } from '../utils/leetcodePayload.js';
 
 export class LeetCodeService {
     private static readonly MAX_WAIT_TIME_MS = 5 * 60 * 1000; // 5 minutes
@@ -95,22 +95,21 @@ export class LeetCodeService {
     }
 
     public async saveLeetcodeSession(userId: string, leetcodeSessionToken: string): Promise<string | null> {
-            // ✅ Save token to the user model
-            const user = await User.findById(userId);
-            if (!user) {
-                throw new ApiError(404, 'User not found');
-            }
+        // ✅ Save token to the user model
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new ApiError(404, 'User not found');
+        }
 
-            user.leetcodeSessionToken = leetcodeSessionToken;
-            await user.save();
+        user.leetcodeSessionToken = leetcodeSessionToken;
+        await user.save();
 
-            console.log(`[✅] LEETCODE_SESSION token saved to user: ${leetcodeSessionToken}`);
-            return leetcodeSessionToken;
+        console.log(`[✅] LEETCODE_SESSION token saved to user: ${leetcodeSessionToken}`);
+        return leetcodeSessionToken;
     }
 
 
     private static saveSubmissions = async (userId: string | Types.ObjectId, submissions: RawSubmission[]): Promise<void> => {
-        console.log("in");
         const submissionIds = submissions.map(sub => sub.id);
 
         // Get existing submission IDs
@@ -215,8 +214,6 @@ export class LeetCodeService {
 
             await LeetCodeService.saveSubmissions(userId, chunkSubmissions);
 
-            console.log(res?.data?.submissions_dump?.length);
-
             try {
                 onProgress?.(res.data.submissions_dump?.length || 0);
             } catch (progressErr) {
@@ -227,6 +224,39 @@ export class LeetCodeService {
             await new Promise(resolve => setTimeout(resolve, 2000));
         }
     };
+
+    public syncHeatmap = async (userId: string, sessionToken: string): Promise<void> => {
+        const username = await LeetCodeService.fetchUsernameFromSession(sessionToken);
+
+        if (!username) throw new ApiError(404, 'Unable to get LeetCode username from session token');
+
+        const payload = getUserHeatmapPayload(username);
+
+        const response = await axios.post('https://leetcode.com/graphql',
+            payload, {
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: `LEETCODE_SESSION=${sessionToken}`,
+            }
+        })
+
+        const data = response?.data?.data?.matchedUser?.userCalendar;
+
+        const parsedHeatmap = {
+            activeYears: data?.activeYears,
+            streak: data?.streak,
+            totalActiveDays: data?.totalActiveDays,
+            dccBadges: data?.dccBadges,
+            submissionCalendar: data?.submissionCalendar,
+            userId,
+        };
+
+        await heatmap.findOneAndUpdate(
+            { userId },
+            parsedHeatmap,
+            { new: true, upsert: true }
+        );
+    }
 
     public getLeetcodeSubmissions = async (
         userId: string,
@@ -383,5 +413,10 @@ export class LeetCodeService {
     public getLeetcodeStats = async (userId: string) => {
         const stats = await userStats.findOne({ userId });
         return stats;
+    }
+
+    public getLeetcodeHeatmap = async (userId: string) => {
+        const heatmapData = await heatmap.findOne({ userId });
+        return heatmapData;
     }
 }

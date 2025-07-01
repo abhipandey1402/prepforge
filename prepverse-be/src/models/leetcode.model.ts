@@ -77,3 +77,37 @@ const UserStatsSchema = new Schema({
 });
 
 export const userStats = mongoose.model('UserStats', UserStatsSchema);
+
+const HeatmapSchema = new Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        index: true,
+    },
+    activeYears: [Number],
+    streak: Number,
+    totalActiveDays: Number,
+    dccBadges: [
+        {
+            timestamp: Number,
+            badge: {
+                name: String,
+                icon: String,
+            },
+        },
+    ],
+    submissionCalendar: {
+        type: String,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    updatedAt: { type: Date, default: Date.now },
+});
+
+HeatmapSchema.index({ userId: 1, year: 1 }, { unique: true });
+
+export const heatmap = mongoose.model('Heatmap', HeatmapSchema);
+

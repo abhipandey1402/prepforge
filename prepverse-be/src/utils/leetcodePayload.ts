@@ -59,3 +59,27 @@ export const getLeetcodeStatsPayload = (username: string) => ({
   }
 `
 })
+
+export const getUserHeatmapPayload = (username: string, year?: number) => ({
+  operationName: 'userProfileCalendar',
+  variables: { username, year },
+  query: `
+    query userProfileCalendar($username: String!, $year: Int) {
+      matchedUser(username: $username) {
+        userCalendar(year: $year) {
+          activeYears
+          streak
+          totalActiveDays
+          dccBadges {
+            timestamp
+            badge {
+              name
+              icon
+            }
+          }
+          submissionCalendar
+        }
+      }
+    }
+  `,
+});

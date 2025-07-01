@@ -78,6 +78,21 @@ export const syncAllProblems = asyncHandler(async (req: any, res: any): Promise<
     )
 })
 
+export const syncHeatmap = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const userId = req.user.id;
+    const { sessionToken } = req.query
+
+    if (!userId || !sessionToken) {
+        throw new ApiError(400, 'Missing userId or leetcode session in query params');
+    }
+
+    await leetcodeService.syncHeatmap(userId, sessionToken);
+
+    res.status(200).json(
+        new ApiResponse(200, "Heatmap Synced successfully and saved to DB")
+    );
+})
+
 export const getLeetcodeProblems = asyncHandler(async (req: any, res: any): Promise<void> => {
     const { filters, sort, skip, limit, page } = parseQuery(req.query);
 
@@ -116,3 +131,17 @@ export const getLeetcodeStats = asyncHandler(async (req: any, res: any): Promise
         new ApiResponse(200, stats, "User Leetcode stats fetched successfully")
     )
 })
+
+export const getLeetcodeHeatmap = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const userId = req.user.id;
+
+    if (!userId) {
+        throw new ApiError(400, "UserId required");
+    }
+
+    const heatmap = await leetcodeService.getLeetcodeHeatmap(userId);
+
+    res.status(200).json(
+        new ApiResponse(200, heatmap, "Leetcode Heatmap data fetched successfully")
+    );
+});

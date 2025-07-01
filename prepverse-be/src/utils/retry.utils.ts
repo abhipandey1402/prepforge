@@ -1,6 +1,6 @@
 export const retryWithBackoff = async (
     fn: () => Promise<any>,
-    retries = 1,
+    retries = 2,
     delay = 1000
 ) => {
     let attempt = 0;

@@ -34,6 +34,14 @@ export const handleSyncJob = async ({ userId, sessionToken }: any) => {
             `leetcode-user-${userId}`
         );
 
+        await retryWithBackoff(() =>
+            leetcodeService.syncLeetcodeStats(userId, sessionToken)
+        );
+
+        await retryWithBackoff(() => 
+            leetcodeService.syncHeatmap(userId, sessionToken)
+        );
+
         let submissionCount = 0;
         await retryWithBackoff(() =>
             leetcodeService.syncSubmissions(userId, sessionToken, async (progress) => {
@@ -55,10 +63,6 @@ export const handleSyncJob = async ({ userId, sessionToken }: any) => {
                     `leetcode-user-${userId}`
                 );
             })
-        );
-
-        await retryWithBackoff(() =>
-            leetcodeService.syncLeetcodeStats(userId, sessionToken)
         );
 
         await sendMessageToQueue(QUEUE_URLS.SYNC_STATUS, {
