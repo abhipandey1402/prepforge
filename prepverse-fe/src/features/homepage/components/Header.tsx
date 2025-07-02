@@ -1,13 +1,25 @@
-import { Coins, Monitor } from 'lucide-react'
+import { setCurrentItem } from '@/features/globalFeatures/slices/configSlice';
+import { RootState } from '@/store';
+import { Monitor } from 'lucide-react'
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Header: React.FC = () => {
     const Navigate = useNavigate();
+    const dispatch = useDispatch();
+    const accessToken = useSelector((state: RootState) => state.auth?.userData?.accessToken);
+
 
     const handleNavigateToAuth = () => {
         Navigate("/auth");
     }
+
+    const navigateToDashboard = () => {
+        dispatch(setCurrentItem('submissions'));
+        Navigate('/dashboard');
+    };
 
     return (
         <nav className="bg-blue-950 shadow-sm sticky top-0 z-10">
@@ -21,15 +33,17 @@ const Header: React.FC = () => {
                         <a href="#features" className="text-gray-300 hover:text-orange-600 transition-colors">Features</a>
                         <a href="#problems" className="text-gray-300 hover:text-orange-600 transition-colors">Problems</a>
                         <a href="#ai-reports" className="text-gray-300 hover:text-orange-600 transition-colors">AI Reports</a>
-                        <a href="#daily-bet" className="text-gray-300 hover:text-orange-600 transition-colors">Challenge Bets</a>
                     </div>
-                    <div className="flex items-center space-x-4">
-                        <div className="px-3 py-1 bg-orange-900 text-orange-200 rounded-lg text-sm">
-                            <Coins className="h-4 w-4 inline mr-1" /> 20 PrepCoins
+                    {accessToken ?
+                        <div className="flex items-center space-x-4">
+                            <button className="px-4 py-2 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-orange-700 transition-colors" onClick={navigateToDashboard}>Go to Dashboard</button>
                         </div>
-                        <button className="px-4 py-2 text-orange-600 font-medium hover:bg-blue-50 rounded-lg transition-colors" onClick={handleNavigateToAuth}>Login</button>
-                        <button className="px-4 py-2 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-orange-700 transition-colors" onClick={handleNavigateToAuth}>Sign Up</button>
-                    </div>
+                        :
+                        <div className="flex items-center space-x-4">
+                            <button className="px-4 py-2 text-orange-600 font-medium hover:bg-blue-50 rounded-lg transition-colors" onClick={handleNavigateToAuth}>Login</button>
+                            <button className="px-4 py-2 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-orange-700 transition-colors" onClick={handleNavigateToAuth}>Sign Up</button>
+                        </div>
+                    }
                 </div>
             </div>
         </nav>

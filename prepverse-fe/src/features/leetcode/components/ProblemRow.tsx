@@ -2,6 +2,10 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 
 export const ProblemRow = ({ problem, isExpanded, onToggle, isDarkMode }: any) => {
 
+    const handlePracticeProblem = (titleSlug: string) => {
+        window.open(`https://leetcode.com/problems/${titleSlug}`);
+    }
+
     return (
         <>
             <tr
@@ -17,8 +21,8 @@ export const ProblemRow = ({ problem, isExpanded, onToggle, isDarkMode }: any) =
                     {problem.topicTags?.map((tag: { name: string }) => tag?.name)?.join(', ')}
                 </td>
                 <td className="px-4 py-3">
-                    <button className={`p-1 rounded-full ${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>
-                        {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                    <button className="bg-green-100 text-green-700 font-extrabold hover:bg-green-200" onClick={() => handlePracticeProblem(problem?.titleSlug)}>
+                        Practice
                     </button>
                 </td>
             </tr>

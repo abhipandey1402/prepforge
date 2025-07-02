@@ -44,13 +44,13 @@ const SettingsPage: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-transparent text-white p-6">
+        <div className="min-h-screen bg-transparent text-white p-4">
             {/* Notifications */}
             {notifications.map(notification => (
                 <NotificationToast key={notification.id} notification={notification} />
             ))}
 
-            <div className="max-w-4xl mx-auto">
+            <div className="mx-auto">
                 <ProfileSection
                     userData={userData}
                     formData={formData}

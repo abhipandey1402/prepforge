@@ -65,18 +65,15 @@ const HeroSection: React.FC = () => {
                                         <p>Focus on one-pass solutions and space complexity optimization. Try "Longest Consecutive Sequence" next to challenge your hash table skills.</p>
                                     </div>
                                 </div>
-                                <div className="mt-4 bg-green-100 p-3 rounded-lg border border-green-100">
-                                    <div className="text-sm font-semibold text-green-800 mb-1 flex items-center">
-                                        <Target className="h-4 w-4 mr-1" /> Daily Challenge Bet
+                                <div className="mt-4 bg-green-50 p-5 rounded-xl border border-green-200 shadow-sm">
+                                    <div className="text-base font-semibold text-green-900 mb-2 flex items-center">
+                                        <Target className="h-5 w-5 mr-2" /> Personalized Coding Insights
                                     </div>
-                                    <div className="text-sm text-green-700 flex justify-between items-center">
-                                        <div>
-                                            <div className="font-medium">Complete 3 Array Problems</div>
-                                            <div className="text-xs">With Alex Chen · $50 bet</div>
-                                        </div>
-                                        <div className="text-xs bg-orange-600 text-white px-2 py-1 rounded">
-                                            Due in 8 hours
-                                        </div>
+                                    <div className="text-green-800 text-sm mb-2">
+                                        Our AI analyzed your recent progress and found <span className="font-semibold">strong mastery in Arrays</span>  especially <span className="font-medium">Hash Tables</span> and <span className="font-medium">Array Traversal</span>.
+                                    </div>
+                                    <div className="text-green-700 text-sm">
+                                        <span className="font-medium">Suggested Focus:</span> Improve your <span className="text-red-500 font-semibold">Space Optimization</span> skills. Try tackling problems like <span className="italic">Longest Consecutive Sequence</span> for a deeper challenge.
                                     </div>
                                 </div>
                             </div>

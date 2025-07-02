@@ -14,6 +14,7 @@ import ExtensionAuthScreen from "../components/ExtensionAuthScreen";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useLeetCodeAuthSocket } from "../hooks/useLeetCodeAuthSocket";
+import { useLeetCodeHeatmap } from "../hooks/useLeetCodeHeatmap";
 
 interface UserStats {
     totalSolved: any;
@@ -44,6 +45,8 @@ export default function LeetcodeSubmissions({ }: any) {
         setTotal
     });
 
+    const { heatmapData, refetch: refetchHeatmap } = useLeetCodeHeatmap();
+
     const { stats, refetch: refetchUserStats } = useLeetCodeUserStats();
 
     useEffect(() => {
@@ -53,11 +56,12 @@ export default function LeetcodeSubmissions({ }: any) {
                 console.log('Sync completed, fetching fresh data...');
                 refetchSubmissions();
                 refetchUserStats();
+                refetchHeatmap();
             }, 1500);
 
             return () => clearTimeout(timeoutId);
         }
-    }, [status, refetchSubmissions]);
+    }, [status, refetchSubmissions, refetchHeatmap]);
 
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -111,12 +115,9 @@ export default function LeetcodeSubmissions({ }: any) {
                         <div className={`mb-6 p-4 rounded-xl ${isDarkMode ? 'bg-slate-900' : 'bg-white'} shadow-lg`}>
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
-                                        LeetCode Analytics Dashboard
-                                    </h1>
-                                    <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                                    <h3 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
                                         Track your progress and analyze your coding journey
-                                    </p>
+                                    </h3>
                                 </div>
                                 <button
                                     onClick={logout}
@@ -152,7 +153,7 @@ export default function LeetcodeSubmissions({ }: any) {
                         {activeTab === 'overview' && (
                             <div className="space-y-6">
                                 <ProgressSection stats={leetcodeUserStats} isDarkMode={isDarkMode} />
-                                <ActivityHeatmap submissions={submissions} isDarkMode={isDarkMode} />
+                                <ActivityHeatmap submissionCalendar={heatmapData?.submissionCalendar} isDarkMode={isDarkMode} />
                             </div>
                         )}
 

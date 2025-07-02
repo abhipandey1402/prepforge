@@ -10,6 +10,6 @@ export const Badge = ({ text, type, isDarkMode }: { text: string; type: 'status'
         }
     };
     return (
-        <span className={`${type === 'status' ? 'px-2 py-1 rounded-md text-sm' : 'text-sm'} ${getClass()}`}>{text}</span>
+        <span className={`${type === 'status' ? 'px-2 py-1 rounded-md text-sm' : 'text-sm'} ${getClass()} whitespace-nowrap inline-block`}>{text}</span>
     );
 };

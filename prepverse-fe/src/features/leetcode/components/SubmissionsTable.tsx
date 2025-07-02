@@ -40,7 +40,7 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
                         <th className="px-4 py-3 text-left">Runtime</th>
                         <th className="px-4 py-3 text-left">Memory</th>
                         <th className="px-4 py-3 text-left">Submitted At</th>
-                        <th className="px-4 py-3 text-left">Actions</th>
+                        <th className="px-4 py-3 text-left">Submission Code</th>
                     </tr>
                 </thead>
                 <tbody>

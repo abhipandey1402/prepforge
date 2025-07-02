@@ -198,9 +198,9 @@ const ExtensionAuthScreen: React.FC<ExtensionAuthScreenProps> = ({
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="max-w-4xl w-full flex flex-col gap-4 items-start">
+            <div className="w-full flex flex-col gap-4 items-start">
                 {/* Left Column - Main Content */}
-                <div className={`p-4 w-full rounded-2xl shadow-xl ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-100'}`}>
+                <div className={`p-4 w-full rounded-2xl shadow-xl ${isDarkMode ? 'bg-slate-900 border border-gray-700' : 'bg-white border border-gray-100'}`}>
                     <div className="text-center mb-4">
                         <div className="flex justify-center mb-2">
                             <div className="p-2 bg-orange-100 rounded-full">
@@ -265,7 +265,7 @@ const ExtensionAuthScreen: React.FC<ExtensionAuthScreenProps> = ({
                 </div>
 
                 {/* Right Column - Setup Steps */}
-                <div className={`p-8 w-full rounded-2xl shadow-xl ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-100'}`}>
+                <div className={`p-8 w-full rounded-2xl shadow-xl ${isDarkMode ? 'bg-slate-900 border border-gray-700' : 'bg-white border border-gray-100'}`}>
                     <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
                         Setup Guide
                     </h2>
