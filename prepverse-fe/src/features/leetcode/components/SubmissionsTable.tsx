@@ -67,7 +67,7 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
             </table>
 
             {/* Pagination Controls */}
-            {submissions?.length > 0 && (
+            {(submissions?.length > 0) && (
                 <div className={`flex items-center justify-between mt-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <div className="flex items-center">
                         <span className="mr-2">Show</span>
@@ -84,6 +84,7 @@ export const SubmissionsTable = ({ submissions, expandedSubmission, toggleSubmis
                         <span className="ml-2">per page</span>
                     </div>
 
+                    
                     <div className="flex items-center space-x-1">
                         <span className="mr-4">
                             {submissions?.length > 0 ?

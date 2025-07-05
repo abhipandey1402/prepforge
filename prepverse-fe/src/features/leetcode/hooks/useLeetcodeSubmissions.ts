@@ -31,6 +31,7 @@ export interface LeetCodeSubmission {
 interface UseLeetCodeSubmissionsOptions {
     page?: number;
     size?: number;
+    searchQuery?: string;
     setTotal?: (total: number) => void;
 }
 
@@ -44,7 +45,8 @@ interface UseLeetCodeSubmissionsResult {
 export function useLeetCodeSubmissions(options: UseLeetCodeSubmissionsOptions = {}): UseLeetCodeSubmissionsResult {
     const {
         page = 1,
-        size = 10,
+        size = 100,
+        searchQuery = '',
         setTotal
     } = options;
 
@@ -66,8 +68,19 @@ export function useLeetCodeSubmissions(options: UseLeetCodeSubmissionsOptions = 
             setLoading(true);
             setError(null);
 
+            // Build query parameters
+            const params = new URLSearchParams({
+                page: page.toString(),
+                limit: size.toString()
+            });
+
+            // Add search query if present
+            if (searchQuery && searchQuery.trim() !== '') {
+                params.append('search', searchQuery.trim());
+            }
+
             const response = await axiosClient.get(
-                `/leetcode/submissions?page=${page}&limit=${size}`,
+                `/leetcode/submissions?${params.toString()}`,
                 { signal: controller.signal }
             );
 
@@ -87,7 +100,7 @@ export function useLeetCodeSubmissions(options: UseLeetCodeSubmissionsOptions = 
         } finally {
             setLoading(false);
         }
-    }, [page, size, setTotal]);
+    }, [page, size, searchQuery, setTotal]);
 
     useEffect(() => {
         fetchSubmissions();
