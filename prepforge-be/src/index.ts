@@ -34,9 +34,7 @@ const configureMiddleware = () => {
             origin: (origin, callback) => {
                 const allowedOrigins = [
                     'http://localhost:3000',
-                    'http://localhost:3001',
                     'http://localhost:5173',
-                    'https://prepverse-five.vercel.app',
                     'chrome-extension://cgicljmoffojpnmdfdcejfackckfbffn',
                     'https://www.prepforge.space',
                     'https://prepforge.space',
@@ -75,7 +73,7 @@ const configureSocket = () => {
     const io = new Server(httpServer, {
         pingTimeout: 60000,
         cors: {
-            origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173', 'https://prepverse-five.vercel.app'],
+            origin: ['http://localhost:3000', 'http://localhost:5173', 'https://www.prepforge.space', 'https://prepforge.space'],
             methods: ['GET', 'POST'],
             credentials: true,
         },
