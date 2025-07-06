@@ -24,7 +24,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
                 console.log(jwt);
 
-                fetch("http://localhost:8080/api/v1/leetcode/session-token", {
+                fetch("http://13.204.42.59:8080/api/v1/leetcode/session-token", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
