@@ -38,6 +38,8 @@ const configureMiddleware = () => {
                     'http://localhost:5173',
                     'https://prepverse-five.vercel.app',
                     'chrome-extension://cgicljmoffojpnmdfdcejfackckfbffn',
+                    'https://www.prepforge.space',
+                    'https://prepforge.space',
                 ];
 
                 // Allow requests with no origin (e.g. from Chrome extensions)
