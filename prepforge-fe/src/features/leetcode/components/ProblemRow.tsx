@@ -1,6 +1,5 @@
-import { ChevronDown, ChevronRight } from "lucide-react";
 
-export const ProblemRow = ({ problem, isExpanded, onToggle, isDarkMode }: any) => {
+export const ProblemRow = ({ problem, onToggle, isDarkMode }: any) => {
 
     const handlePracticeProblem = (titleSlug: string) => {
         window.open(`https://leetcode.com/problems/${titleSlug}`);

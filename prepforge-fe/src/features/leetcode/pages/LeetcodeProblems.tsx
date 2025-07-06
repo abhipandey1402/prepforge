@@ -27,7 +27,7 @@ export default function LeetcodeProblems({ }: any) {
         return () => clearTimeout(timer);
     }, [searchQuery, debouncedSearchQuery]);
 
-    const { problems, loading, error, refetch } = useLeetCodeProblems({
+    const { problems, loading } = useLeetCodeProblems({
         page,
         size,
         setTotal,
