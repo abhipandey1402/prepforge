@@ -81,7 +81,7 @@ const ExtensionAuthScreen: React.FC<ExtensionAuthScreenProps> = ({
     ];
 
 
-    const extensionId = "cgicljmoffojpnmdfdcejfackckfbffn";
+    const extensionId = "gfnkngekdccednghocmnjmhojkknmaja";
 
     const handleConnectExtension = () => {
         if (!jwt) {
