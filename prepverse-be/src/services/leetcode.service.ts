@@ -1,4 +1,3 @@
-import { chromium, Page } from 'playwright';
 import { User } from '../models/user.model.js';
 import { ApiError } from '../utils/ApiError.js';
 import axios from 'axios'
@@ -10,89 +9,6 @@ import { getLeetcodePayload, getLeetcodeStatsPayload, getUserHeatmapPayload } fr
 export class LeetCodeService {
     private static readonly MAX_WAIT_TIME_MS = 5 * 60 * 1000; // 5 minutes
     private static readonly POLLING_INTERVAL_MS = 2000; // 2 seconds
-
-    public static async waitForManualLogin(page: Page): Promise<boolean> {
-        console.log("\n[⏳] Please login manually in the browser window.");
-        console.log("[ℹ️] The script will continue once login is detected...");
-
-        const startTime = Date.now();
-
-        while (Date.now() - startTime < LeetCodeService.MAX_WAIT_TIME_MS) {
-            const indicators = [
-                "div.nav-user-icon",
-                "[data-cy='nav-user-icon']",
-                "div[class*='user-avatar']",
-            ];
-
-            for (const selector of indicators) {
-                try {
-                    const element = await page.$(selector);
-                    if (element) {
-                        console.log("\n[✅] Login detected via UI element!");
-                        return true;
-                    }
-                } catch (err) {
-                    // Log once, skip the error, continue polling
-                    console.warn(`[⚠️] Skipped error while checking selector ${selector}:`, (err as Error).message);
-                }
-            }
-
-            try {
-                const currentUrl = page.url();
-                if (!currentUrl.toLowerCase().includes("login")) {
-                    console.log("\n[✅] Navigation away from login page detected. Assuming successful login.");
-                    return true;
-                }
-            } catch (err) {
-                console.warn("[⚠️] Skipped error while checking URL:", (err as Error).message);
-            }
-
-            await new Promise(resolve => setTimeout(resolve, LeetCodeService.POLLING_INTERVAL_MS));
-        }
-
-        console.log("\n[❌] Timeout waiting for manual login.");
-        return false;
-    }
-
-    public async getLeetCodeSession(userId: string): Promise<string | null> {
-        console.log("[🔄] Launching browser...");
-
-        const browser = await chromium.launch({ headless: false });
-        const context = await browser.newContext();
-        const page = await context.newPage();
-
-        try {
-            await page.goto('https://leetcode.com/accounts/login/', { waitUntil: 'domcontentloaded' });
-
-            const loginSuccess = await LeetCodeService.waitForManualLogin(page);
-
-            if (!loginSuccess) {
-                return null;
-            }
-
-            const cookies = await context.cookies();
-            const sessionCookie = cookies.find(cookie => cookie.name === 'LEETCODE_SESSION');
-
-            if (!sessionCookie) {
-                console.log("[❌] Failed to retrieve LEETCODE_SESSION token");
-                return null;
-            }
-
-            // ✅ Save token to the user model
-            const user = await User.findById(userId);
-            if (!user) {
-                throw new ApiError(404, 'User not found');
-            }
-
-            user.leetcodeSessionToken = sessionCookie.value;
-            await user.save();
-
-            console.log(`[✅] LEETCODE_SESSION token saved to user: ${sessionCookie.value}`);
-            return sessionCookie.value;
-        } finally {
-            await browser.close();
-        }
-    }
 
     public async saveLeetcodeSession(userId: string, leetcodeSessionToken: string): Promise<string | null> {
         // ✅ Save token to the user model

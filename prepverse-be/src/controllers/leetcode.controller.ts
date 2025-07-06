@@ -7,21 +7,6 @@ import { sendMessageToQueue } from '../sqs/producer.js';
 
 const leetcodeService = new LeetCodeService();
 
-export const fetchLeetCodeSession = asyncHandler(async (req: any, res: any): Promise<void> => {
-    const userId = req.user.id;
-    const token = await leetcodeService.getLeetCodeSession(userId);
-
-    res.status(200).json(
-        new ApiResponse(200, { leetcodeSessionToken: token }, "Leetcode Session Token fetched successfully")
-    )
-
-    await sendMessageToQueue(
-        process.env.SQS_SYNC_REQUEST_URL!,
-        { userId, sessionToken: token },
-        `leetcode-user-${userId}`
-    );
-});
-
 export const saveLeetcodeSession = asyncHandler(async (req: any, res: any): Promise<void> => {
     const userId = req.user.id;
     const { token: leetcodeSessionToken } = req.body;

@@ -1,12 +1,11 @@
 import { Router } from 'express';
-import { fetchLeetCodeSession, syncSubmissions, getLeetcodeProblems, getLeetcodeSubmissions, syncAllProblems, syncLeetcodeStats, getLeetcodeStats, saveLeetcodeSession, syncHeatmap, getLeetcodeHeatmap } from '../controllers/leetcode.controller.js';
+import { syncSubmissions, getLeetcodeProblems, getLeetcodeSubmissions, syncAllProblems, syncLeetcodeStats, getLeetcodeStats, saveLeetcodeSession, syncHeatmap, getLeetcodeHeatmap } from '../controllers/leetcode.controller.js';
 import { verifyJWT } from '../middlewares/auth.middleware.js';
 
 
 const router: Router = Router();
 
 // Route: GET /api/leetcode/session
-router.route('/session-token').get(verifyJWT, fetchLeetCodeSession);
 router.route('/session-token').post(verifyJWT, saveLeetcodeSession);
 router.route('/submissions/sync').post(verifyJWT, syncSubmissions);
 router.route('/problems/sync').post(syncAllProblems);
