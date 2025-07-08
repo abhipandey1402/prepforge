@@ -3,15 +3,15 @@ import React from 'react'
 
 const HeroSection: React.FC = () => {
     return (
-        <div className="relative bg-blue-950 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-neutral-900 to-blue-950 transform -skew-y-6 origin-top-left"></div>
+        <div className="relative bg-orange-600 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-white to-white transform -skew-y-6 origin-top-left"></div>
             <div className="container mx-auto px-4 py-10 md:py-10 relative">
                 <div className="flex flex-col md:flex-row items-center">
                     <div className="md:w-1/2 mb-10 md:mb-0">
                         <div className="inline-block px-3 py-1 bg-blue-100 text-orange-600 rounded-full text-sm font-medium mb-4">
                             LeetCode Mastery Platform
                         </div>
-                        <h2 className="md:text-5xl font-bold text-white mb-4 leading-tight">
+                        <h2 className="md:text-5xl font-bold text-neutral-950 mb-4 leading-tight">
                             Master LeetCode with <span className="text-orange-600 relative">
                                 AI-Powered Insights
                                 <span className="absolute bottom-0 left-0 w-full h-1 bg-orange-400 rounded-full"></span>
@@ -32,7 +32,7 @@ const HeroSection: React.FC = () => {
                     <div className="md:w-1/2">
                         <div className="relative">
                             <div className="absolute inset-0 bg-gradient-to-r from-orange-300 to-neutral-800 rounded-xl transform rotate-3"></div>
-                            <div className="relative bg-blue-950 p-6 rounded-xl shadow-lg border border-gray-200">
+                            <div className="relative bg-white p-6 rounded-xl shadow-lg border border-gray-200">
                                 <div className="flex items-center space-x-2 border-b border-gray-200 pb-4 mb-4">
                                     <div className="h-3 w-3 bg-red-500 rounded-full"></div>
                                     <div className="h-3 w-3 bg-yellow-500 rounded-full"></div>

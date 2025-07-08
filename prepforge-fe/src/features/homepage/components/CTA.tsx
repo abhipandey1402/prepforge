@@ -1,9 +1,9 @@
 import { Code } from "lucide-react";
 
 const CTA: React.FC = () => (
-    <div className="bg-blue-950 py-16">
+    <div className="bg-white py-16">
         <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-800 to-blue-950 rounded-xl shadow-xl overflow-hidden">
+            <div className="max-w-4xl mx-auto bg-gradient-to-r from-orange-300 to-slate-300 rounded-xl shadow-xl overflow-hidden">
                 <div className="p-8 md:p-12">
                     <div className="flex flex-col md:flex-row items-center">
                         {/* Text Section */}
@@ -11,7 +11,7 @@ const CTA: React.FC = () => (
                             <h2 className="text-3xl font-bold text-white mb-4">
                                 Ready to Elevate Your LeetCode Game?
                             </h2>
-                            <p className="text-gray-300 mb-6">
+                            <p className="text-gray-600 mb-6">
                                 Connect your LeetCode account, challenge your friends, and get AI-powered insights to ace your next technical interview.
                             </p>
                             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">

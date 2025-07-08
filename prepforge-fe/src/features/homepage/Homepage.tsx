@@ -38,7 +38,7 @@ const Homepage: React.FC = () => {
         <div>
             <Header/>
             <HeroSection/>
-            <StatisticsBar/>
+            {/* <StatisticsBar/> */}
             <Features/>
             <ProblemExplorer/>
             <AIReports topicReports={topicReports} aiInsights={aiInsights}/>

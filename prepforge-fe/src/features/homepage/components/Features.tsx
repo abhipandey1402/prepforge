@@ -29,9 +29,9 @@ const features = [
 
 const Features: React.FC = () => {
     return (
-        <div className="bg-blue-950 py-16" id="features">
+        <div className="bg-white py-16" id="features">
             <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center text-white mb-3">Key Features</h2>
+                <h2 className="text-3xl font-bold text-center text-neutral-950 mb-3">Key Features</h2>
                 <p className="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
                     Everything you need to master LeetCode and ace your technical interviews.
                 </p>

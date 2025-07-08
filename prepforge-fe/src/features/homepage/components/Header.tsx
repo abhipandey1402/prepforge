@@ -22,17 +22,17 @@ const Header: React.FC = () => {
     };
 
     return (
-        <nav className="bg-blue-950 shadow-sm sticky top-0 z-10">
+        <nav className="bg-white shadow-sm sticky top-0 z-10">
             <div className="container mx-auto px-4 py-4">
                 <div className="flex justify-between items-center">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 cursor-pointer" onClick={() => Navigate('/')}>
                         <Monitor className="h-6 w-6 text-orange-600" />
-                        <span className="font-bold text-xl text-white">PrepVerse</span>
+                        <span className="font-bold text-xl text-blue-950">PrepForge</span>
                     </div>
                     <div className="hidden md:flex items-center space-x-8">
-                        <a href="#features" className="text-gray-300 hover:text-orange-600 transition-colors">Features</a>
-                        <a href="#problems" className="text-gray-300 hover:text-orange-600 transition-colors">Problems</a>
-                        <a href="#ai-reports" className="text-gray-300 hover:text-orange-600 transition-colors">AI Reports</a>
+                        <a href="#features" className="text-gray-600 hover:text-orange-600 transition-colors">Features</a>
+                        <a href="#problems" className="text-gray-600 hover:text-orange-600 transition-colors">Problems</a>
+                        <a href="#ai-reports" className="text-gray-600 hover:text-orange-600 transition-colors">AI Reports</a>
                     </div>
                     {accessToken ?
                         <div className="flex items-center space-x-4">

@@ -13,9 +13,9 @@ interface Props {
 
 const AIReports: React.FC<Props> = ({ topicReports, aiInsights }) => {
     return (
-        <div className="bg-blue-950 py-16" id="ai-reports">
+        <div className="bg-white py-16" id="ai-reports">
             <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center text-white mb-3 flex items-center justify-center gap-3">
+                <h2 className="text-3xl font-bold text-center text-neutral-950 mb-3 flex items-center justify-center gap-3">
                     AI Topic Analysis
                     <span className="bg-yellow-400 text-neutral-900 text-xs font-semibold px-3 py-1 rounded-full shadow-sm ring-1 ring-yellow-500">
                         Upcoming

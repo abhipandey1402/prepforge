@@ -11,7 +11,7 @@ const stats = [
 
 const StatisticsBar: React.FC = () => {
     return (
-        <div className="bg-orange-600 py-8 text-white">
+        <div className="bg-blue-950 py-8 text-white">
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                     {stats.map((stat, index) => (
