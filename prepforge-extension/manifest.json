@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "LeetCode Token Sender",
+  "name": "PrepForge LeetCode Sync",
   "version": "1.0",
-  "description": "Fetch LeetCode session cookie and send it to Prepverse backend.",
-  "permissions": ["cookies", "storage", "activeTab", "scripting"],
+  "description": "This extension helps PrepForge authorize your LeetCode submissions by safely retrieving your session token.",
+  "permissions": ["cookies", "storage"],
   "host_permissions": ["https://leetcode.com/"],
   "background": {
     "service_worker": "background.js"
@@ -21,7 +21,8 @@
   },
   "externally_connectable": {
     "matches": [
-      "https://prepverse.com/*",
+      "https://prepforge.space/*",
+      "https://www.prepforge.space/*",
       "http://localhost:*/*",
       "http://localhost:5173/*",
       "http://127.0.0.1:*/*"

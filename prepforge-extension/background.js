@@ -1,12 +1,12 @@
 // ✅ Handle internal extension messages (e.g., from popup)
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-    console.log("📨 Received internal message:", msg);
-    console.log("📍 From sender (internal):", sender);
+    console.log("Received internal message:", msg);
+    console.log("From sender (internal):", sender);
 
     if (msg.action === "send_leetcode_token") {
         chrome.cookies.get({ url: "https://leetcode.com", name: "LEETCODE_SESSION" }, (cookie) => {
             if (!cookie) {
-                console.warn("❌ LEETCODE_SESSION not found.");
+                console.warn("LEETCODE_SESSION not found.");
                 sendResponse({ success: false });
                 return;
             }
@@ -14,17 +14,17 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
             const sessionToken = cookie.value;
             console.log("🍪 LEETCODE_SESSION token:", sessionToken);
 
-            chrome.storage.local.get(["prepverse_jwt"], (result) => {
-                const jwt = result.prepverse_jwt;
+            chrome.storage.local.get(["prepforge_jwt"], (result) => {
+                const jwt = result.prepforge_jwt;
                 if (!jwt) {
-                    console.warn("❌ JWT not found in local storage");
+                    console.warn("JWT not found in local storage");
                     sendResponse({ success: false });
                     return;
                 }
 
                 console.log(jwt);
 
-                fetch("http://13.204.42.59:8080/api/v1/leetcode/session-token", {
+                fetch("https://api.prepforge.space/api/v1/leetcode/session-token", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -34,11 +34,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
                 })
                     .then((res) => res.json())
                     .then((data) => {
-                        console.log("✅ Token sent:", data);
+                        console.log("Token sent:", data);
                         sendResponse({ success: true });
                     })
                     .catch((err) => {
-                        console.error("❌ Error sending token:", err);
+                        console.error("Error sending token:", err);
                         sendResponse({ success: false });
                     });
             });
@@ -50,14 +50,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
 // ✅ Handle messages from external web apps (e.g., your React dashboard)
 chrome.runtime.onMessageExternal.addListener((msg, sender, sendResponse) => {
-    console.log("📨 Received EXTERNAL message:", msg);
-    console.log("🌐 From external sender:", sender);
+    console.log("Received EXTERNAL message:", msg);
+    console.log("From external sender:", sender);
 
     if (msg.action === "store_jwt" && msg.jwt) {
-        console.log("🔐 Storing JWT from external sender...");
+        console.log("Storing JWT from external sender...");
 
-        chrome.storage.local.set({ prepverse_jwt: msg.jwt }, () => {
-            console.log("✅ JWT stored in chrome.storage");
+        chrome.storage.local.set({ prepforge_jwt: msg.jwt }, () => {
+            console.log("JWT stored in chrome.storage");
             sendResponse({ success: true });
         });
 
