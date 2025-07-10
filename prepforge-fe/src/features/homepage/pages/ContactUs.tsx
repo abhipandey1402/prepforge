@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Mail, MessageSquare, Code, TrendingUp, MapPin, Clock, Phone, Send, CheckCircle, AlertCircle, User, MessageCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Mail, MessageSquare, Code, TrendingUp, Clock, Send, CheckCircle, User, MessageCircle } from 'lucide-react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
@@ -12,9 +12,9 @@ const ContactUsPage = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState('');
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,

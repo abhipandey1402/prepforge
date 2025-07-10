@@ -10,6 +10,7 @@ interface SecuritySectionProps {
     onFormChange: (field: keyof FormData, value: string) => void;
     onTogglePasswordVisibility: (field: keyof ShowPasswordsState) => void;
     onPasswordChange: () => void;
+    isDarkMode: boolean;
 }
 
 const SecuritySection: React.FC<SecuritySectionProps> = ({
@@ -19,8 +20,9 @@ const SecuritySection: React.FC<SecuritySectionProps> = ({
     onFormChange,
     onTogglePasswordVisibility,
     onPasswordChange,
+    isDarkMode,
 }) => (
-    <div className="bg-gray-900 rounded-lg p-6 mb-6">
+    <div className={`${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'} rounded-lg p-6 mb-6`}>
         <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
             <Lock className="w-6 h-6 text-orange-500" />
             Security
@@ -35,6 +37,7 @@ const SecuritySection: React.FC<SecuritySectionProps> = ({
                     onChange={(value) => onFormChange('currentPassword', value)}
                     showPassword={showPasswords.current}
                     onToggleVisibility={() => onTogglePasswordVisibility('current')}
+                    isDarkMode={isDarkMode}
                 />
                 <PasswordInput
                     placeholder="New Password"
@@ -42,6 +45,7 @@ const SecuritySection: React.FC<SecuritySectionProps> = ({
                     onChange={(value) => onFormChange('newPassword', value)}
                     showPassword={showPasswords.new}
                     onToggleVisibility={() => onTogglePasswordVisibility('new')}
+                    isDarkMode={isDarkMode}
                 />
                 <PasswordInput
                     placeholder="Confirm New Password"
@@ -49,6 +53,7 @@ const SecuritySection: React.FC<SecuritySectionProps> = ({
                     onChange={(value) => onFormChange('confirmPassword', value)}
                     showPassword={showPasswords.confirm}
                     onToggleVisibility={() => onTogglePasswordVisibility('confirm')}
+                    isDarkMode={isDarkMode}
                 />
             </div>
             <div className="flex gap-4 mt-4">

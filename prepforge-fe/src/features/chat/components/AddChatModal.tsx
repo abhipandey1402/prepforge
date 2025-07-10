@@ -12,7 +12,8 @@ const AddChatModal: React.FC<{
     open: boolean;
     onClose: () => void;
     onSuccess: (chat: any) => void;
-}> = ({ open, onClose, onSuccess }) => {
+    isDarkMode: boolean;
+}> = ({ open, onClose, onSuccess, isDarkMode }) => {
     const [users, setUsers] = useState<any[]>([]);
     const [groupName, setGroupName] = useState("");
     const [isGroupChat, setIsGroupChat] = useState(false);
@@ -99,7 +100,7 @@ const AddChatModal: React.FC<{
                 }`}
         >
             <div className="flex items-center justify-center min-h-screen bg-black/50">
-                <div className="bg-gray-800 p-6 rounded-lg max-w-lg w-full text-white">
+                <div className={`p-6 rounded-lg max-w-lg w-full ${isDarkMode ? "bg-blue-950 text-white" : "bg-white text-gray-800"}`}>
                     <div className="flex justify-between items-center">
                         <h3 className="text-lg font-semibold">Create Chat</h3>
                         <button onClick={handleClose} className="text-gray-400 hover:text-gray-200">

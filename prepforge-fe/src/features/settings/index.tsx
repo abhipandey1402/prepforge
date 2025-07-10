@@ -8,7 +8,7 @@ import SecuritySection from './components/SecuritySection';
 import LeetCodeSection from './components/LeetCodeSection';
 import ActionsSection from './components/ActionsSection';
 
-const SettingsPage: React.FC = () => {
+const SettingsPage: React.FC<any> = ({isDarkMode}) => {
 
     const {
         // State
@@ -37,7 +37,7 @@ const SettingsPage: React.FC = () => {
 
     if (!userData) {
         return (
-            <div className="min-h-screen bg-transparent text-white p-6 flex items-center justify-center">
+            <div className={`min-h-screen bg-transparent ${isDarkMode ? 'text-white': 'text-gray-800'} p-6 flex items-center justify-center`}>
                 <span className="text-lg">No user data available</span>
             </div>
         );
@@ -59,9 +59,12 @@ const SettingsPage: React.FC = () => {
                     onSave={handleSave}
                     onCancel={handleCancel}
                     onFormChange={updateFormField}
+                    isDarkMode={isDarkMode}
                 />
 
-                <AccountDetailsSection userData={userData} />
+                <AccountDetailsSection 
+                userData={userData} 
+                isDarkMode={isDarkMode} />
 
                 <SecuritySection
                     formData={formData}
@@ -70,13 +73,18 @@ const SettingsPage: React.FC = () => {
                     onFormChange={updateFormField}
                     onTogglePasswordVisibility={togglePasswordVisibility}
                     onPasswordChange={handlePasswordChange}
+                    isDarkMode={isDarkMode}
                 />
 
                 <LeetCodeSection
                     leetcodeRefreshedAt={leetcodeRefreshedAt}
+                    isDarkMode={isDarkMode}
                 />
 
-                <ActionsSection onLogout={handleLogout} />
+                <ActionsSection 
+                onLogout={handleLogout}
+                isDarkMode={isDarkMode}
+                />
             </div>
         </div>
     );

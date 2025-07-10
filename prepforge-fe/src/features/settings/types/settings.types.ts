@@ -41,6 +41,7 @@ export interface EditableFieldProps {
     onSave: () => void;
     onCancel: () => void;
     onChange: (value: string) => void;
+    isDarkMode: boolean;
 }
 
 export interface User {

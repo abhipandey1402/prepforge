@@ -26,7 +26,7 @@ interface UserStats {
     ranking: any;
 }
 
-export default function LeetcodeSubmissions({ }: any) {
+export default function LeetcodeSubmissions({ isDarkMode }: any) {
     const accessToken = useSelector((state: RootState) => state.auth?.userData?.accessToken);
     const { isAuthenticated, sessionToken, logout } = useLeetCodeAuthSocket();
 
@@ -81,7 +81,6 @@ export default function LeetcodeSubmissions({ }: any) {
     }, [status, refetchSubmissions, refetchHeatmap]);
 
     const [expandedSubmission, setExpandedSubmission] = useState<string | null>(null);
-    const [isDarkMode] = useState(true);
     const [activeTab, setActiveTab] = useState<'overview' | 'analytics' | 'submissions'>('overview');
 
     const leetcodeUserStats: UserStats = {

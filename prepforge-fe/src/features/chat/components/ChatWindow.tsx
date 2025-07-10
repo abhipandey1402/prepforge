@@ -17,6 +17,7 @@ interface ChatWindowProps {
     isTyping: boolean;
     loadingMessages: boolean;
     user: any;
+    isDarkMode: boolean;
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -31,6 +32,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
     isTyping,
     loadingMessages,
     user,
+    isDarkMode,
 }) => {
     if (!currentChat?._id) {
         return (
@@ -45,7 +47,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
     return (
         <div className="w-2/3 border-l-[0.1px] border-secondary">
             {/* Chat Header */}
-            <div className="p-4 sticky top-0 bg-dark z-20 flex justify-between items-center w-full border-b-[0.1px] border-secondary">
+            <div className="p-4 sticky top-0 z-20 flex justify-between items-center w-full border-b-[0.1px] border-secondary">
                 <div className="flex justify-start items-center w-max gap-3">
                     {currentChat.isGroupChat ? (
                         <div className="w-12 relative h-12 flex-shrink-0 flex justify-start items-center flex-nowrap">
@@ -67,7 +69,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                         />
                     )}
                     <div>
-                        <p className="font-bold">
+                        <p className={`font-bold ${isDarkMode ? "text-white" : "text-gray-800"} `}>
                             {getChatObjectMetadata(currentChat, user).title}
                         </p>
                         <small className="text-zinc-400">
@@ -120,7 +122,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                                     }}
                                     className="absolute -top-2 -right-2"
                                 >
-                                    <XCircleIcon className="h-6 w-6 text-white" />
+                                    <XCircleIcon className={`h-6 w-6 ${isDarkMode ? "text-white" : "text-gray-800"}`} />
                                 </button>
                             </div>
                             <img
@@ -152,7 +154,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                     htmlFor="attachments"
                     className="p-4 rounded-full bg-dark hover:bg-secondary"
                 >
-                    <PaperclipIcon className="w-6 h-6" />
+                    <PaperclipIcon className={`w-6 h-6 ${isDarkMode ? "text-white" : "text-blue-950"} `} />
                 </label>
 
                 <Input
@@ -170,7 +172,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                     disabled={!message && attachedFiles.length <= 0}
                     className="p-4 rounded-full bg-dark hover:bg-secondary disabled:opacity-50"
                 >
-                    <SendIcon className="w-6 h-6" />
+                    <SendIcon className={`w-6 h-6 ${isDarkMode ? "text-white" : "text-blue-950"} `} />
                 </button>
             </div>
         </div>

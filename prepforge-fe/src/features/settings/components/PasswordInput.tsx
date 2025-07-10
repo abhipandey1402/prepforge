@@ -7,6 +7,7 @@ interface PasswordInputProps {
     onChange: (value: string) => void;
     showPassword: boolean;
     onToggleVisibility: () => void;
+    isDarkMode: boolean;
 }
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
@@ -14,7 +15,8 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
     value,
     onChange,
     showPassword,
-    onToggleVisibility
+    onToggleVisibility,
+    isDarkMode,
 }) => (
     <div className="relative">
         <input
@@ -22,7 +24,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
             placeholder={placeholder}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full bg-gray-900 text-white p-3 rounded border border-gray-600 focus:border-orange-500 focus:outline-none pr-10"
+            className={`w-full ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'} p-3 rounded border border-gray-600 focus:border-orange-500 focus:outline-none pr-10`}
         />
         <button
             type="button"

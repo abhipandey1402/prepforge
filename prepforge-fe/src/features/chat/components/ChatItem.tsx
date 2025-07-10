@@ -19,7 +19,8 @@ const ChatItem: React.FC<{
     isActive?: boolean;
     unreadCount?: number;
     onChatDelete: (chatId: string) => void;
-}> = ({ chat, onClick, isActive, unreadCount = 0, onChatDelete }) => {
+    isDarkMode?: boolean;
+}> = ({ chat, onClick, isActive, unreadCount = 0, onChatDelete, isDarkMode }) => {
     const user = useSelector((state: RootState) => state.auth?.userData?.user);
     const [openOptions, setOpenOptions] = useState(false);
     const [openGroupInfo, setOpenGroupInfo] = useState(false);
@@ -53,11 +54,12 @@ const ChatItem: React.FC<{
                 onClick={() => onClick(chat)}
                 onMouseLeave={() => setOpenOptions(false)}
                 className={classNames(
-                    "group p-3 my-2 flex justify-between gap-2 items-start cursor-pointer rounded-xl hover:bg-neutral-900 bg-transparent",
-                    isActive ? "border-[1px] border-zinc-500 bg-secondary" : "",
+                    "group p-3 my-2 flex justify-between gap-2 items-start cursor-pointer rounded-xl border-[1px] border-zinc-200",
+                    isActive && isDarkMode ?  "border-[1px] border-zinc-500 bg-secondary" : "",
                     unreadCount > 0
                         ? "border-[1px] border-success bg-success/20 font-bold"
-                        : ""
+                        : "",
+                    isDarkMode ? 'text-white' : 'text-gray-800'
                 )}
             >
                 <button
@@ -136,20 +138,20 @@ const ChatItem: React.FC<{
                     )}
                 </div>
                 <div className="w-full">
-                    <p className="truncate-1">
+                    <p className="text-orange-500 truncate-1">
                         {getChatObjectMetadata(chat, user!)?.title}
                     </p>
                     <div className="w-full inline-flex items-center text-left">
                         {chat.lastMessage && chat.lastMessage.attachments.length > 0 ? (
                             // If last message is an attachment show paperclip
-                            <PaperclipIcon className="text-white/50 h-3 w-3 mr-2 flex flex-shrink-0" />
+                            <PaperclipIcon className="text-orange-400 h-3 w-3 mr-2 flex flex-shrink-0" />
                         ) : null}
-                        <small className="text-white/50 truncate-1 text-sm text-ellipsis inline-flex items-center">
+                        <small className="text-orange-400 truncate-1 text-sm text-ellipsis inline-flex items-center">
                             {getChatObjectMetadata(chat, user!)?.lastMessage?.slice(0, 20)}
                         </small>
                     </div>
                 </div>
-                <div className="flex text-white/50 h-full text-sm flex-col justify-between items-end">
+                <div className="flex text-orange-400 h-full text-sm flex-col justify-between items-end">
                     <small className="mb-2 inline-flex flex-shrink-0 w-max">
                         {moment(chat.updatedAt).add("TIME_ZONE", "hours").fromNow(true)}
                     </small>

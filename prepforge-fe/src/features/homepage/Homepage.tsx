@@ -1,7 +1,6 @@
 import React from 'react'
 import Header from './components/Header'
 import HeroSection from './components/HeroSection'
-import StatisticsBar from './components/StatisticsBar'
 import Features from './components/Features'
 import ProblemExplorer from './components/ProblemExplorer'
 import AIReports from './components/AiReports'

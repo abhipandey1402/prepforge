@@ -11,10 +11,10 @@ import { LazyAddChatModal } from "../components/lazy";
 import Typing from "../components/Typing";
 import ChatSidebar1 from "../components/ChatSidebar";
 
-const ChatPage: React.FC = () => {
+const ChatPage: React.FC<any> = ({isDarkMode}) => {
     const user = useSelector((state: RootState) => state.auth?.userData?.user);
 
-    const [ , setIsConnected] = useState(false);
+    const [, setIsConnected] = useState(false);
     const [openAddChat, setOpenAddChat] = useState(false);
     const [loadingChats] = useState(false);
     const [loadingMessages] = useState(false);
@@ -110,9 +110,10 @@ const ChatPage: React.FC = () => {
                 open={openAddChat}
                 onClose={() => setOpenAddChat(false)}
                 onSuccess={() => getChats()}
+                isDarkMode={isDarkMode}
             />
 
-            <div className="w-full justify-between items-stretch h-screen flex flex-shrink-0">
+            <div className={`w-full justify-between items-stretch h-screen flex flex-shrink-0 rounded-2xl ${isDarkMode ? 'bg-slate-950' : 'bg-white'}`}>
                 <ChatSidebar1
                     chats={chats}
                     currentChatId={currentChat.current?._id}
@@ -124,6 +125,7 @@ const ChatPage: React.FC = () => {
                     onChatDelete={handleChatDelete}
                     loadingChats={loadingChats}
                     user={user}
+                    isDarkMode={isDarkMode}
                 />
 
                 <ChatWindow
@@ -138,6 +140,7 @@ const ChatPage: React.FC = () => {
                     isTyping={isTyping}
                     loadingMessages={loadingMessages}
                     user={user}
+                    isDarkMode={isDarkMode}
                 />
             </div>
         </Suspense>

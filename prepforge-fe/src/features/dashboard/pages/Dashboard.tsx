@@ -10,6 +10,7 @@ import SettingsPage from "@/features/settings/index"
 
 const Dashboard = () => {
     const currentItem = useSelector((state: RootState) => state.config?.currentItem);
+    const isDarkMode = useSelector((state: RootState) => state.config?.isDarkTheme);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -28,11 +29,11 @@ const Dashboard = () => {
     const renderCurrentContent = () => {
         switch (currentItem) {
             case "submissions":
-                return <LeetcodeSubmissions/>;
+                return <LeetcodeSubmissions isDarkMode={isDarkMode} />;
             case "practice":
-                return <LeetcodeProblems/>;
+                return <LeetcodeProblems isDarkMode={isDarkMode} />;
             case "chats":
-                return <ChatPage/>
+                return <ChatPage isDarkMode={isDarkMode} />
             case "challengebetting":
                 return <span>Challenge Betting</span>
             case "achievements":
@@ -40,18 +41,18 @@ const Dashboard = () => {
             case "notifications":
                 return <span>Notifications</span>
             case "settings":
-                return <SettingsPage/>
+                return <SettingsPage isDarkMode={isDarkMode} />
             default:
                 return null;
         }
     }
 
     return (
-        <div className="w-full bg-slate-600 flex box-border" style={{minHeight: 'calc(100vh)'}} >
-            <Sidebar />
-            <div style={{width: 'calc(100vw - 15rem)', height: 'calc(100vh - 1rem)' }} className="ml-56 mr-1 mt-2 mb-2 rounded-2xl bg-slate-950 text-white fixed">
+        <div className={`w-full ${isDarkMode ? 'bg-slate-600' : 'bg-slate-200'} flex box-border`} style={{ minHeight: 'calc(100vh)' }} >
+            <Sidebar isDarkMode={isDarkMode} />
+            <div style={{ width: 'calc(100vw - 15rem)', height: 'calc(100vh - 1rem)' }} className={`ml-56 mr-1 mt-2 mb-2 rounded-2xl ${isDarkMode ? 'bg-slate-950' : 'bg-slate-100'} text-white fixed`}>
                 <div className="h-full overflow-y-auto custom-scrollbar">
-                {renderCurrentContent()}
+                    {renderCurrentContent()}
                 </div>
             </div>
         </div>

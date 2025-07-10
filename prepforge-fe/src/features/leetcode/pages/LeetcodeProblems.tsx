@@ -5,14 +5,13 @@ import { SearchInput } from "../components/SearchInput";
 import { useLeetCodeProblems } from "../hooks/useLeetCodeProblems";
 import ProblemsTable from "../components/ProblemsTable";
 
-export default function LeetcodeProblems({ }: any) {
+export default function LeetcodeProblems({ isDarkMode }: any) {
     const [page, setPage] = useState(1);
     const [size, setSize] = useState(10);
     const [total, setTotal] = useState<number>(0);
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
     const [expandedProblem, setExpandedProblem] = useState<string | null>(null);
-    const [isDarkMode] = useState(true);
 
     // Debounce search query to avoid too many API calls
     useEffect(() => {

@@ -15,6 +15,7 @@ interface ChatSidebarProps {
     onChatDelete: (chatId: string) => void;
     loadingChats: boolean;
     user: any;
+    isDarkMode: boolean;
 }
 
 const ChatSidebar: React.FC<ChatSidebarProps> = ({
@@ -28,6 +29,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     onChatDelete,
     loadingChats,
     user,
+    isDarkMode,
 }) => {
     const filteredChats = chats.filter((chat) =>
         localSearchQuery
@@ -38,7 +40,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     );
 
     return (
-        <div className="w-1/3 relative ring-white overflow-y-auto px-4">
+        <div className={`w-1/3 relative overflow-y-auto px-4`}>
             <div className="z-10 w-full sticky top-0 bg-dark py-4 flex justify-between items-center gap-4">
                 <Input
                     placeholder="Search user or group..."
@@ -47,7 +49,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 />
                 <button
                     onClick={() => setOpenAddChat(true)}
-                    className="rounded-xl border-none bg-primary text-white py-4 px-5 flex flex-shrink-0"
+                    className={`rounded-xl border-none ${isDarkMode ? "bg-primary text-white" : "bg-slate-200 text-gray-800"} py-4 px-5 flex flex-shrink-0`}
                 >
                     + Add chat
                 </button>
@@ -69,6 +71,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                             }
                             onClick={onChatSelect}
                             onChatDelete={onChatDelete}
+                            isDarkMode={isDarkMode}
                         />
                     ))}
                 </Suspense>

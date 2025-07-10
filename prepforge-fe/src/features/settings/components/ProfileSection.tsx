@@ -12,6 +12,7 @@ interface ProfileSectionProps {
     onSave: (field: keyof Pick<FormData, 'username' | 'fullName' | 'email'>) => void;
     onCancel: (field: keyof Pick<FormData, 'username' | 'fullName' | 'email'>) => void;
     onFormChange: (field: keyof FormData, value: string) => void;
+    isDarkMode: boolean;
 }
 
 const ProfileSection: React.FC<ProfileSectionProps> = ({
@@ -22,8 +23,9 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
     onSave,
     onCancel,
     onFormChange,
+    isDarkMode,
 }) => (
-    <div className="bg-gray-900 rounded-lg p-6 mb-6">
+    <div className={`${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-white text-gray-800'} rounded-lg p-6 mb-6`}>
         <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
             <User className="w-6 h-6 text-orange-500" />
             Profile
@@ -35,8 +37,8 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
             />
             <div>
                 <h3 className="text-xl font-semibold">{userData.fullName}</h3>
-                <p className="text-gray-400">@{userData.username}</p>
-                <p className="text-gray-400 text-sm">{userData.role}</p>
+                <p className="">@{userData.username}</p>
+                <p className="text-sm">{userData.role}</p>
             </div>
         </div>
 
@@ -52,6 +54,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
                 onSave={() => onSave('fullName')}
                 onCancel={() => onCancel('fullName')}
                 onChange={(value: any) => onFormChange('fullName', value)}
+                isDarkMode={isDarkMode}
             />
             <EditableField
                 field="username"
@@ -64,6 +67,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
                 onSave={() => onSave('username')}
                 onCancel={() => onCancel('username')}
                 onChange={(value: any) => onFormChange('username', value)}
+                isDarkMode={isDarkMode}
             />
             <div className="md:col-span-2">
                 <EditableField
@@ -78,6 +82,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
                     onSave={() => onSave('email')}
                     onCancel={() => onCancel('email')}
                     onChange={(value: any) => onFormChange('email', value)}
+                    isDarkMode={isDarkMode}
                 />
             </div>
         </div>

@@ -3,12 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface ConfigState {
     currentItem: string;
     currentMetric: string;
+    isDarkTheme: boolean;
 }
 
 // Define the initial state with types
 const initialState: ConfigState = {
     currentItem: "dashboard",
     currentMetric: "",
+    isDarkTheme: false,
 };
 
 const configSlice = createSlice({
@@ -20,6 +22,9 @@ const configSlice = createSlice({
         },
         setCurrentMetric: (state, action: PayloadAction<string>) => {
             state.currentMetric = action.payload;
+        },
+        toggleCurrentTheme: (state) => {
+            state.isDarkTheme = !state.isDarkTheme;
         }
     },
 });
@@ -28,6 +33,7 @@ const configSlice = createSlice({
 export const {
     setCurrentItem,
     setCurrentMetric,
+    toggleCurrentTheme,
 } = configSlice.actions;
 
 export default configSlice.reducer;

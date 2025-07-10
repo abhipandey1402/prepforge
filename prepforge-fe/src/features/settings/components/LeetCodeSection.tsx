@@ -17,9 +17,10 @@ import { setCurrentItem } from '@/features/globalFeatures/slices/configSlice';
 
 interface LeetCodeSectionProps {
 leetcodeRefreshedAt: Date | any;
+isDarkMode: boolean;
 }
 
-const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt}) => {
+const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt, isDarkMode}) => {
     const {
         isAuthenticated,
         isLoading,
@@ -57,7 +58,7 @@ const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt}) 
     }
 
     return (
-        <div className={`bg-gray-800 rounded-lg p-6 mb-6`}>
+        <div className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'} rounded-lg p-6 mb-6`}>
             <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
                 <ExternalLink className="w-6 h-6 text-orange-500" />
                 LeetCode Integration
@@ -93,9 +94,9 @@ const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt}) 
             {!isLoading && (
                 <>
                     {/* Authorization Status */}
-                    <div className="bg-gray-700 p-4 rounded-lg mb-4">
+                    <div className={`${isDarkMode ? 'bg-gray-700' : 'bg-slate-200'} p-4 rounded-lg mb-4`}>
                         <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm text-gray-300">Connection Status</span>
+                            <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>Connection Status</span>
                             <span className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${
                                 isAuthenticated 
                                     ? 'bg-green-600 text-white' 
@@ -119,13 +120,13 @@ const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt}) 
                             <div className="space-y-2 mt-3">
                                 <div className="flex items-center gap-2">
                                     <User className="w-4 h-4 text-orange-500" />
-                                    <span className="text-sm text-gray-300">
-                                        Connected as: <span className="text-white font-medium">Abhi Pandey</span>
+                                    <span className={`${isDarkMode ? 'text-white' : 'text-gray-800'} text-sm`}>
+                                        Connected as: <span className={`${isDarkMode ? 'text-white' : 'text-gray-800'} font-medium`}>Abhi Pandey</span>
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <Calendar className="w-4 h-4 text-orange-500" />
-                                    <span className="text-sm text-gray-300">
+                                    <span className={`${isDarkMode ? 'text-white' : 'text-gray-800'} text-sm `}>
                                         Last Refreshed At: {formatDate(leetcodeRefreshedAt && leetcodeRefreshedAt?.toString())}
                                     </span>
                                 </div>
@@ -175,7 +176,7 @@ const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt}) 
 
                     {/* Additional Info */}
                     {isAuthenticated && (
-                        <div className="mt-4 p-3 bg-gray-700/50 rounded-lg">
+                        <div className={`mt-4 p-3 ${isDarkMode ? 'bg-gray-700/50' : 'bg-white text-gray-800'} rounded-lg`}>
                             <p className="text-xs text-gray-400 flex items-center gap-1">
                                 <CheckCircle className="w-3 h-3 text-green-500" />
                                 Your LeetCode data is synced and up to date. 

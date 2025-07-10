@@ -69,7 +69,7 @@ export const SubmissionRow = ({ submission, isExpanded, onToggle, isDarkMode }: 
                 <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{submission.memory}</td>
                 <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{formatTimestamp(submission?.timestamp)}</td>
                 <td className="px-4 py-3">
-                    <button className={`p-1 rounded-full bg-blue-950 ${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>
+                    <button className={`p-1 rounded-full bg-green-100 ${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>
                         {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
                     </button>
                 </td>
