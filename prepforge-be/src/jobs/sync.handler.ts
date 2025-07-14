@@ -64,6 +64,10 @@ export const handleSyncJob = async ({ userId, sessionToken }: any) => {
                 );
             })
         );
+        
+        await retryWithBackoff(() => 
+            leetcodeService.assignTopicsToSubmissions(userId)
+        );
 
         await sendMessageToQueue(QUEUE_URLS.SYNC_STATUS, {
             userId,

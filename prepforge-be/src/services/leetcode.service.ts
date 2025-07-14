@@ -335,4 +335,79 @@ export class LeetCodeService {
         const heatmapData = await heatmap.findOne({ userId });
         return heatmapData;
     }
+
+    public assignTopicsToSubmissions = async (userId: string) => {
+        // 1️⃣ Fetch all submissions for the user
+        const submissions = await LeetCodeSubmission.find({ userId });
+
+        if (!submissions.length) {
+            return { updated: 0, skipped: 0, total: 0 };
+        }
+
+        // 2️⃣ Fetch all problems ONCE
+        const allProblemsList = await allProblems.find({});
+        const problemsMap = new Map(allProblemsList.map(p => [p.titleSlug, p]));
+
+        let updated = 0;
+        let skipped = 0;
+        const bulkOps: any[] = [];
+
+        for (const submission of submissions) {
+            // 🕵️ Confirm you have the right field name here!
+            const problemSlug = submission.titleSlug;
+
+            if (!problemSlug) {
+                console.warn(`Skipping submission ${submission._id} — no titleSlug/problemSlug`);
+                skipped++;
+                continue;
+            }
+
+            if (submission.topicTags && submission.topicTags.length > 0) {
+                // Already tagged
+                skipped++;
+                continue;
+            }
+
+            const problem = problemsMap.get(problemSlug);
+
+            if (!problem) {
+                console.warn(`No problem found for slug: ${problemSlug}`);
+                skipped++;
+                continue;
+            }
+
+            if (Array.isArray(problem.topicTags) && problem.topicTags.length > 0) {
+                const topics = problem.topicTags.map(tag => tag.slug || tag.name);
+                bulkOps.push({
+                    updateOne: {
+                        filter: { _id: submission._id },
+                        update: { $set: { topicTags: topics } }
+                    }
+                });
+                updated++;
+            } else {
+                console.warn(`No topicTags found for problem: ${problemSlug}`);
+                skipped++;
+            }
+        }
+
+        if (bulkOps.length > 0) {
+            const result = await LeetCodeSubmission.bulkWrite(bulkOps);
+            console.log(`bulkWrite result:`, JSON.stringify(result, null, 2));
+        } else {
+            console.warn("No operations to bulkWrite.");
+        }
+
+        return { updated, skipped, total: submissions.length };
+    };
+
+    public getSubmissionsByTopic = async (userId: string, topic: string, limit: number) => {
+        const submissions = LeetCodeSubmission.find({
+            userId,
+            topicTags: topic
+        }).sort({ timeStamp: -1}).limit(limit);
+
+        return submissions;
+    }
+
 }

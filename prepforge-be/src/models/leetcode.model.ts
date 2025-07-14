@@ -35,7 +35,8 @@ const LeetCodeSubmissionSchema = new Schema(
         timestamp: { type: Number },                   // UNIX timestamp
 
         hasNotes: { type: Boolean },
-        flagType: { type: Number }
+        flagType: { type: Number },
+        topicTags: [String]
     },
     { timestamps: true }
 );

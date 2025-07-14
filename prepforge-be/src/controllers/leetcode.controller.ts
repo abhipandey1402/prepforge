@@ -130,3 +130,38 @@ export const getLeetcodeHeatmap = asyncHandler(async (req: any, res: any): Promi
         new ApiResponse(200, heatmap, "Leetcode Heatmap data fetched successfully")
     );
 });
+
+export const assignTopicsToSubmissions = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const userId = req.user.id;
+
+    if (!userId) {
+        throw new ApiError(400, "UserId required");
+    }
+
+    const response = await leetcodeService.assignTopicsToSubmissions(userId);
+
+    res.status(200).json(
+        new ApiResponse(200, response, "Assigned topics successFully.")
+    );
+})
+
+export const getSubmissionsByTopic = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const userId = req.user.id;
+    const { topic, limit } = req.body;
+
+    if (!userId) {
+        throw new ApiError(400, "Invalid or missing userId");
+    }
+
+    if (!topic || typeof topic !== "string") {
+        return res.status(400).json({ error: "Invalid or missing topic" });
+    }
+
+    const finalLimit = limit && Number.isInteger(limit) && limit > 0 ? limit : 5;
+
+    const submissions = await leetcodeService.getSubmissionsByTopic(userId, topic, finalLimit);
+
+    res.status(200).json(
+        new ApiResponse(200, {userId, topic, limit: finalLimit, submissions}, "Submissions fetched for the topic")
+    )
+})
