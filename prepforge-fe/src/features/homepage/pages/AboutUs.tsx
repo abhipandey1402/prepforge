@@ -1,11 +1,11 @@
 import React from 'react';
-import { 
-  Brain, 
-  Code, 
-  TrendingUp, 
-  Users, 
-  Target, 
-  Shield, 
+import {
+  Brain,
+  Code,
+  TrendingUp,
+  Users,
+  Target,
+  Shield,
   Github,
   Linkedin,
   Twitter,
@@ -13,77 +13,42 @@ import {
   Star,
   BookOpen,
   BarChart3,
-  Lightbulb
+  Lightbulb,
+  Globe
 } from 'lucide-react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { useNavigate } from 'react-router-dom';
 
 const AboutUsPage: React.FC = () => {
-  const teamMembers = [
-    {
-      name: "Alex Chen",
-      role: "CEO & Co-Founder",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-      bio: "Former Google SWE with 8+ years in algorithmic problem solving and AI systems.",
-      linkedin: "#",
-      twitter: "#",
-      github: "#"
-    },
-    {
-      name: "Sarah Kim",
-      role: "CTO & Co-Founder", 
-      image: "https://images.unsplash.com/photo-1494790108755-2616b69ab027?w=400&h=400&fit=crop&crop=face",
-      bio: "Ex-Microsoft engineer specializing in machine learning and developer tools.",
-      linkedin: "#",
-      twitter: "#",
-      github: "#"
-    },
-    {
-      name: "David Rodriguez",
-      role: "Head of AI",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-      bio: "PhD in ML from Stanford, former researcher at OpenAI focusing on code analysis.",
-      linkedin: "#",
-      twitter: "#",
-      github: "#"
-    },
-    {
-      name: "Emily Zhang",
-      role: "Product Manager",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
-      bio: "Former Amazon PM with expertise in developer experience and educational platforms.",
-      linkedin: "#",
-      twitter: "#",
-      github: "#"
-    }
-  ];
+  const navigate = useNavigate();
 
   const milestones = [
-  {
-    year: "May 2025",
-    title: "Project Kickoff",
-    description: "The idea of PrepForge was born — a unified platform to help developers track, analyze, and improve their coding practice."
-  },
-  {
-    year: "June 2025",
-    title: "PrepForge Beta Launch",
-    description: "Initial launch with LeetCode submission sync, solved problem tracking, and basic community chat features."
-  },
-  {
-    year: "July 2025",
-    title: "Chrome Extension Released",
-    description: "Launch of our Chrome extension to authorize LeetCode accounts securely using session tokens."
-  },
-  {
-    year: "August 2025",
-    title: "AI Insights & Smart Suggestions",
-    description: "Intelligent analysis of submissions with personalized problem recommendations, weak-topic detection, and progress scoring."
-  },
-  {
-    year: "September 2025",
-    title: "Coming Soon...",
-    description: "More powerful features like study streaks, buddy challenges, and in-depth analytics are on the way!"
-  }
+    {
+      year: "May 2025",
+      title: "Project Kickoff",
+      description: "The idea of PrepForge was born - a unified platform to help developers track, analyze, and improve their coding practice."
+    },
+    {
+      year: "June 2025",
+      title: "PrepForge Beta Launch",
+      description: "Initial launch with LeetCode submission sync, solved problem tracking, and basic community chat features."
+    },
+    {
+      year: "July 2025",
+      title: "Chrome Extension Released",
+      description: "Launch of our Chrome extension to authorize LeetCode accounts securely."
+    },
+    {
+      year: "August 2025",
+      title: "AI Insights & Smart Suggestions",
+      description: "Intelligent analysis of submissions with personalized problem recommendations, weak-topic detection, and progress scoring."
+    },
+    {
+      year: "September 2025",
+      title: "Coming Soon...",
+      description: "More powerful features like study streaks, buddy challenges, and in-depth analytics are on the way!"
+    }
   ];
 
   const values = [
@@ -135,7 +100,7 @@ const AboutUsPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-white">
       {/* Hero Section */}
-      <Header/>
+      <Header />
       <section className="pt-20 pb-16 px-6">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
@@ -251,38 +216,45 @@ const AboutUsPage: React.FC = () => {
       <section className="py-20 px-6 ml-14 mr-14 bg-gradient-to-r from-orange-600 to-blue-950 rounded-2xl">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">Meet Our Team</h2>
+            <h2 className="text-4xl font-bold text-white mb-4">Meet the Creator</h2>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Passionate engineers and educators dedicated to transforming how developers learn and grow.
+              One Engineer. One Mission. Infinite Possibilities.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
-                <img 
-                  src={member.image} 
-                  alt={member.name}
-                  className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-                />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h3>
-                <p className="text-orange-600 font-medium mb-3">{member.role}</p>
-                <p className="text-gray-600 text-sm mb-4 leading-relaxed">{member.bio}</p>
-                <div className="flex justify-center space-x-3">
-                  <a href={member.linkedin} className="text-gray-400 hover:text-orange-600 transition-colors">
-                    <Linkedin className="w-5 h-5" />
-                  </a>
-                  <a href={member.twitter} className="text-gray-400 hover:text-orange-600 transition-colors">
-                    <Twitter className="w-5 h-5" />
-                  </a>
-                  <a href={member.github} className="text-gray-400 hover:text-orange-600 transition-colors">
-                    <Github className="w-5 h-5" />
-                  </a>
-                </div>
+          <div className="grid md:grid-cols-1 lg:grid-cols-1 gap-8">
+            <div className="bg-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+              <img
+                src="https://res.cloudinary.com/dbzi19ec6/image/upload/v1752511924/AbhiProfileOct2024_mnlbbe.png"
+                alt="Abhi Pandey"
+                className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-blue-950 border-1"
+              />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Abhi Pandey</h3>
+              <p className="text-orange-600 font-medium mb-3">Founder & Engineer</p>
+              <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                The brain behind PrepForge - a relentless builder on a mission to help developers crack LeetCode smarter with AI-powered insights, topic-wise strengths and weaknesses, and clear next steps to level up fast.
+              </p>
+              <p className="text-gray-500 italic text-sm mb-4">
+                “I’m building what I wish I had when I started solving problems, so you can solve them better, faster, and smarter.”
+              </p>
+              <div className="flex justify-center space-x-3">
+                <a href="https://www.linkedin.com/in/abhipandey1402" className="text-gray-400 hover:text-orange-600 transition-colors">
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                <a href="https://twitter.com/abhipandey1402" className="text-gray-400 hover:text-orange-600 transition-colors">
+                  <Twitter className="w-5 h-5" />
+                </a>
+                <a href="https://github.com/abhipandey1402" className="text-gray-400 hover:text-orange-600 transition-colors">
+                  <Github className="w-5 h-5" />
+                </a>
+                <a href="https://heyabhi.in" className="text-gray-400 hover:text-orange-600 transition-colors">
+                  <Globe className="w-5 h-5" />
+                </a>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
+
 
       {/* Timeline Section */}
       <section className="py-20 px-6 bg-white">
@@ -319,7 +291,7 @@ const AboutUsPage: React.FC = () => {
             Join thousands of developers who have accelerated their growth with Prepforge's AI-powered insights.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-orange-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center">
+            <button className="bg-white text-orange-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center" onClick={() => navigate('/auth')}>
               Get Started Free
               <ChevronRight className="w-5 h-5 ml-2" />
             </button>
@@ -330,7 +302,7 @@ const AboutUsPage: React.FC = () => {
         </div>
       </section>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 };

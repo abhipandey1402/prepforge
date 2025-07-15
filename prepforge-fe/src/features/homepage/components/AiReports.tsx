@@ -1,4 +1,4 @@
-import { Brain, CheckCircle, FileText, TrendingUp } from "lucide-react";
+import { Brain, CheckCircle, TrendingUp } from "lucide-react";
 import TopicCard from "../commonComponents/TopicCard";
 import InsightStatBox from "../commonComponents/InsightStatBox";
 import InsightList from "../commonComponents/InsightList";
@@ -71,12 +71,6 @@ const AIReports: React.FC<Props> = ({ topicReports, aiInsights }) => {
                                         <RecommendedProblemCard key={i} problem={problem} />
                                     ))}
                                 </div>
-                            </div>
-
-                            <div className="mt-6 text-center">
-                                <button className="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 transition-colors">
-                                    Generate Full Report <FileText className="inline ml-1 h-4 w-4" />
-                                </button>
                             </div>
                         </div>
                     </div>

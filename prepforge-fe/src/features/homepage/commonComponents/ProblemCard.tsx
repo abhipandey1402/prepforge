@@ -11,7 +11,7 @@ type ProblemCardProps = {
     lastAttempted: string;
 };
 
-const ProblemCard: React.FC<ProblemCardProps> = ({ id, name, difficulty, topic, completed, lastAttempted }) => {
+const ProblemCard: React.FC<ProblemCardProps> = ({ name, difficulty, topic, completed, lastAttempted }) => {
     const difficultyColor =
         difficulty === 'Easy'
             ? 'bg-green-100 text-green-800'
@@ -33,14 +33,6 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ id, name, difficulty, topic, 
                     <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">{topic}</span>
                 </div>
                 <div className="text-xs text-gray-600 mt-1">Last attempted: {lastAttempted}</div>
-            </div>
-            <div className="flex space-x-2">
-                <button className="text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors">
-                    View Solution
-                </button>
-                <button className="text-sm px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors" onClick={() => console.log(id)}>
-                    Practice
-                </button>
             </div>
         </div>
     );

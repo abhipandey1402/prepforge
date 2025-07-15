@@ -1,5 +1,3 @@
-// components/AIReports/RecommendedProblemCard.tsx
-
 import { RecommendedProblem } from "../homepage.types";
 
 interface RecommendedProblemCardProps {
@@ -23,9 +21,6 @@ const RecommendedProblemCard: React.FC<RecommendedProblemCardProps> = ({ problem
             </div>
             <div className="text-xs text-gray-500 mt-1">{problem.reason}</div>
         </div>
-        <button className="text-sm bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition-colors">
-            Solve
-        </button>
     </div>
 );
 

@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Mail, MessageSquare, Code, TrendingUp, Clock, Send, CheckCircle, User, MessageCircle } from 'lucide-react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { useNavigate } from 'react-router-dom';
 
 const ContactUsPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -70,7 +72,7 @@ const ContactUsPage = () => {
     {
       icon: Mail,
       title: 'Email Us',
-      content: 'hello@leetcodeai.com',
+      content: 'support@prepforge.space',
       subtitle: 'We respond within 24 hours'
     },
     {
@@ -280,7 +282,7 @@ const ContactUsPage = () => {
           <p className="text-xl mb-6 text-white">
             Join thousands of developers using AI-powered insights to improve their coding skills
           </p>
-          <button className="bg-white text-orange-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+          <button className="bg-white text-orange-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors duration-300" onClick={() => navigate('/auth')}>
             Start Your Journey
           </button>
         </div>

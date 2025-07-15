@@ -1,6 +1,5 @@
 import { setCurrentItem } from '@/features/globalFeatures/slices/configSlice';
 import { RootState } from '@/store';
-import { Monitor } from 'lucide-react'
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -26,7 +25,7 @@ const Header: React.FC = () => {
             <div className="container mx-auto px-4 py-4">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-2 cursor-pointer" onClick={() => Navigate('/')}>
-                        <Monitor className="h-6 w-6 text-orange-600" />
+                        <img src="https://res.cloudinary.com/dbzi19ec6/image/upload/v1752592047/icon128_vsu3tt.png" className='w-10 h-10 rounded'/>
                         <span className="font-bold text-xl text-blue-950">PrepForge</span>
                     </div>
                     <div className="hidden md:flex items-center space-x-8">

@@ -15,7 +15,7 @@ const AuthPage = () => {
     }, [accessToken]);
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-950 via-gray-900 to-blue-950">
+        <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-white via-white to-white">
             <AuthForm />
         </div>
     );

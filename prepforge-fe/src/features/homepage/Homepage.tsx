@@ -7,6 +7,7 @@ import AIReports from './components/AiReports'
 import Testimonials from './components/Testimonials'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
+import HowItWorks from './components/HowItWorks'
 
 const topicReports = [
     { topic: "Arrays & Hashing", completed: 8, total: 10, strength: "Time efficiency", weakness: "Space optimization" },
@@ -39,6 +40,7 @@ const Homepage: React.FC = () => {
             <HeroSection/>
             {/* <StatisticsBar/> */}
             <Features/>
+            <HowItWorks/>
             <ProblemExplorer/>
             <AIReports topicReports={topicReports} aiInsights={aiInsights}/>
             {/* <DailyChallengeBetting/> */}

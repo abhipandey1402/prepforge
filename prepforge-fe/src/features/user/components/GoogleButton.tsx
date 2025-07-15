@@ -15,7 +15,7 @@ const GoogleButton = () => {
 
     return (
         <>
-        <div className="w-full py-2 bg-white text-black flex-row justify-items-center text-sm font-semibold rounded-md cursor-pointer " style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem"}} onClick={handleGoogleAuth}>
+        <div className="w-full py-2 bg-blue-950 text-white flex-row justify-items-center text-sm font-semibold rounded-md cursor-pointer " style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem"}} onClick={handleGoogleAuth}>
             <GoogleIcon />
             Continue with Google
         </div>

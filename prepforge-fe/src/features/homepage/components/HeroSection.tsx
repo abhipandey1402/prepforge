@@ -1,7 +1,10 @@
 import { ArrowRight, Target } from 'lucide-react'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const HeroSection: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="relative bg-orange-600 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-white to-white transform -skew-y-6 origin-top-left"></div>
@@ -21,8 +24,8 @@ const HeroSection: React.FC = () => {
                             Track your LeetCode journey, analyze submissions with AI, and accelerate your interview prep.
                         </p>
                         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                            <button className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-white hover:text-neutral-950 transition-colors flex items-center justify-center">
-                                Connect LeetCode <ArrowRight className="ml-2 h-5 w-5" />
+                            <button className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-white hover:text-neutral-950 transition-colors flex items-center justify-center" onClick={() => navigate('/auth')}>
+                                Get Started For Free<ArrowRight className="ml-2 h-5 w-5" />
                             </button>
                             {/* <button className="px-6 py-3 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition-colors flex items-center justify-center">
                                 See How It Works

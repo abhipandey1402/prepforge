@@ -1,5 +1,5 @@
 import React from "react";
-import { HomeIcon, SettingsIcon, MessageSquareIcon, Monitor, BrainCircuit } from "lucide-react";
+import { HomeIcon, SettingsIcon, MessageSquareIcon, BrainCircuit } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setCurrentItem } from "@/features/globalFeatures/slices/configSlice";
@@ -26,11 +26,11 @@ const Sidebar: React.FC<MyComponentProps> = ({ isDarkMode }) => {
       `}
         >
             <div
-                className="flex items-center space-x-2 cursor-pointer"
+                className="flex items-center space-x-2 cursor-pointer mb-4"
                 onClick={() => dispatch(setCurrentItem("submissions"))}
             >
-                <Monitor className="w-8 h-8 text-orange-500 animate-bounce" />
-                <span className="text-xl font-bold cursor-pointer mb-2">PrepVerse</span>
+                <img src="https://res.cloudinary.com/dbzi19ec6/image/upload/v1752592047/icon128_vsu3tt.png" className='w-8 h-8 rounded' />
+                <span className="text-xl font-bold cursor-pointer mb-2">PrepForge</span>
             </div>
             <nav>
                 <NavItem

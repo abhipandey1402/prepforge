@@ -62,7 +62,7 @@ const ExtensionAuthScreen: React.FC<ExtensionAuthScreenProps> = ({
         },
         {
             title: "Connect Extension",
-            description: "Connect the extension to your PrepVerse account",
+            description: "Connect the extension to your PrepForge account",
             icon: <Chrome className="text-orange-500" size={24} />,
             action: "connect"
         },

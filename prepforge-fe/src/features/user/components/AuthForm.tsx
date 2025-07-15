@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import GoogleButton from './GoogleButton';
 import PasswordInput from './PasswordInput';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,24 +8,24 @@ const AuthForm = () => {
     const { isLogin, fullName, email, username, password, confirmPassword, setFullName, setEmail, setUsername, setPassword, setConfirmPassword, toggleAuthMode, handleSubmit } = useAuthForm();
 
     return (
-        <Card className="w-1/3 bg-gradient-to-br from-blue-950 via-gray-900 to-blue-950 text-white text-xl flex-col justify-items-center">
+        <Card className="w-1/3 bg-gradient-to-br from-white via-orange-100 to-white text-white text-xl flex-col justify-items-center">
             <CardHeader>
-                <CardTitle>{isLogin ? 'Login' : 'Sign Up'}</CardTitle>
+                <CardTitle className='text-gray-800'>{isLogin ? 'Login' : 'Sign Up'}</CardTitle>
             </CardHeader>
             <CardContent className='w-full'>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <GoogleButton />
+                    {/* <GoogleButton /> */}
 
-                    <div className="relative my-2">
+                    {/* <div className="relative my-2">
                         <div className="absolute inset-0 flex items-center">
-                            <span className="w-full border-t border-white" />
+                            <span className="w-full border-t border-blue-950" />
                         </div>
                         <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-white px-4 py-2 mt-4 mb-4 text-black font-semibold text-xs rounded-lg">
+                            <span className="bg-orange-500 px-4 py-2 mt-4 mb-4 text-white font-semibold text-xs rounded-lg">
                                 Or {isLogin ? 'login' : 'sign up'} with email
                             </span>
                         </div>
-                    </div>
+                    </div> */}
 
                     {!isLogin && <Input
                         type="text"
@@ -34,7 +33,7 @@ const AuthForm = () => {
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                         required
-                        className="bg-white outline-white border-none text-neutral-900 placeholder-white py-4 px-4 h-10"
+                        className="bg-white outline-blue-950 border-none text-neutral-900 placeholder-white py-4 px-4 h-10"
                         style={{fontSize: "1rem" }}
                     />}
                     {!isLogin && <Input
@@ -43,7 +42,7 @@ const AuthForm = () => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
-                        className="bg-white outline-white border-none text-neutral-900 placeholder-white py-4 px-4 h-10"
+                        className="bg-white outline-blue-950 border-none text-neutral-900 placeholder-white py-4 px-4 h-10"
                         style={{fontSize: "1rem" }}
                     />}
                     <Input
@@ -52,7 +51,7 @@ const AuthForm = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="bg-white outline-white border-none text-neutral-900 placeholder-white py-4 px-4 h-10"
+                        className="bg-white outline-blue-950 border-none text-neutral-900 placeholder-white py-4 px-4 h-10"
                         style={{fontSize: "1rem" }}
                     />
                     <PasswordInput label="Password" value={password} onChange={setPassword} />
@@ -63,7 +62,7 @@ const AuthForm = () => {
                     </Button>
 
                     <div className="text-center">
-                        <span onClick={toggleAuthMode} className="text-white-400 hover:text-gray-300 text-sm bg-none cursor-pointer">
+                        <span onClick={toggleAuthMode} className="text-gray-800 hover:text-blue-950 font-bold text-sm bg-none cursor-pointer">
                             {isLogin ? 'Need an account? Sign Up' : 'Already have an account? Login'}
                         </span>
                     </div>
