@@ -27,7 +27,7 @@ export default function VerifyEmailPage() {
             setStatus('error');
             setMessage('No token provided.');
         }
-    }, [searchParams]);
+    }, []);
 
     const handleResend = async () => {
         setIsResending(true);
