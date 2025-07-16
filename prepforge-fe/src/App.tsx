@@ -11,6 +11,7 @@ import TermsOfService from './features/homepage/pages/TermsOfService';
 import CookiePolicy from './features/homepage/pages/CookiePolicy';
 import AboutUsPage from './features/homepage/pages/AboutUs';
 import ContactUsPage from './features/homepage/pages/ContactUs';
+import VerifyEmailPage from './features/user/pages/VerifyEmailPage';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Homepage />} />
           <Route path='/auth' element={<AuthPage/>} />
+          <Route path='/verify-email' element={<VerifyEmailPage/>} />
           <Route path='/privacy-policy' element={<PrivacyPolicy/>} />
           <Route path='/terms-service' element={<TermsOfService/>} />
           <Route path='/cookie-policy' element={<CookiePolicy/>} />

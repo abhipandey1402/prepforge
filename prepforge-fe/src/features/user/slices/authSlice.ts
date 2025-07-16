@@ -122,8 +122,7 @@ const authSlice = createSlice({
             .addCase(performRegistration.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(performRegistration.fulfilled, (state, action: PayloadAction<UserData>) => {
-                state.userData = action.payload;
+            .addCase(performRegistration.fulfilled, (state) => {
                 state.status = 'succeeded';
                 state.error = null;
             })

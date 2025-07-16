@@ -49,8 +49,8 @@ const useAuthForm = () => {
 
                 const result = await dispatch(performRegistration({ fullName, email, username, password })).unwrap();
                 if (result) {
-                    toast.success('Registration successfull!');
-                    Navigate("/dashboard");
+                    toast.success('Registration successfull!, Please check email for account Verification.');
+                    Navigate("/");
                     setFullName('');
                     setEmail('');
                     setUsername('');
