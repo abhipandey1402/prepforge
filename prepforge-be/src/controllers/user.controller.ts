@@ -5,9 +5,9 @@ import { uploadOptimizedImageToCloudinary } from "../utils/Cloudinary.config.js"
 
 export const registerUser = asyncHandler(async (req: any, res: any): Promise<void> => {
     const { fullName, email, username, password } = req.body;
-    const { user, accessToken } = await authService.registerUser({ fullName, email, username, password });
+    const { user } = await authService.registerUser({ fullName, email, username, password });
     res.status(201).json(
-        new ApiResponse(201, { user, accessToken }, "User registered successfully")
+        new ApiResponse(201, { user }, "User registered successfully")
     );
 });
 
@@ -93,4 +93,14 @@ export const updateUserAvatar = asyncHandler(async (req: any, res: any): Promise
         .json(
             new ApiResponse(200, { avatarUrl: result.secure_url }, "Avatar updated")
         );
+});
+
+export const verifyEmail = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const { token } = req.query;
+
+    await authService.verifyEmail(token);
+
+    res.status(200).json(
+        new ApiResponse(200, "Email verified successfully. You can now log in.", "Email verified successfully. You can now log in.")
+    );
 });

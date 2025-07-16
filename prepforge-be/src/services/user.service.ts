@@ -1,6 +1,9 @@
 import { User } from "../models/user.model.js";  // Importing the Mongoose User model
 import { ApiError } from "../utils/ApiError.js";
 import { hashPassword, isPasswordCorrect, generateAccessToken, generateRefreshToken } from "../utils/AuthHelper.js";
+import * as crypto from 'crypto';
+import { emailService } from "./email.service.js";
+import { verificationTemplate } from "../templates/emails/verification.template.js";
 
 interface RegisterUserInput {
     fullName: string;
@@ -33,20 +36,30 @@ export const registerUser = async (data: RegisterUserInput) => {
     // Hash the password
     const hashedPassword = await hashPassword(password);
 
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const verificationTokenExpires = new Date(Date.now() + 72 * 60 * 60 * 1000); // 72h
+
     // Create a new user
     const user = new User({
         fullName,
         email,
         username: username.toLowerCase(),
         password: hashedPassword,
+        verificationToken,
+        verificationTokenExpires,
+        isVerified: false,
     });
+
     await user.save();
 
-    // Generate JWT tokens
-    const accessToken = generateAccessToken(user._id.toString());
-    const refreshToken = generateRefreshToken(user._id.toString());
+    await emailService.sendMail({
+        to: email,
+        subject: 'Verify your PrepForge account',
+        html: verificationTemplate(`https://prepforge.space/verify-email?token=${verificationToken}`),
+        from: `"PrepForge" <noreply@prepforge.space>`
+    });
 
-    return { user: { ...user.toObject(), password: undefined, refreshToken: undefined }, accessToken, refreshToken };
+    return { user: { ...user.toObject(), password: undefined, refreshToken: undefined } };
 };
 
 export const loginUser = async (data: LoginUserInput) => {
@@ -56,6 +69,11 @@ export const loginUser = async (data: LoginUserInput) => {
     const user = await User.findOne({ $or: [{ email }, { username }] });
     if (!user) {
         throw new ApiError(404, "User does not exist");
+    }
+
+    // ✅ Ensure account is verified first
+    if (!user.isVerified) {
+        throw new ApiError(403, "Your email is not verified. Please check your inbox and verify your account to log in.");
     }
 
     // Check if the password is correct
@@ -184,3 +202,26 @@ export const updateUserAvatarUrl = async (
     await user.save();
 };
 
+
+export const verifyEmail = async (token: string): Promise<void> => {
+    if (!token) {
+        throw new ApiError(400, 'Verification token is missing.');
+    }
+
+    // Find user with this token & check expiry
+    const user = await User.findOne({
+        verificationToken: token,
+        verificationTokenExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+        throw new ApiError(400, 'Invalid or expired verification token.');
+    }
+
+    // Mark verified, clear token fields
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.verificationTokenExpires = undefined;
+
+    await user.save();
+};

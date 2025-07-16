@@ -7,7 +7,8 @@ import {
     refreshAccessToken,
     registerUser,
     updateCurrentUserData,
-    updateUserAvatar
+    updateUserAvatar,
+    verifyEmail
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
@@ -24,6 +25,7 @@ router.route("/refreshToken").post(refreshAccessToken);        // Endpoint to re
 router.route("/changePassword").post(verifyJWT, changeCurrentPassword); // Endpoint to change password
 router.route("/currentUser").get(verifyJWT, getCurrentUser);   // Endpoint to fetch current logged-in user
 router.route("/updateData").patch(verifyJWT, updateCurrentUserData);   // Endpoint to update current Logged-in user
-router.route("/updateAvatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar)
+router.route("/updateAvatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
+router.route("/verify-email").get(verifyEmail);
 
 export default router;

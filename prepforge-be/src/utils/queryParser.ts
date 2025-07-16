@@ -15,7 +15,7 @@ export const parseQuery = (query: any) => {
     }
 
     if (query.topicTag) {
-        filters['topicTags.slug'] = query.topicTag;
+        filters.topicTags = query.topicTag;
     }
 
     if (query.status) {
