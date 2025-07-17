@@ -35,7 +35,7 @@ const configureMiddleware = () => {
                 const allowedOrigins = [
                     'http://localhost:3000',
                     'http://localhost:5173',
-                    'https://chromewebstore.google.com/detail/prepforge-leetcode-sync/ejggddpdebjhdpamcbngbajonapihakm',
+                    'chrome-extension://ejggddpdebjhdpamcbngbajonapihakm',
                     'https://www.prepforge.space',
                     'https://prepforge.space',
                 ];
