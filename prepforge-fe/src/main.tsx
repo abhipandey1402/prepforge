@@ -6,12 +6,13 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from './store.ts'
 import { SocketProvider } from './features/chat/utils/SocketContext.tsx'
-import { inject } from '@vercel/analytics'
-
-inject()
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <Analytics />
+    <SpeedInsights />
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SocketProvider>
