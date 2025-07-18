@@ -137,7 +137,7 @@ export class LeetCodeService {
             }
 
             // Wait to prevent rate limiting
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await new Promise(resolve => setTimeout(resolve, 3000));
         }
     };
 
