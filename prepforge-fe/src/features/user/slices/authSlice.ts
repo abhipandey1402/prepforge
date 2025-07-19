@@ -104,6 +104,11 @@ const authSlice = createSlice({
             state.status = 'idle';
             state.error = null;
         },
+        updateLeetcodeSessionToken: (state, action: PayloadAction<string>) => {
+            if (state.userData) {
+                state.userData.user.leetcodeSessionToken = action.payload;
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -141,5 +146,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, updateLeetcodeSessionToken } = authSlice.actions;
 export default authSlice.reducer;

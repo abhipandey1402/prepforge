@@ -81,7 +81,7 @@ const ExtensionAuthScreen: React.FC<ExtensionAuthScreenProps> = ({
     ];
 
 
-    const extensionId = "gfnkngekdccednghocmnjmhojkknmaja";
+    const extensionId = "ejggddpdebjhdpamcbngbajonapihakm";
 
     const handleConnectExtension = () => {
         if (!jwt) {
@@ -160,8 +160,7 @@ const ExtensionAuthScreen: React.FC<ExtensionAuthScreenProps> = ({
     };
 
     const handleInstallExtension = () => {
-        // In a real app, this would open the Chrome Web Store
-        window.open('https://chrome.google.com/webstore', '_blank');
+        window.open('https://chromewebstore.google.com/detail/prepforge-leetcode-sync/ejggddpdebjhdpamcbngbajonapihakm', '_blank');
         setCurrentStep(1);
     };
 

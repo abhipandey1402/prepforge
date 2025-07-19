@@ -29,6 +29,8 @@ interface UserStats {
 export default function LeetcodeSubmissions({ isDarkMode }: any) {
     const accessToken = useSelector((state: RootState) => state.auth?.userData?.accessToken);
     const { isAuthenticated, sessionToken, logout } = useLeetCodeAuthSocket();
+    const leetcodeToken = useSelector((state: RootState) => state.auth?.userData?.user?.leetcodeSessionToken);
+    const [isTokenAuthenticated] = useState(leetcodeToken ? true : false);
 
     const [page, setPage] = useState(1);
     const [size, setSize] = useState(10);
@@ -124,14 +126,14 @@ export default function LeetcodeSubmissions({ isDarkMode }: any) {
     return (
         <ErrorBoundary>
             <LayoutContainer isDarkMode={isDarkMode}>
-                {!isAuthenticated ? (
+                {(!isAuthenticated) ? (
                     <ExtensionAuthScreen
                         jwt={accessToken}
                         token={sessionToken && sessionToken}
-                        isAuthenticated={isAuthenticated}
+                        isAuthenticated={isAuthenticated || isTokenAuthenticated}
                         isDarkMode={isDarkMode}
                     />
-                ) : (isAuthenticated && status === 'fetching') ? (
+                ) : ((isAuthenticated || isTokenAuthenticated) && status === 'fetching') ? (
                     <SyncingUI progress={progress} status={status} isDarkMode={isDarkMode} />
                 ) : (
                     <div className="container mx-auto px-4 py-4">

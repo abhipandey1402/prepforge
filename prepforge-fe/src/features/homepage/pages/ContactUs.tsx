@@ -3,6 +3,7 @@ import { Mail, MessageSquare, Code, TrendingUp, Clock, Send, CheckCircle, User, 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
+import axiosClient from '@/interceptors/axiosClient';
 
 const ContactUsPage = () => {
   const navigate = useNavigate();
@@ -24,13 +25,25 @@ const ContactUsPage = () => {
     }));
   };
 
+
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
+    setSubmitStatus('');
+
+    try {
+      const { name, email, subject, category, message } = formData;
+
+      const payload = {
+        name,
+        email,
+        subject,
+        category,
+        message
+      };
+
+      await axiosClient.post('/users/contact-us', payload);
+
       setSubmitStatus('success');
-      setIsSubmitting(false);
       setFormData({
         name: '',
         email: '',
@@ -38,8 +51,14 @@ const ContactUsPage = () => {
         category: 'general',
         message: ''
       });
-    }, 2000);
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
 
   const contactCategories = [
     {
@@ -111,7 +130,7 @@ const ContactUsPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-white">
       {/* Hero Section */}
-      <Header/>
+      <Header />
       <div className="bg-gradient-to-r from-blue-950 to-blue-950 text-white py-8 ml-18 mr-18 mt-8 rounded-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -133,14 +152,13 @@ const ContactUsPage = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactCategories.map((category) => (
-              <div 
+              <div
                 key={category.id}
-                className={`p-6 rounded-lg border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${
-                  formData.category === category.id 
-                    ? 'border-orange-600 bg-orange-50 shadow-md' 
-                    : 'border-gray-200 bg-white hover:border-orange-300'
-                }`}
-                onClick={() => setFormData(prev => ({...prev, category: category.id}))}
+                className={`p-6 rounded-lg border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${formData.category === category.id
+                  ? 'border-orange-600 bg-orange-50 shadow-md'
+                  : 'border-gray-200 bg-white hover:border-orange-300'
+                  }`}
+                onClick={() => setFormData(prev => ({ ...prev, category: category.id }))}
               >
                 <category.icon className="w-8 h-8 text-orange-600 mb-4" />
                 <h3 className="font-semibold text-gray-900 mb-2">{category.title}</h3>
@@ -154,7 +172,7 @@ const ContactUsPage = () => {
           {/* Contact Form */}
           <div className="bg-white rounded-xl shadow-lg p-8">
             <h2 className="text-2xl font-bold mb-6 text-gray-900">Send Us a Message</h2>
-            
+
             {submitStatus === 'success' && (
               <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center">
                 <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
@@ -287,7 +305,7 @@ const ContactUsPage = () => {
           </button>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

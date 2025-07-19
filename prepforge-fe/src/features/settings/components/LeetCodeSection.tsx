@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     ExternalLink, 
     Calendar, 
@@ -12,8 +12,9 @@ import {
 import { useLeetCodeAuth } from '../../globalFeatures/hooks/useLeetCodeAuth';
 import { formatDate } from '../utils/settings.utils';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/store';
+import { AppDispatch, RootState } from '@/store';
 import { setCurrentItem } from '@/features/globalFeatures/slices/configSlice';
+import { useSelector } from 'react-redux';
 
 interface LeetCodeSectionProps {
 leetcodeRefreshedAt: Date | any;
@@ -22,7 +23,6 @@ isDarkMode: boolean;
 
 const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt, isDarkMode}) => {
     const {
-        isAuthenticated,
         isLoading,
         isAuthorizing,
         error,
@@ -30,6 +30,8 @@ const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt, i
         logout,
         clearError,
     } = useLeetCodeAuth();
+    const leetcodeToken = useSelector((state: RootState) => state.auth?.userData?.user?.leetcodeSessionToken);
+    const [isAuthenticated] = useState(leetcodeToken ? true : false);
 
     const dispatch = useDispatch<AppDispatch>();
 

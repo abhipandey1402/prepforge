@@ -1,5 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSocket } from "@/features/chat/utils/SocketContext";
+import { useDispatch } from "react-redux";
+import { updateLeetcodeSessionToken } from "@/features/user/slices/authSlice";
 
 // Utility functions
 const setCookie = (name: string, value: string, days: number = 7) => {
@@ -25,6 +27,7 @@ const deleteCookie = (name: string) => {
 
 // Hook
 export const useLeetCodeAuthSocket = () => {
+    const dispatch = useDispatch();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [sessionToken, setSessionToken] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -36,6 +39,7 @@ export const useLeetCodeAuthSocket = () => {
         if (existingToken) {
             setSessionToken(existingToken);
             setIsAuthenticated(true);
+            dispatch(updateLeetcodeSessionToken(existingToken));
         }
     }, []);
 
@@ -51,6 +55,7 @@ export const useLeetCodeAuthSocket = () => {
                 setCookie("leetcode_session_token", token, 7);
                 setSessionToken(token);
                 setIsAuthenticated(true);
+                dispatch(updateLeetcodeSessionToken(token));
             } else {
                 setError("Invalid auth response from socket");
             }
@@ -67,6 +72,7 @@ export const useLeetCodeAuthSocket = () => {
         deleteCookie("leetcode_session_token");
         setIsAuthenticated(false);
         setSessionToken(null);
+        dispatch(updateLeetcodeSessionToken(""));
     }, []);
 
     return {

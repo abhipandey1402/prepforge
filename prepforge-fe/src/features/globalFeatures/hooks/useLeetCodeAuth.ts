@@ -1,5 +1,7 @@
+import { updateLeetcodeSessionToken } from "@/features/user/slices/authSlice";
 import axiosClient from "@/interceptors/axiosClient";
 import { useState, useCallback, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 // Cookie utility functions
 const setCookie = (name: string, value: string, days: number = 7) => {
@@ -28,6 +30,7 @@ const deleteCookie = (name: string) => {
 };
 
 export function useLeetCodeAuth() {
+    const dispatch = useDispatch();
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isAuthorizing, setIsAuthorizing] = useState<boolean>(false);
@@ -40,6 +43,7 @@ export function useLeetCodeAuth() {
         if (token) {
             setSessionToken(token);
             setIsAuthenticated(true);
+            dispatch(updateLeetcodeSessionToken(token));
         }
         setIsLoading(false);
     }, []);
@@ -60,6 +64,7 @@ export function useLeetCodeAuth() {
                 setCookie('leetcode_session_token', token, 7);
                 setSessionToken(token);
                 setIsAuthenticated(true);
+                dispatch(updateLeetcodeSessionToken(token));
             } else {
                 throw new Error(response?.data?.message || 'Authorization failed');
             }
@@ -78,6 +83,7 @@ export function useLeetCodeAuth() {
         setSessionToken(null);
         setIsAuthenticated(false);
         setError(null);
+        dispatch(updateLeetcodeSessionToken(""));
     }, []);
 
     const clearError = useCallback(() => {
