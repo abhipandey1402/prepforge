@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PrepForge LeetCode Sync",
-  "version": "1.0",
+  "version": "1.1",
   "description": "This extension helps PrepForge authorize your LeetCode submissions by safely retrieving your session token.",
   "permissions": ["cookies", "storage"],
   "host_permissions": ["https://leetcode.com/"],
