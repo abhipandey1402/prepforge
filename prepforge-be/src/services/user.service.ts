@@ -4,6 +4,8 @@ import { hashPassword, isPasswordCorrect, generateAccessToken, generateRefreshTo
 import * as crypto from 'crypto';
 import { emailService } from "./email.service.js";
 import { verificationTemplate } from "../templates/emails/verification.template.js";
+import { feedbackOrStoryTemplate } from "../templates/emails/feedbackOrStory.template.js";
+import { contactUsTemplate } from "../templates/emails/contactUs.template.js";
 
 interface RegisterUserInput {
     fullName: string;
@@ -225,3 +227,36 @@ export const verifyEmail = async (token: string): Promise<void> => {
 
     await user.save();
 };
+
+export const submitFeedback = async (formType: "Feedback" | "Success Story", name: string, contact: string, message: string, email: string, linkedinId: string): Promise<void> => {
+    await emailService.sendMail({
+        to: "pandeyabhi142002@gmail.com",
+        replyTo: email || undefined,
+        subject: `${formType} Submission received from ${name}`,
+        html: feedbackOrStoryTemplate({
+            formType,
+            name,
+            contact,
+            message,
+            email,
+            linkedinId,
+        }),
+        from: `"${formType} from ${name}" <hello@prepforge.space>`
+    });
+}
+
+export const submitContactUs = async (name: string, email: string, message: string, subject: string, category: string): Promise<void> => {
+    await emailService.sendMail({
+        to: "pandeyabhi142002@gmail.com",
+        replyTo: email || undefined,
+        subject: subject,
+        html: contactUsTemplate({
+            name,
+            email,
+            message,
+            subject,
+            category,
+        }),
+        from: `"PrepForge Support" <support@prepforge.space>`
+    });
+}

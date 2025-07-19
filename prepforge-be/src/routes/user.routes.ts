@@ -6,6 +6,8 @@ import {
     logoutUser,
     refreshAccessToken,
     registerUser,
+    submitContactUs,
+    submitFeedback,
     updateCurrentUserData,
     updateUserAvatar,
     verifyEmail
@@ -27,5 +29,7 @@ router.route("/currentUser").get(verifyJWT, getCurrentUser);   // Endpoint to fe
 router.route("/updateData").patch(verifyJWT, updateCurrentUserData);   // Endpoint to update current Logged-in user
 router.route("/updateAvatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 router.route("/verify-email").get(verifyEmail);
+router.route('/feedback').post(submitFeedback);
+router.route('/contact-us').post(submitContactUs);
 
 export default router;

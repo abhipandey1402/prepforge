@@ -14,7 +14,6 @@ export const socketBridgeSQS = async (io: SocketIOServer) => {
             VisibilityTimeout: 60,
         };
 
-        console.log(`[SQS Socket Bridge] Listening for ${event} events...`);
 
         while (true) {
             try {
@@ -35,11 +34,9 @@ export const socketBridgeSQS = async (io: SocketIOServer) => {
                         const deleteCommand = new DeleteMessageCommand(deleteParams);
                         await sqsClient.send(deleteCommand);
 
-                        console.log(`[SQS Socket Bridge] Emitted ${event} update to clients.`);
                     }
                 }
             } catch (error) {
-                console.error(`[SQS Socket Bridge] Error processing ${event}:`, error);
                 // Optional: sleep a bit on error to avoid tight error loop
                 await new Promise((resolve) => setTimeout(resolve, 5000));
             }

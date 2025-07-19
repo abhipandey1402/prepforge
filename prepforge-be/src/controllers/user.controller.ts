@@ -104,3 +104,23 @@ export const verifyEmail = asyncHandler(async (req: any, res: any): Promise<void
         new ApiResponse(200, "Email verified successfully. You can now log in.", "Email verified successfully. You can now log in.")
     );
 });
+
+export const submitFeedback = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const { formType, name, email, message, contact, linkedinId } = req.body;
+
+    await authService.submitFeedback(formType, name, contact, message, email, linkedinId);
+
+    res.status(200).json(
+        new ApiResponse(200, `${formType} submitted successfully`, `${formType} submitted successfully`)
+    );
+});
+
+export const submitContactUs = asyncHandler(async (req: any, res: any): Promise<void> => {
+    const { name, email, message, subject, category } = req.body;
+
+    await authService.submitContactUs(name, email, message, subject, category);
+
+    res.status(200).json(
+        new ApiResponse(200, "Form submitted successfully", "Form submitted successfully")
+    );
+});

@@ -13,7 +13,6 @@ export const startConsumer = async () => {
         VisibilityTimeout: 300,
     };
 
-    console.log("[SQS Consumer] Starting...");
 
     const poll = async () => {
         while (true) {
@@ -37,15 +36,11 @@ export const startConsumer = async () => {
                             const deleteCommand = new DeleteMessageCommand(deleteParams);
                             await sqsClient.send(deleteCommand);
 
-                            console.log(`[SQS Consumer] Processed and deleted message for user ${job.userId}`);
                         } catch (error) {
-                            console.error("[SQS Consumer] Job failed:", error);
-                            // Optionally, skip delete so it can be retried
                         }
                     }
                 }
             } catch (error) {
-                console.error("[SQS Consumer] Error polling SQS:", error);
                 // Optional: sleep briefly before retrying on errors
                 await new Promise((resolve) => setTimeout(resolve, 5000));
             }

@@ -6,6 +6,7 @@ interface EmailOptions {
     subject: string;
     html: string;
     from?: string;
+    replyTo?: string;
 }
 
 class EmailService {
@@ -22,9 +23,10 @@ class EmailService {
         });
     }
 
-    async sendMail({ to, subject, html, from }: EmailOptions) {
+    async sendMail({ to, subject, html, from, replyTo }: EmailOptions) {
         const mailOptions = {
             from: from || `"PrepForge" <noreply@prepforge.space>`,
+            replyTo: replyTo || `"PrepForge Noreply" <noreply@prepforge.space>`,
             to,
             subject,
             html,
