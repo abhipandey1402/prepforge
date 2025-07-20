@@ -1,10 +1,11 @@
 import React from "react";
-import { HomeIcon, SettingsIcon, MessageSquareIcon, BrainCircuit } from "lucide-react";
+import { HomeIcon, SettingsIcon, BrainCircuit } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setCurrentItem } from "@/features/globalFeatures/slices/configSlice";
 import NavItem from "./NavItem";
 import ThemeToggle from "@/features/globalFeatures/components/ThemeToggle";
+import { useNavigate } from "react-router-dom";
 
 type MyComponentProps = {
     isDarkMode: boolean;
@@ -13,6 +14,7 @@ type MyComponentProps = {
 const Sidebar: React.FC<MyComponentProps> = ({ isDarkMode }) => {
     const currentItem = useSelector((state: RootState) => state.config?.currentItem);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleItemClick = (item: string) => {
         dispatch(setCurrentItem(item));
@@ -30,7 +32,7 @@ const Sidebar: React.FC<MyComponentProps> = ({ isDarkMode }) => {
                 onClick={() => dispatch(setCurrentItem("submissions"))}
             >
                 <img src="https://res.cloudinary.com/dbzi19ec6/image/upload/v1752592047/icon128_vsu3tt.png" className='w-8 h-8 rounded' />
-                <span className="text-xl font-bold cursor-pointer mb-2">PrepForge</span>
+                <span className="text-xl font-bold cursor-pointer mb-2" onClick={() => navigate("/")}>PrepForge</span>
             </div>
             <nav>
                 <NavItem
@@ -49,14 +51,14 @@ const Sidebar: React.FC<MyComponentProps> = ({ isDarkMode }) => {
                     itemValue="practice"
                     isDarkMode={isDarkMode}
                 />
-                <NavItem
+                {/* <NavItem
                     icon={<MessageSquareIcon size={20} />}
                     label="Chats"
                     handleClick={handleItemClick}
                     currentItem={currentItem}
                     itemValue="chats"
                     isDarkMode={isDarkMode}
-                />
+                /> */}
                 {/* <NavItem icon={<BellIcon size={20} />} label="Notifications" handleClick={handleItemClick} currentItem={currentItem} itemValue="notifications" /> */}
                 <NavItem
                     icon={<SettingsIcon size={20} />}

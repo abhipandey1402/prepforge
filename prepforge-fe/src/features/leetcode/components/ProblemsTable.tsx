@@ -34,7 +34,7 @@ export const ProblemsTable = ({ problems, expandedProblem, toggleProblemDetails,
                 <thead>
                     <tr className={`${isDarkMode ? 'text-gray-400 border-gray-700' : 'text-gray-600 border-gray-300'} border-b`}>
                         <th className="px-4 py-3 text-left">Problem</th>
-                        <th className="px-4 py-3 text-left">Status</th>
+                        {/* <th className="px-4 py-3 text-left">Status</th> */}
                         <th className="px-4 py-3 text-left">Difficulty</th>
                         <th className="px-4 py-3 text-left">Topics</th>
                         <th className="px-4 py-3 text-left">Actions</th>
@@ -63,7 +63,7 @@ export const ProblemsTable = ({ problems, expandedProblem, toggleProblemDetails,
             </table>
 
             {/* Pagination Controls */}
-            {problems.length > 0 && (
+            {/* {problems.length > 0 && ( */}
                 <div className={`flex items-center justify-between mt-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <div className="flex items-center">
                         <span className="mr-2">Show</span>
@@ -161,7 +161,7 @@ export const ProblemsTable = ({ problems, expandedProblem, toggleProblemDetails,
                         </button>
                     </div>
                 </div>
-            )}
+            {/* )} */}
         </div>
     );
 };

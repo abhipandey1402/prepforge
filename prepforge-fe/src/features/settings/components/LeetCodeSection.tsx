@@ -3,8 +3,8 @@ import {
     ExternalLink, 
     Calendar, 
     User, 
-    LogOut, 
-    RefreshCw,
+    // LogOut, 
+    // RefreshCw,
     AlertCircle,
     CheckCircle,
     Loader
@@ -24,10 +24,10 @@ isDarkMode: boolean;
 const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt, isDarkMode}) => {
     const {
         isLoading,
-        isAuthorizing,
+        // isAuthorizing,
         error,
-        authorize,
-        logout,
+        // authorize,
+        // logout,
         clearError,
     } = useLeetCodeAuth();
     const leetcodeToken = useSelector((state: RootState) => state.auth?.userData?.user?.leetcodeSessionToken);
@@ -35,25 +35,25 @@ const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt, i
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const handleAuthorize = async () => {
-        try {
-            await authorize();
-        } catch (error) {
-            console.error('Authorization failed:', error);
-        }
-    };
+    // const handleAuthorize = async () => {
+    //     try {
+    //         await authorize();
+    //     } catch (error) {
+    //         console.error('Authorization failed:', error);
+    //     }
+    // };
 
-    const handleLogout = () => {
-        logout();
-    };
+    // const handleLogout = () => {
+    //     logout();
+    // };
 
-    const handleRefresh = async () => {
-        try {
-            await authorize();
-        } catch (error) {
-            console.error('Refresh failed:', error);
-        }
-    };
+    // const handleRefresh = async () => {
+    //     try {
+    //         await authorize();
+    //     } catch (error) {
+    //         console.error('Refresh failed:', error);
+    //     }
+    // };
 
     const handleNavigateDashboard = async () => {
         dispatch(setCurrentItem('submissions'))
@@ -137,7 +137,7 @@ const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt, i
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex flex-wrap gap-3">
+                    {/* <div className="flex flex-wrap gap-3">
                         {!isAuthenticated ? (
                             <button
                                 onClick={handleAuthorize}
@@ -174,7 +174,7 @@ const LeetCodeSection: React.FC<LeetCodeSectionProps> = ({leetcodeRefreshedAt, i
                                 </button>
                             </>
                         )}
-                    </div>
+                    </div> */}
 
                     {/* Additional Info */}
                     {isAuthenticated && (

@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useLeetCodeAuthSocket } from "../hooks/useLeetCodeAuthSocket";
 import { useLeetCodeHeatmap } from "../hooks/useLeetCodeHeatmap";
+import ForgeIQComingSoon from "../components/ForgeIQ";
 
 interface UserStats {
     totalSolved: any;
@@ -83,7 +84,7 @@ export default function LeetcodeSubmissions({ isDarkMode }: any) {
     }, [status, refetchSubmissions, refetchHeatmap]);
 
     const [expandedSubmission, setExpandedSubmission] = useState<string | null>(null);
-    const [activeTab, setActiveTab] = useState<'overview' | 'analytics' | 'submissions'>('overview');
+    const [activeTab, setActiveTab] = useState<'overview' | 'analytics' | 'submissions' | 'forgeiq'>('overview');
 
     const leetcodeUserStats: UserStats = {
         totalSolved: stats?.totalSolved,
@@ -120,13 +121,14 @@ export default function LeetcodeSubmissions({ isDarkMode }: any) {
     const tabs = [
         { id: 'overview', label: 'Overview', icon: '📊' },
         { id: 'submissions', label: 'Submissions', icon: '📝' },
-        { id: 'analytics', label: 'Analytics', icon: '📈' }
+        { id: 'analytics', label: 'Analytics', icon: '📈' },
+        { id: 'forgeiq', label: 'ForgeIQ', icon: '🪂' }
     ];
 
     return (
         <ErrorBoundary>
             <LayoutContainer isDarkMode={isDarkMode}>
-                {(!isAuthenticated) ? (
+                {(!isTokenAuthenticated) ? (
                     <ExtensionAuthScreen
                         jwt={accessToken}
                         token={sessionToken && sessionToken}
@@ -137,7 +139,6 @@ export default function LeetcodeSubmissions({ isDarkMode }: any) {
                     <SyncingUI progress={progress} status={status} isDarkMode={isDarkMode} />
                 ) : (
                     <div className="container mx-auto px-4 py-4">
-                        {/* Header with User Info and Logout */}
                         <div className={`mb-6 p-4 rounded-xl ${isDarkMode ? 'bg-slate-900' : 'bg-white'} shadow-lg`}>
                             <div className="flex justify-between items-center">
                                 <div>
@@ -154,7 +155,6 @@ export default function LeetcodeSubmissions({ isDarkMode }: any) {
                             </div>
                         </div>
 
-                        {/* Navigation Tabs */}
                         <div className={`mb-6 p-1 rounded-xl ${isDarkMode ? 'bg-slate-900' : 'bg-white'} shadow-lg`}>
                             <div className="flex space-x-1">
                                 {tabs.map((tab) => (
@@ -175,7 +175,6 @@ export default function LeetcodeSubmissions({ isDarkMode }: any) {
                             </div>
                         </div>
 
-                        {/* Content based on active tab */}
                         {activeTab === 'overview' && (
                             <div className="space-y-6">
                                 <ProgressSection stats={leetcodeUserStats} isDarkMode={isDarkMode} />
@@ -184,39 +183,74 @@ export default function LeetcodeSubmissions({ isDarkMode }: any) {
                         )}
 
                         {activeTab === 'analytics' && (
-                            <div className="space-y-6">
-                                <AnalyticsSection
-                                    submissions={submissions}
-                                    stats={leetcodeUserStats}
-                                    isDarkMode={isDarkMode}
-                                />
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                    {/* Performance Trends */}
-                                    <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-900' : 'bg-white'} shadow-lg`}>
-                                        <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
-                                            Performance Trends
-                                        </h3>
-                                        {/* Add your performance chart component here */}
-                                        <div className={`h-64 rounded-lg ${isDarkMode ? 'bg-slate-800' : 'bg-gray-50'} flex items-center justify-center`}>
-                                            <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                                                Performance Chart Coming Soon
-                                            </span>
-                                        </div>
-                                    </div>
 
-                                    {/* Problem Categories */}
-                                    <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-900' : 'bg-white'} shadow-lg`}>
-                                        <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
-                                            Problem Categories
-                                        </h3>
-                                        {/* Add your category breakdown component here */}
-                                        <div className={`h-64 rounded-lg ${isDarkMode ? 'bg-slate-800' : 'bg-gray-50'} flex items-center justify-center`}>
-                                            <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                                                Category Chart Coming Soon
-                                            </span>
+                            <div className="relative">
+                                <div className="space-y-6">
+                                    <AnalyticsSection
+                                        submissions={submissions}
+                                        stats={leetcodeUserStats}
+                                        isDarkMode={isDarkMode}
+                                    />
+
+                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                        <div
+                                            className={`p-6 rounded-xl ${isDarkMode ? "bg-slate-900" : "bg-white"
+                                                } shadow-lg`}
+                                        >
+                                            <h3
+                                                className={`text-lg font-semibold mb-4 ${isDarkMode ? "text-white" : "text-gray-800"
+                                                    }`}
+                                            >
+                                                Performance Trends
+                                            </h3>
+                                            <div
+                                                className={`h-64 rounded-lg ${isDarkMode ? "bg-slate-800" : "bg-gray-50"
+                                                    } flex items-center justify-center`}
+                                            >
+                                                <span
+                                                    className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+                                                >
+                                                    Performance Chart Coming Soon
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            className={`p-6 rounded-xl ${isDarkMode ? "bg-slate-900" : "bg-white"
+                                                } shadow-lg`}
+                                        >
+                                            <h3
+                                                className={`text-lg font-semibold mb-4 ${isDarkMode ? "text-white" : "text-gray-800"
+                                                    }`}
+                                            >
+                                                Problem Categories
+                                            </h3>
+                                            <div
+                                                className={`h-64 rounded-lg ${isDarkMode ? "bg-slate-800" : "bg-gray-50"
+                                                    } flex items-center justify-center`}
+                                            >
+                                                <span
+                                                    className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+                                                >
+                                                    Category Chart Coming Soon
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                {true && (
+                                    <div className="absolute inset-0 z-20 flex items-center justify-center backdrop-blur-sm bg-orange-100/10 rounded-xl">
+                                        <div className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-xl text-center">
+                                            <h2 className="text-2xl font-bold mb-2 text-gray-800 dark:text-white">
+                                                Dropping Next Month 🚀
+                                            </h2>
+                                            <p className="text-gray-700 dark:text-gray-300">
+                                                This feature is coming soon. Stay tuned!
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
 
@@ -237,28 +271,27 @@ export default function LeetcodeSubmissions({ isDarkMode }: any) {
                                             {searchQuery && (
                                                 <button
                                                     onClick={() => setSearchQuery('')}
-                                                    className={`px-3 py-1 text-sm rounded-lg transition-colors ${
-                                                        isDarkMode 
-                                                            ? 'bg-slate-700 text-gray-300 hover:bg-slate-600' 
+                                                    className={`px-3 py-1 text-sm rounded-lg transition-colors ${isDarkMode
+                                                            ? 'bg-slate-700 text-gray-300 hover:bg-slate-600'
                                                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                                                    }`}
+                                                        }`}
                                                 >
                                                     Clear
                                                 </button>
                                             )}
                                         </div>
                                     </div>
-                                    
+
                                     {/* Search Results Info */}
                                     {searchQuery && (
                                         <div className={`mb-4 p-3 rounded-lg ${isDarkMode ? 'bg-slate-800' : 'bg-gray-50'}`}>
                                             <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                                                {submissionsLoading ? 'Searching...' : 
+                                                {submissionsLoading ? 'Searching...' :
                                                     `Found ${total} result${total !== 1 ? 's' : ''} for "${searchQuery}"`}
                                             </p>
                                         </div>
                                     )}
-                                    
+
                                     <SubmissionsTable
                                         submissions={submissions}
                                         expandedSubmission={expandedSubmission}
@@ -273,6 +306,12 @@ export default function LeetcodeSubmissions({ isDarkMode }: any) {
                                         isSearchMode={!!searchQuery}
                                     />
                                 </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'forgeiq' && (
+                            <div className="space-y-6">
+                                <ForgeIQComingSoon isDarkMode={isDarkMode}/>
                             </div>
                         )}
                     </div>

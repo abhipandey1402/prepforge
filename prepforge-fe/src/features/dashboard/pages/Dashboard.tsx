@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { setCurrentItem } from "@/features/globalFeatures/slices/configSlice";
 import LeetcodeSubmissions from "@/features/leetcode/pages/LeetcodeSubmissions";
 import LeetcodeProblems from "@/features/leetcode/pages/LeetcodeProblems";
-import ChatPage from "@/features/chat/pages/ChatPage";
+// import ChatPage from "@/features/chat/pages/ChatPage";
 import SettingsPage from "@/features/settings/index"
 
 const Dashboard = () => {
@@ -32,8 +32,8 @@ const Dashboard = () => {
                 return <LeetcodeSubmissions isDarkMode={isDarkMode} />;
             case "practice":
                 return <LeetcodeProblems isDarkMode={isDarkMode} />;
-            case "chats":
-                return <ChatPage isDarkMode={isDarkMode} />
+            // case "chats":
+                // return <ChatPage isDarkMode={isDarkMode} />
             case "challengebetting":
                 return <span>Challenge Betting</span>
             case "achievements":

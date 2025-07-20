@@ -14,8 +14,8 @@ export const ProblemRow = ({ problem, onToggle, isDarkMode }: any) => {
                 <td className="px-4 py-3">
                     <span className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{problem?.questionFrontendId + ". " + problem.title}</span>
                 </td>
-                <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{problem.status}</td>
-                <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{problem.difficulty}</td>
+                {/* <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{problem.status}</td> */}
+                <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{problem?.difficulty[0] + problem?.difficulty?.slice(1)?.toLowerCase()}</td>
                 <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     {problem.topicTags?.map((tag: { name: string }) => tag?.name)?.join(', ')}
                 </td>
