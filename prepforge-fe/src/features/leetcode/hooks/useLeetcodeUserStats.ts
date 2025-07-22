@@ -1,4 +1,5 @@
 import axiosClient from "@/interceptors/axiosClient";
+import axios from "axios";
 import { useEffect, useState, useCallback, useRef } from "react";
 
 export interface LeetCodeUserStats {
@@ -49,6 +50,9 @@ export function useLeetCodeUserStats(): UseLeetCodeUserStatsResult {
                 throw new Error("Invalid response structure");
             }
         } catch (err: any) {
+            if(axios.isCancel(err)){
+                return;
+            }
             console.error("Fetch stats error:", err);
             setError(err.message || "Failed to fetch user stats");
         } finally {

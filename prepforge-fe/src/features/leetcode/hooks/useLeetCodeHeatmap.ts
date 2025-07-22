@@ -1,4 +1,5 @@
 import axiosClient from "@/interceptors/axiosClient";
+import axios from "axios";
 import { useEffect, useState, useCallback, useRef } from "react";
 
 interface LeetCodeHeatmapData {
@@ -40,6 +41,9 @@ export function useLeetCodeHeatmap(): UseLeetCodeHeatmapResult {
                 throw new Error("Invalid response structure");
             }
         } catch (err: any) {
+            if(axios.isCancel(err)){
+                return;
+            }
             if (err.name !== "AbortError") {
                 console.error("Fetch heatmap error:", err);
                 setError(err.message || "Failed to fetch heatmap data");
