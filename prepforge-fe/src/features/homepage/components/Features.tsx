@@ -32,7 +32,7 @@ const Features: React.FC = () => {
         <div className="bg-white py-16" id="features">
             <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold text-center text-neutral-950 mb-3">Key Features</h2>
-                <p className="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
+                <p className="text-center text-gray-800 mb-12 max-w-3xl mx-auto">
                     Everything you need to master LeetCode and ace your technical interviews.
                 </p>
                 <div className="grid md:grid-cols-2 gap-8">

@@ -49,7 +49,7 @@ const ProblemExplorer: React.FC = () => {
         <div className="bg-white py-16" id="problems">
             <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold text-center text-neutral-950 mb-3">LeetCode Problem Explorer</h2>
-                <p className="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
+                <p className="text-center text-gray-800 mb-12 max-w-3xl mx-auto">
                     Track, filter, and manage your LeetCode problems in one place.
                 </p>
 
@@ -67,7 +67,7 @@ const ProblemExplorer: React.FC = () => {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="border border-gray-300 rounded-lg px-3 py-1 mr-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
-                            <button className="p-1.5 bg-blue-600 text-white rounded-md transition-colors">
+                            <button className="p-1.5 bg-blue-600 text-white rounded-md transition-colors" aria-label='search button'>
                                 <Search className="h-4 w-4" />
                             </button>
                         </div>
@@ -87,8 +87,13 @@ const ProblemExplorer: React.FC = () => {
                                     {filter[0].toUpperCase() + filter.slice(1)}
                                 </button>
                             ))}
+                            <label htmlFor="difficulty" className="sr-only">
+                                Filter by difficulty
+                            </label>
                             <select
-                                className="px-3 py-1 text-sm font-medium rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300"
+                                id="difficulty"
+                                name="difficulty"
+                                className="px-3 py-1 text-sm font-medium rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300"
                                 value={difficulty}
                                 onChange={(e) => setDifficulty(e.target.value)}
                             >

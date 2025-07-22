@@ -19,10 +19,10 @@ const CTA: React.FC = () => {
                                     Connect your LeetCode account, challenge your friends, and get AI-powered insights to ace your next technical interview.
                                 </p>
                                 <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                    <button className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-orange-700 transition-colors flex items-center justify-center" onClick={() => navigate('/auth')}>
+                                    <button className="px-6 py-3 bg-blue-950 text-white font-medium rounded-lg shadow-md hover:bg-orange-600 transition-colors flex items-center justify-center" onClick={() => navigate('/auth')}>
                                         Get Started For Free
                                     </button>
-                                    <button className="px-6 py-3 bg-transparent border border-white text-white font-medium rounded-lg hover:bg-white/10 transition-colors flex items-center justify-center" onClick={() => navigate('/about')}>
+                                    <button className="px-6 py-3 bg-transparent border border-white text-blue-950 font-medium rounded-lg hover:bg-white/10 transition-colors flex items-center justify-center" onClick={() => navigate('/about')}>
                                         Learn More
                                     </button>
                                 </div>

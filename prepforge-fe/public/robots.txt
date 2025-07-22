@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://prepforge.space/sitemap.xml

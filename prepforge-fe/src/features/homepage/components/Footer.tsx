@@ -1,7 +1,6 @@
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
-    const navigate = useNavigate();
 
     return (
         <footer className="bg-white text-gray-700 py-6 border-t border-gray-200">
@@ -11,7 +10,7 @@ const Footer: React.FC = () => {
                     {/* Brand Column */}
                     <div>
                         <div className="flex items-center space-x-2 mb-4">
-                            <img src="https://res.cloudinary.com/dbzi19ec6/image/upload/v1752592047/icon128_vsu3tt.png" className='w-10 h-10 rounded' />
+                            <img src="https://res.cloudinary.com/dbzi19ec6/image/upload/v1752592047/icon128_vsu3tt.png" alt="prepforge-logo" className='w-10 h-10 rounded' />
                             <span className="font-bold text-xl text-neutral-950">PrepForge</span>
                         </div>
                         <p className="text-sm mb-4">
@@ -70,11 +69,21 @@ const Footer: React.FC = () => {
                         © 2025 PrepForge. All rights reserved.
                     </div>
                     <div className="flex space-x-4 text-xs">
-                        <a onClick={() => navigate('/terms-service')} className="hover:text-orange-600 transition-colors cursor-pointer">Terms of Service</a>
-                        <a onClick={() => navigate('/privacy-policy')} className="hover:text-orange-600 transition-colors cursor-pointer">Privacy Policy</a>
-                        <a onClick={() => navigate('/cookie-policy')} className="hover:text-orange-600 transition-colors cursor-pointer">Cookie Policy</a>
-                        <a onClick={() => navigate('/contact')} className="hover:text-orange-600 transition-colors cursor-pointer">Contact us</a>
-                        <a onClick={() => navigate('/about')} className="hover:text-orange-600 transition-colors cursor-pointer">About us</a>
+                        <Link to="/terms-service" className="hover:text-orange-600 transition-colors">
+                            Terms of Service
+                        </Link>
+                        <Link to="/privacy-policy" className="hover:text-orange-600 transition-colors">
+                            Privacy Policy
+                        </Link>
+                        <Link to="/cookie-policy" className="hover:text-orange-600 transition-colors">
+                            Cookie Policy
+                        </Link>
+                        <Link to="/contact" className="hover:text-orange-600 transition-colors">
+                            Contact us
+                        </Link>
+                        <Link to="/about" className="hover:text-orange-600 transition-colors">
+                            About us
+                        </Link>
                     </div>
                 </div>
             </div>

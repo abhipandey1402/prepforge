@@ -19,7 +19,7 @@ const RecommendedProblemCard: React.FC<RecommendedProblemCardProps> = ({ problem
                     {problem.difficulty}
                 </span>
             </div>
-            <div className="text-xs text-gray-500 mt-1">{problem.reason}</div>
+            <div className="text-xs text-gray-700 mt-1">{problem.reason}</div>
         </div>
     </div>
 );

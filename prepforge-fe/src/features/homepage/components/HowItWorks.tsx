@@ -29,7 +29,7 @@ const HowItWorks = () => {
         <div className="mx-auto py-6 px-4">
             <div className="text-center mb-6">
                 <h2 className="text-3xl font-bold text-black mb-3 bg-gradient-to-r from-blue-950 to-blue-800 bg-clip-text">How It Works</h2>
-                <p className="text-gray-400 text-lg leading-relaxed max-w-2xl mx-auto">Simple 3-step process to unlock AI-powered coding insights</p>
+                <p className="text-gray-800 text-lg leading-relaxed max-w-2xl mx-auto">Simple 3-step process to unlock AI-powered coding insights</p>
             </div>
 
             <div className="flex flex-col py-16 md:flex-row items-start justify-evenly space-y-12 md:space-y-0 md:space-x-12 bg-gradient-to-r from-orange-600/40 to-blue-950/40 rounded-2xl">

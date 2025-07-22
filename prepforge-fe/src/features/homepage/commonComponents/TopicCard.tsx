@@ -29,9 +29,9 @@ const TopicCard: React.FC<TopicCardProps> = ({ report, isActive, onClick }) => {
                     style={{ width: `${progress}%` }}
                 />
             </div>
-            <div className="flex justify-between mt-2 text-xs">
-                <div className="text-green-600">Strength: {report.strength}</div>
-                <div className="text-red-600">Focus on: {report.weakness}</div>
+            <div className="flex justify-between mt-2 text-xs font-semibold">
+                <div className="text-green-700">Strength: {report.strength}</div>
+                <div className="text-red-700">Focus on: {report.weakness}</div>
             </div>
         </div>
     );

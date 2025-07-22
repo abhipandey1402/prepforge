@@ -25,7 +25,7 @@ const Header: React.FC = () => {
             <div className="container mx-auto px-4 py-4">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-2 cursor-pointer" onClick={() => Navigate('/')}>
-                        <img src="https://res.cloudinary.com/dbzi19ec6/image/upload/v1752592047/icon128_vsu3tt.png" className='w-10 h-10 rounded'/>
+                        <img src="https://res.cloudinary.com/dbzi19ec6/image/upload/v1752592047/icon128_vsu3tt.png" alt="prepforge-logo" className='w-10 h-10 rounded'/>
                         <span className="font-bold text-xl text-blue-950">PrepForge</span>
                     </div>
                     <div className="hidden md:flex items-center space-x-8">
@@ -39,8 +39,8 @@ const Header: React.FC = () => {
                         </div>
                         :
                         <div className="flex items-center space-x-4">
-                            <button className="px-4 py-2 text-orange-600 font-medium hover:bg-blue-50 rounded-lg transition-colors" onClick={handleNavigateToAuth}>Login</button>
-                            <button className="px-4 py-2 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-orange-700 transition-colors" onClick={handleNavigateToAuth}>Sign Up</button>
+                            <button className="px-4 py-2 text-blue-950 font-medium hover:bg-blue-50 rounded-lg transition-colors" onClick={handleNavigateToAuth}>Login</button>
+                            <button className="px-4 py-2 bg-blue-950 text-white font-medium rounded-lg shadow-md hover:bg-orange-600/10 hover:text-blue-950 transition-colors" onClick={handleNavigateToAuth}>Sign Up</button>
                         </div>
                     }
                 </div>

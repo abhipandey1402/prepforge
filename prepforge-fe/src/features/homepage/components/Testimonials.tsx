@@ -98,7 +98,7 @@ const Testimonials: React.FC = () => {
                 <h2 className="text-3xl font-bold text-center text-neutral-950 mb-3">
                     Success Stories
                 </h2>
-                <p className="text-center text-gray-400 mb-16 max-w-3xl mx-auto">
+                <p className="text-center text-gray-800 mb-16 max-w-3xl mx-auto">
                     See how our platform helps users simplify their LeetCode journey with AI-powered insights and seamless code tracking.
                 </p>
 

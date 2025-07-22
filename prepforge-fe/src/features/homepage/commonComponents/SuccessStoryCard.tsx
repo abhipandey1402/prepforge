@@ -15,13 +15,13 @@ const SuccessStoryCard: FC<SuccessStoryCardProps> = ({ initial, name, position, 
     const getInitialColor = (initial: string) => {
         switch (initial) {
             case 'JD':
-                return 'bg-blue-100 text-blue-600';
+                return 'bg-blue-100 text-blue-800';
             case 'SR':
-                return 'bg-green-100 text-green-600';
+                return 'bg-green-100 text-green-800';
             case 'MP':
-                return 'bg-orange-100 text-orange-600';
+                return 'bg-orange-100 text-orange-800';
             default:
-                return 'bg-gray-100 text-gray-600';
+                return 'bg-gray-100 text-gray-800';
         }
     };
 

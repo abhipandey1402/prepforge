@@ -22,7 +22,7 @@ const AIReports: React.FC<Props> = ({ topicReports, aiInsights }) => {
                     </span>
                 </h2>
 
-                <p className="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
+                <p className="text-center text-gray-800 mb-12 max-w-3xl mx-auto">
                     Get personalized AI reports based on your completed problems in each topic.
                 </p>
 
@@ -67,7 +67,7 @@ const AIReports: React.FC<Props> = ({ topicReports, aiInsights }) => {
                             <div>
                                 <h4 className="font-medium text-gray-800 mb-2">Recommended Problems</h4>
                                 <div className="space-y-2">
-                                    {aiInsights.recommendedProblems.map((problem: any, i: any) => (
+                                    {aiInsights?.recommendedProblems?.map((problem: any, i: any) => (
                                         <RecommendedProblemCard key={i} problem={problem} />
                                     ))}
                                 </div>
