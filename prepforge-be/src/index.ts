@@ -12,7 +12,7 @@ import { Server } from 'socket.io';
 import { initializeSocketIO } from './sockets/index.js';
 import chatRouter from './routes/chat.routes.js';
 import messageRouter from './routes/message.routes.js';
-import agentRouter from './routes/agent.routes.js';
+// import agentRouter from './routes/agent.routes.js';
 import healthRouter from './routes/health.routes.js';
 import { startConsumer } from './sqs/consumer.js';
 import { socketBridgeSQS } from './sockets/sqs.bridge.js';
@@ -84,7 +84,7 @@ const setupRoutes = () => {
     app.use("/api/v1/leetcode", leetcodeRouter);
     app.use("/api/v1/chats", chatRouter);
     app.use("/api/v1/messages", messageRouter);
-    app.use("/api/v1/agents", agentRouter);
+    // app.use("/api/v1/agents", agentRouter);
     app.use("/api/health", healthRouter); // ✅ Add health check route
 };
 
