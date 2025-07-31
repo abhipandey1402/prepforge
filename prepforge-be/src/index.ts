@@ -12,6 +12,7 @@ import { Server } from 'socket.io';
 import { initializeSocketIO } from './sockets/index.js';
 import chatRouter from './routes/chat.routes.js';
 import messageRouter from './routes/message.routes.js';
+import agentRouter from './routes/agent.routes.js';
 import healthRouter from './routes/health.routes.js';
 import { startConsumer } from './sqs/consumer.js';
 import { socketBridgeSQS } from './sockets/sqs.bridge.js';
@@ -28,28 +29,44 @@ const httpServer = createServer(app);
 
 // Middleware
 
+// const configureMiddleware = () => {
+//     app.use(
+//         cors({
+//             origin: (origin, callback) => {
+//                 const allowedOrigins = [
+//                     'http://localhost:3000',
+//                     'http://localhost:5173',
+//                     'chrome-extension://ejggddpdebjhdpamcbngbajonapihakm',
+//                     'https://www.prepforge.space',
+//                     'https://prepforge.space',
+//                 ];
+
+//                 // Allow requests with no origin (e.g. from Chrome extensions)
+//                 if (!origin || allowedOrigins.includes(origin)) {
+//                     callback(null, true);
+//                 } else {
+//                     callback(new Error(`Not allowed by CORS: ${origin}`));
+//                 }
+//             },
+//             methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
+//             credentials: true,
+//             allowedHeaders: ['Content-Type', 'Authorization'],
+//         }),
+//     );
+
+//     app.use(express.json({ limit: '32kb' }));
+//     app.use(express.urlencoded({ extended: true, limit: '32kb' }));
+//     app.use(express.static('public'));
+//     app.use(cookieParser());
+// };
+
 const configureMiddleware = () => {
     app.use(
         cors({
-            origin: (origin, callback) => {
-                const allowedOrigins = [
-                    'http://localhost:3000',
-                    'http://localhost:5173',
-                    'chrome-extension://ejggddpdebjhdpamcbngbajonapihakm',
-                    'https://www.prepforge.space',
-                    'https://prepforge.space',
-                ];
-
-                // Allow requests with no origin (e.g. from Chrome extensions)
-                if (!origin || allowedOrigins.includes(origin)) {
-                    callback(null, true);
-                } else {
-                    callback(new Error(`Not allowed by CORS: ${origin}`));
-                }
-            },
+            origin: '*', // <-- Allow all origins
             methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
-            credentials: true,
             allowedHeaders: ['Content-Type', 'Authorization'],
+            // ❌ credentials must be false or omitted when using '*'
         }),
     );
 
@@ -60,12 +77,14 @@ const configureMiddleware = () => {
 };
 
 
+
 // Setup routes for API endpoints
 const setupRoutes = () => {
     app.use("/api/v1/users", userRouter);
     app.use("/api/v1/leetcode", leetcodeRouter);
     app.use("/api/v1/chats", chatRouter);
     app.use("/api/v1/messages", messageRouter);
+    app.use("/api/v1/agents", agentRouter);
     app.use("/api/health", healthRouter); // ✅ Add health check route
 };
 
