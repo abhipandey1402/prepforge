@@ -12,6 +12,7 @@ import { Server } from 'socket.io';
 import { initializeSocketIO } from './sockets/index.js';
 import chatRouter from './routes/chat.routes.js';
 import messageRouter from './routes/message.routes.js';
+// import agentRouter from './routes/agent.routes.js';
 import healthRouter from './routes/health.routes.js';
 import { startConsumer } from './sqs/consumer.js';
 import { socketBridgeSQS } from './sockets/sqs.bridge.js';
@@ -40,11 +41,18 @@ const configureMiddleware = () => {
                     'https://prepforge.space',
                 ];
 
-                // Allow requests with no origin (e.g. from Chrome extensions)
-                if (!origin || allowedOrigins.includes(origin)) {
+                // Allow requests with no origin (native mobile, curl, Chrome extensions)
+                if (!origin) {
                     callback(null, true);
-                } else {
-                    callback(new Error(`Not allowed by CORS: ${origin}`));
+                }
+                // Allow if origin is explicitly allowed
+                else if (allowedOrigins.includes(origin)) {
+                    callback(null, true);
+                }
+                // ✅ Allow any other origin too (wildcard)
+                else {
+                    console.warn(`CORS WARNING: Allowing unlisted origin ${origin}`);
+                    callback(null, true); // This means "allow any other origin"
                 }
             },
             methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
@@ -66,6 +74,7 @@ const setupRoutes = () => {
     app.use("/api/v1/leetcode", leetcodeRouter);
     app.use("/api/v1/chats", chatRouter);
     app.use("/api/v1/messages", messageRouter);
+    // app.use("/api/v1/agents", agentRouter);
     app.use("/api/health", healthRouter); // ✅ Add health check route
 };
 
