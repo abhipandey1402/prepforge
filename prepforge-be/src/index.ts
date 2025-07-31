@@ -29,44 +29,35 @@ const httpServer = createServer(app);
 
 // Middleware
 
-// const configureMiddleware = () => {
-//     app.use(
-//         cors({
-//             origin: (origin, callback) => {
-//                 const allowedOrigins = [
-//                     'http://localhost:3000',
-//                     'http://localhost:5173',
-//                     'chrome-extension://ejggddpdebjhdpamcbngbajonapihakm',
-//                     'https://www.prepforge.space',
-//                     'https://prepforge.space',
-//                 ];
-
-//                 // Allow requests with no origin (e.g. from Chrome extensions)
-//                 if (!origin || allowedOrigins.includes(origin)) {
-//                     callback(null, true);
-//                 } else {
-//                     callback(new Error(`Not allowed by CORS: ${origin}`));
-//                 }
-//             },
-//             methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
-//             credentials: true,
-//             allowedHeaders: ['Content-Type', 'Authorization'],
-//         }),
-//     );
-
-//     app.use(express.json({ limit: '32kb' }));
-//     app.use(express.urlencoded({ extended: true, limit: '32kb' }));
-//     app.use(express.static('public'));
-//     app.use(cookieParser());
-// };
-
 const configureMiddleware = () => {
     app.use(
         cors({
-            origin: '*', // <-- Allow all origins
+            origin: (origin, callback) => {
+                const allowedOrigins = [
+                    'http://localhost:3000',
+                    'http://localhost:5173',
+                    'chrome-extension://ejggddpdebjhdpamcbngbajonapihakm',
+                    'https://www.prepforge.space',
+                    'https://prepforge.space',
+                ];
+
+                // Allow requests with no origin (native mobile, curl, Chrome extensions)
+                if (!origin) {
+                    callback(null, true);
+                }
+                // Allow if origin is explicitly allowed
+                else if (allowedOrigins.includes(origin)) {
+                    callback(null, true);
+                }
+                // ✅ Allow any other origin too (wildcard)
+                else {
+                    console.warn(`CORS WARNING: Allowing unlisted origin ${origin}`);
+                    callback(null, true); // This means "allow any other origin"
+                }
+            },
             methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
+            credentials: true,
             allowedHeaders: ['Content-Type', 'Authorization'],
-            // ❌ credentials must be false or omitted when using '*'
         }),
     );
 
@@ -75,7 +66,6 @@ const configureMiddleware = () => {
     app.use(express.static('public'));
     app.use(cookieParser());
 };
-
 
 
 // Setup routes for API endpoints
