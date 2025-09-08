@@ -51,6 +51,14 @@ const Sidebar: React.FC<MyComponentProps> = ({ isDarkMode }) => {
                     itemValue="practice"
                     isDarkMode={isDarkMode}
                 />
+                <NavItem
+                    icon={<BrainCircuit size={20} />}
+                    label="AI Insights"
+                    handleClick={handleItemClick}
+                    currentItem={currentItem}
+                    itemValue="aiInsights"
+                    isDarkMode={isDarkMode}
+                />
                 {/* <NavItem
                     icon={<MessageSquareIcon size={20} />}
                     label="Chats"

@@ -7,6 +7,7 @@ import LeetcodeSubmissions from "@/features/leetcode/pages/LeetcodeSubmissions";
 import LeetcodeProblems from "@/features/leetcode/pages/LeetcodeProblems";
 // import ChatPage from "@/features/chat/pages/ChatPage";
 import SettingsPage from "@/features/settings/index"
+import AiInsights from "@/features/aiInsights/pages/AiInsights";
 
 const Dashboard = () => {
     const currentItem = useSelector((state: RootState) => state.config?.currentItem);
@@ -47,10 +48,8 @@ const Dashboard = () => {
                 return <LeetcodeProblems isDarkMode={isDarkMode} />;
             // case "chats":
             // return <ChatPage isDarkMode={isDarkMode} />
-            case "challengebetting":
-                return <span>Challenge Betting</span>
-            case "achievements":
-                return <span>Achievements</span>
+            case "aiInsights":
+                return <AiInsights isDarkMode={isDarkMode} />
             case "notifications":
                 return <span>Notifications</span>
             case "settings":
