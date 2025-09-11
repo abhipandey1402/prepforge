@@ -15,6 +15,7 @@ export default function AiInsights({ isDarkMode }: { isDarkMode: boolean }) {
     const [generatedInsights, setGeneratedInsights] = useState<Map<string, InsightData>>(new Map());
     const [generatingTopics, setGeneratingTopics] = useState<Set<string>>(new Set());
     const [selectedInsight, setSelectedInsight] = useState<InsightData | null>(null);
+    const [loadingInsights, setLoadingInsights] = useState(true);
 
     // Debounce search query
     useEffect(() => {
@@ -24,6 +25,69 @@ export default function AiInsights({ isDarkMode }: { isDarkMode: boolean }) {
 
         return () => clearTimeout(timer);
     }, [searchQuery]);
+
+    // Fetch all existing insights on component mount
+    useEffect(() => {
+        const fetchExistingInsights = async () => {
+            try {
+                setLoadingInsights(true);
+                const response = await axiosClient.get('/agents/get-insights');
+
+                console.log(response?.data);
+                if (response?.data?.data) {
+                    const insightsMap = new Map<string, InsightData>();
+
+                    // Assuming the response contains an array of insights with topic slugs
+                    response?.data?.data.forEach((insight: any) => {
+                        if (insight.topic && insight.data) {
+                            // If the insight data is stringified, parse it
+                            const parsedData = typeof insight.data === 'string'
+                                ? JSON.parse(insight.data)
+                                : insight.data;
+                            insightsMap.set(insight.topic, parsedData);
+                        }
+                    });
+
+                    setGeneratedInsights(insightsMap);
+                }
+            } catch (err: any) {
+                if (!axios.isCancel(err)) {
+                    console.error("Fetch existing insights error:", err);
+                }
+            } finally {
+                setLoadingInsights(false);
+            }
+        };
+
+        fetchExistingInsights();
+    }, []);
+
+    // Function to refresh all insights data
+    const refreshInsightsData = async () => {
+        try {
+            const response = await axiosClient.get('/agents/get-insights');
+
+            console.log(response?.data?.data);
+            if (response?.data?.data) {
+                const insightsMap = new Map<string, InsightData>();
+
+                response.data.data.forEach((insight: any) => {
+                    if (insight.topic && insight.data) {
+                        const parsedData = typeof insight.data === 'string'
+                            ? JSON.parse(insight.data)
+                            : insight.data;
+                        insightsMap.set(insight.topic, parsedData);
+                    }
+                });
+
+                setGeneratedInsights(insightsMap);
+            }
+        } catch (err: any) {
+            if (!axios.isCancel(err)) {
+                console.error("Refresh insights error:", err);
+            }
+        }
+    };
 
     const filteredTopics = topicsData
         .filter(topic =>
@@ -42,11 +106,14 @@ export default function AiInsights({ isDarkMode }: { isDarkMode: boolean }) {
             if (response?.data?.data) {
                 const insights = JSON.parse(response.data.data);
 
-                console.log(insights);
+                // Update local state with new insight
                 setGeneratedInsights(prev => new Map([...prev, [topic.slug, insights]]));
 
                 // Auto-select the generated insight
                 setSelectedInsight(insights);
+
+                // Refresh all insights data to ensure we have the latest from DB
+                await refreshInsightsData();
             } else {
                 throw new Error("Invalid response structure");
             }
@@ -63,7 +130,6 @@ export default function AiInsights({ isDarkMode }: { isDarkMode: boolean }) {
         }
     };
 
-
     const handleViewInsights = (topicSlug: string) => {
         const insights = generatedInsights.get(topicSlug);
         if (insights) {
@@ -73,6 +139,21 @@ export default function AiInsights({ isDarkMode }: { isDarkMode: boolean }) {
 
     const totalGenerated = generatedInsights.size;
     const totalTopics = topicsData.length;
+
+    // Show loading state while fetching initial insights
+    if (loadingInsights) {
+        return (
+            <div className={`min-h-screen rounded-2xl ${isDarkMode ? 'bg-slate-900' : 'bg-gray-100'}`}>
+                <div className="container mx-auto px-4 py-6">
+                    <div className="flex items-center justify-center h-64">
+                        <div className={`text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                            Loading insights...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={`min-h-screen rounded-2xl ${isDarkMode ? 'bg-slate-900' : 'bg-gray-100'}`}>
