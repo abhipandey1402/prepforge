@@ -3,6 +3,7 @@ import { BaseMessage, HumanMessage } from "@langchain/core/messages";
 import { createMentorAgent } from "../agents/mentor-agent.js";
 import { createSubmissionTools } from "../tools/submissionTools.js";
 import { Annotation, MessagesAnnotation } from "@langchain/langgraph";
+import { TopicInsight } from "../models/TopicInsight.js";
 
 export enum AGENTS {
     MENTOR = "mentor",
@@ -39,7 +40,8 @@ export function createMentorGraph(userJWT: string) {
 export async function runMentorGraph(
     topic: string,
     limit: number,
-    userJWT: string
+    userJWT: string,
+    userId: string
 ) {
     const compiledGraph = createMentorGraph(userJWT);
 
@@ -55,5 +57,24 @@ export async function runMentorGraph(
     const lastMessage = messages[messages.length - 1];
     const jsonContent = lastMessage?.content;
 
-    return jsonContent || null;
+    if (!jsonContent) return null;
+
+
+    if (typeof jsonContent === "string") {
+        try {
+            const content = jsonContent.replace(/```json|```/g, "").trim();
+            const finalData = JSON.parse(content);
+            // ✅ Upsert into DB
+            await TopicInsight.findOneAndUpdate(
+                { userId, topic },
+                { insights: finalData, updatedAt: new Date() },
+                { upsert: true, new: true }
+            );
+        } catch (err) {
+            console.error("❌ Failed to parse AI output as JSON:", err);
+            // fallback: keep it as string
+        }
+    }
+
+    return jsonContent;
 }
